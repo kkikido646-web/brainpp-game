@@ -19,6 +19,7 @@ h1{font-size:22px;margin:10px 0 5px}.sub{color:var(--muted);font-size:13px;margi
    <button class="case" onclick="show('cases')"><div class="emoji">🎁</div><b>Кейсы</b><span class="tag">Открывай и получай</span></button>
    <button class="case" onclick="show('upgrade')"><div class="emoji">⚡</div><b>Апгрейд</b><span class="tag">Прокачивай брейнротов</span></button>
    <button class="case" onclick="show('inventory')"><div class="emoji">🎒</div><b>Инвентарь</b><span class="tag">Твоя коллекция</span></button>
+   <button class="case" onclick="show('free')"><div class="emoji">🎉</div><b>Бесплатно</b><span class="tag">Ежедневная награда</span></button>
   </div>
  </main>
  <section id="cases" class="hidden"><h1>🎁 Кейсы</h1><p class="sub">Брейнротов нельзя купить напрямую — они выпадают из кейсов.</p><div class="grid" id="caseList"></div><div id="caseResult" class="panel hidden"></div></section>
@@ -31,13 +32,15 @@ h1{font-size:22px;margin:10px 0 5px}.sub{color:var(--muted);font-size:13px;margi
    <button class="btn" id="upgradeBtn" onclick="upgrade()">⚡ ПРОКАЧАТЬ</button>
    <p class="notice">При неудаче выбранный брейнрот исчезнет. Перед попыткой проверь выбор.</p><div id="upgradeResult" class="result"></div>
   </div>
- </section> hero"><div class="emoji">🎁</div><h2>Ежедневный подарок</h2><p class="muted">Забирай 250 игровых монет раз в день.</p><button class="btn" id="claimBtn" onclick="claim()">ЗАБРАТЬ 250 🪙</button><p id="claimInfo" class="notice"></p></div></section>
+ </section>
+ <section id="free" class="hidden"><h1>🎉 Бесплатная награда</h1><div class="panel hero"><div class="emoji">🎁</div><h2>Ежедневный подарок</h2><p class="muted">Забирай 250 игровых монет раз в день.</p><button class="btn" id="claimBtn" onclick="claim()">ЗАБРАТЬ 250 🪙</button><p id="claimInfo" class="notice"></p></div></section>
  <section id="profile" class="hidden"><h1>👤 Профиль</h1><div class="panel"><div class="row"><span class="muted">Игрок</span><b id="playerName">Гость BRAINPP</b></div><hr style="border-color:#493064"><div class="row"><span class="muted">Монеты</span><b id="profileCoins">1000 🪙</b></div><div class="row"><span class="muted">Брейнротов</span><b id="profileCount">0</b></div><div class="row"><span class="muted">Открыто кейсов</span><b id="opened">0</b></div></div><p class="notice">Это локальный прототип: данные сохраняются в браузере этого устройства. Для общей игры в Telegram позже подключим сервер и базу данных.</p></section>
 </div>
 <nav class="tabs">
  <button class="tab active" data-tab="home" onclick="show('home')"><span>🏠</span>Главная</button>
  <button class="tab" data-tab="cases" onclick="show('cases')"><span>🎁</span>Кейсы</button>
  <button class="tab" data-tab="upgrade" onclick="show('upgrade')"><span>⚡</span>Апгрейд</button>
+ <button class="tab" data-tab="free" onclick="show('free')"><span>🎉</span>Бесплатно</button>
  <button class="tab" data-tab="profile" onclick="show('profile')"><span>👤</span>Профиль</button>
 </nav>
 <script>
