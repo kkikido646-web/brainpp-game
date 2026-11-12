@@ -8,99 +8,88 @@
 <title>BRAINPP 3.0</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;padding:16px 12px 90px;background:#10101c;color:white;
- font-family:Arial;text-align:center
-}
+body{margin:0;padding:16px 12px 90px;background:#10101c;color:white;font-family:Arial;text-align:center}
 h1{color:#b77aff;font-size:36px}
 h2{color:#c49aff;margin-top:22px}
 h3{margin:10px 0}
 .small{font-size:13px;color:#c9b9e8}
-.balance,.panel,.case,.item{
- background:#24243b;border:1px solid #7044ae;
- border-radius:16px;padding:15px;margin:12px 0
-}
+.balance,.panel,.case,.item{background:#24243b;border:1px solid #7044ae;border-radius:16px;padding:15px;margin:12px 0}
 .balance{font-size:21px}
-.cases,.collection{
- display:grid;grid-template-columns:1fr 1fr;gap:10px
-}
+.cases,.collection{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .case,.item{margin:0}
-button{
- background:linear-gradient(135deg,#a52cff,#6735df);
- color:white;border:0;border-radius:11px;
- padding:12px;font-size:15px;margin:5px;cursor:pointer
-}
+button{background:linear-gradient(135deg,#a52cff,#6735df);color:white;border:0;border-radius:11px;padding:12px;font-size:15px;margin:5px;cursor:pointer}
 button:disabled{opacity:.4;cursor:not-allowed}
-input,select{
- width:90%;padding:12px;border-radius:9px;
- border:1px solid #8054c5;background:#171729;
- color:white;margin:6px
-}
+input,select{width:90%;padding:12px;border-radius:9px;border:1px solid #8054c5;background:#171729;color:white;margin:6px}
 .emoji{font-size:48px}
 #result{font-size:17px;margin:18px;min-height:28px}
 .hidden{display:none!important}
 .owner{border:2px solid gold}
 .page{max-width:600px;margin:auto}
-.nav{
- position:fixed;bottom:0;left:0;width:100%;
- display:grid;grid-template-columns:repeat(4,1fr);
- background:#191629;border-top:1px solid #7044ae;
- padding:8px 3px calc(8px + env(safe-area-inset-bottom));
- z-index:10
-}
-.nav button{
- background:transparent;margin:0;padding:8px 2px;
- font-size:12px;border-radius:9px
-}
-.nav button.active{
- background:#56318b;color:#fff
-}
+.nav{position:fixed;bottom:0;left:0;width:100%;display:grid;grid-template-columns:repeat(4,1fr);background:#191629;border-top:1px solid #7044ae;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:10}
+.nav button{background:transparent;margin:0;padding:8px 2px;font-size:12px;border-radius:9px}
+.nav button.active{background:#56318b;color:#fff}
 .nav span{display:block;font-size:20px;margin-bottom:4px}
-#avatar{
- width:105px;height:105px;border-radius:50%;
- object-fit:cover;border:3px solid #a875ff;
- background:#24243b
-}
-.profile-stat{
- background:#24243b;border:1px solid #7044ae;
- border-radius:13px;padding:13px;margin:9px 0;
- display:flex;justify-content:space-between
-}
+#avatar{width:105px;height:105px;border-radius:50%;object-fit:cover;border:3px solid #a875ff;background:#24243b}
+.profile-stat{background:#24243b;border:1px solid #7044ae;border-radius:13px;padding:13px;margin:9px 0;display:flex;justify-content:space-between}
 .wheel-wrap{position:relative;width:230px;margin:25px auto}
-.wheel{
- width:220px;height:220px;border-radius:50%;
- border:7px solid #a875ff;
- background:conic-gradient(
-  #7134c7 0deg 120deg,
-  #a52cff 120deg 240deg,
-  #422477 240deg 360deg
- );
- display:flex;align-items:center;justify-content:center;
- box-shadow:0 0 25px #8b42dd;
- transition:transform 2.5s cubic-bezier(.12,.7,.15,1)
-}
+.wheel{width:220px;height:220px;border-radius:50%;border:7px solid #a875ff;background:conic-gradient(#7134c7 0deg 120deg,#a52cff 120deg 240deg,#422477 240deg 360deg);display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px #8b42dd;transition:transform 2.5s cubic-bezier(.12,.7,.15,1)}
 .wheel.spinning{transform:rotate(1800deg)}
-.wheel-label{
- position:absolute;font-size:23px;font-weight:bold;
- text-shadow:0 2px 5px #000
-}
+.wheel-label{position:absolute;font-size:23px;font-weight:bold;text-shadow:0 2px 5px #000}
 .label-one{top:20px;left:50%;transform:translateX(-50%)}
 .label-two{bottom:30px;right:22px}
 .label-three{bottom:30px;left:22px}
-.pointer{
- position:absolute;top:-13px;left:50%;
- transform:translateX(-50%);
- color:#ffd85a;font-size:30px;z-index:2
-}
-.chances{
- display:flex;justify-content:space-around;
- gap:5px;margin:15px 0
-}
-.chance{
- flex:1;background:#171729;border-radius:10px;padding:10px 3px;
- border:1px solid #7044ae;font-size:13px
-}
+.pointer{position:absolute;top:-13px;left:50%;transform:translateX(-50%);color:#ffd85a;font-size:30px;z-index:2}
+.chances{display:flex;justify-content:space-around;gap:5px;margin:15px 0}
+.chance{flex:1;background:#171729;border-radius:10px;padding:10px 3px;border:1px solid #7044ae;font-size:13px}
 .free-label{color:#7dffad;font-weight:bold}
+
+/* ОКНО ОТКРЫТИЯ КЕЙСА */
+.case-modal{
+ position:fixed;inset:0;background:rgba(0,0,0,.88);
+ z-index:100;display:flex;align-items:center;
+ justify-content:center;padding:15px;
+}
+.case-window{
+ width:100%;max-width:390px;background:#1c1930;
+ border:2px solid #9b54ed;border-radius:20px;
+ padding:18px;box-shadow:0 0 35px #8c35d9;
+}
+.case-window h2{margin-top:5px}
+.case-icon{font-size:65px;margin:8px}
+.roulette-viewport{
+ height:250px;overflow:hidden;position:relative;
+ border:2px solid #a875ff;border-radius:13px;
+ background:#11101e;margin:18px 0;
+}
+.roulette-viewport:before{
+ content:"";position:absolute;left:0;right:0;top:50%;
+ transform:translateY(-50%);height:68px;
+ border:2px solid #ffd45b;background:rgba(255,210,70,.10);
+ z-index:2;pointer-events:none;
+}
+.roulette-pointer{
+ position:absolute;right:3px;top:50%;
+ transform:translateY(-50%);z-index:3;
+ color:#ffd45b;font-size:22px;
+}
+.roulette-reel{
+ display:flex;flex-direction:column;gap:5px;
+ transform:translateY(0);
+}
+.roulette-card{
+ height:68px;min-height:68px;margin:0 8px;
+ display:flex;align-items:center;justify-content:center;
+ gap:12px;background:#292044;
+ border:1px solid #7146a8;border-radius:10px;
+ font-size:17px;font-weight:bold;
+}
+.roulette-card span{font-size:34px}
+.roulette-card.winner{
+ background:linear-gradient(135deg,#7440bd,#a52cff);
+ border:2px solid #ffd45b;
+}
+#caseStatus{min-height:25px;color:#d6b8ff}
+#claimButton{width:90%;font-weight:bold}
 </style>
 </head>
 <body>
@@ -108,11 +97,8 @@ input,select{
 <h1>🧠 BRAINPP</h1>
 <p class="small">Открывай кейсы • Собирай брейнротов • Улучшай их</p>
 
-<div class="balance">
- 🪙 Баланс: <b id="coins">0</b> монет
-</div>
+<div class="balance">🪙 Баланс: <b id="coins">0</b> монет</div>
 
-<!-- ГЛАВНАЯ -->
 <section id="homePage" class="page">
  <h2>🎁 Кейсы</h2>
  <div class="cases">
@@ -122,21 +108,18 @@ input,select{
    <p>100 монет</p>
    <button onclick="openCase('normal')">Открыть</button>
   </div>
-
   <div class="case">
    <div class="emoji">🐉</div>
    <h3>Драконий кейс</h3>
    <p>500 монет</p>
    <button onclick="openCase('dragon')">Открыть</button>
   </div>
-
   <div class="case">
    <div class="emoji">👑</div>
    <h3>Секретный кейс</h3>
    <p>500 монет</p>
    <button onclick="openCase('secret')">Открыть</button>
   </div>
-
   <div class="case">
    <div class="emoji">🎁</div>
    <h3>Бесплатный кейс</h3>
@@ -163,14 +146,12 @@ input,select{
  </div>
 </section>
 
-<!-- КОЛЛЕКЦИЯ -->
 <section id="collectionPage" class="page hidden">
  <h2>📦 Моя коллекция</h2>
  <p class="small">Здесь находятся все твои брейнроты</p>
  <div class="collection" id="collection"></div>
 </section>
 
-<!-- АПГРЕЙДЕР -->
 <section id="upgraderPage" class="page hidden">
  <h2>⚡ АПГРЕЙДЕР</h2>
  <div class="panel">
@@ -178,7 +159,6 @@ input,select{
   <select id="upgradeSelect" onchange="selectUpgrade()">
    <option value="">Выбери брейнрота</option>
   </select>
-
   <div class="wheel-wrap">
    <div class="pointer">▼</div>
    <div class="wheel" id="wheel">
@@ -187,20 +167,17 @@ input,select{
     <span class="wheel-label label-three">+3</span>
    </div>
   </div>
-
   <div class="chances">
    <div class="chance">+1 уровень<br><b>70%</b></div>
    <div class="chance">+2 уровня<br><b>25%</b></div>
    <div class="chance">+3 уровня<br><b>5%</b></div>
   </div>
-
   <p class="free-label">БЕСПЛАТНО • БЕЗ ОГРАНИЧЕНИЙ</p>
   <button id="spinButton" onclick="spinUpgrade()">🎰 КРУТИТЬ!</button>
   <p id="upgradeResult" class="small">Выбери брейнрота для улучшения</p>
  </div>
 </section>
 
-<!-- ПРОФИЛЬ -->
 <section id="profilePage" class="page hidden">
  <h2>👤 МОЙ ПРОФИЛЬ</h2>
  <div class="panel">
@@ -209,49 +186,45 @@ input,select{
   <p id="playerUsername" class="small">@username</p>
   <p id="ownerLabel" class="small"></p>
  </div>
-
  <h2>📊 Статистика</h2>
- <div class="profile-stat">
-  <span>🪙 Баланс</span>
-  <b id="profileCoins">0</b>
- </div>
- <div class="profile-stat">
-  <span>🧠 Брейнротов собрано</span>
-  <b id="profileBrainrots">0</b>
- </div>
- <div class="profile-stat">
-  <span>⭐ Общий уровень</span>
-  <b id="profileLevel">0</b>
- </div>
- <div class="profile-stat">
-  <span>🆔 Telegram ID</span>
-  <b id="profileId">Не найден</b>
- </div>
+ <div class="profile-stat"><span>🪙 Баланс</span><b id="profileCoins">0</b></div>
+ <div class="profile-stat"><span>🧠 Брейнротов собрано</span><b id="profileBrainrots">0</b></div>
+ <div class="profile-stat"><span>⭐ Общий уровень</span><b id="profileLevel">0</b></div>
+ <div class="profile-stat"><span>🆔 Telegram ID</span><b id="profileId">Не найден</b></div>
  <p class="small">BRAINPP 3.0</p>
 </section>
 
 <div id="result"></div>
 
-<!-- НИЖНЕЕ МЕНЮ -->
+<!-- ОКНО КЕЙСА -->
+<div id="caseModal" class="case-modal hidden">
+ <div class="case-window">
+  <h2 id="caseTitle">🎁 Открытие кейса</h2>
+  <div class="case-icon" id="caseIcon">🎁</div>
+  <div id="rouletteArea" class="hidden">
+   <div class="roulette-viewport">
+    <div class="roulette-reel" id="rouletteReel"></div>
+    <div class="roulette-pointer">◀</div>
+   </div>
+  </div>
+  <p id="caseStatus">Готов открыть кейс?</p>
+  <button id="startCaseButton" onclick="startCaseOpening()">🎁 ОТКРЫТЬ</button>
+  <button id="claimButton" class="hidden" onclick="claimCasePrize()">ЗАБРАТЬ</button>
+  <button id="closeCaseButton" onclick="closeCaseMenu()">Закрыть</button>
+ </div>
+</div>
+
 <nav class="nav">
- <button class="active" onclick="showTab('homePage',this)">
-  <span>🏠</span>Главная
- </button>
- <button onclick="showTab('collectionPage',this)">
-  <span>📦</span>Коллекция
- </button>
- <button onclick="showTab('upgraderPage',this)">
-  <span>⚡</span>Апгрейдер
- </button>
- <button onclick="showTab('profilePage',this)">
-  <span>👤</span>Профиль
- </button>
+ <button class="active" onclick="showTab('homePage',this)"><span>🏠</span>Главная</button>
+ <button onclick="showTab('collectionPage',this)"><span>📦</span>Коллекция</button>
+ <button onclick="showTab('upgraderPage',this)"><span>⚡</span>Апгрейдер</button>
+ <button onclick="showTab('profilePage',this)"><span>👤</span>Профиль</button>
 </nav>
 
 <script>
-const OWNER = "skeruuuttnewera";
+const OWNER="skeruuuttnewera";
 
-const brainrots = [
+const brainrots=[
  {name:"Тунг Тунг Тунг Сахур",emoji:"🪵",price:25},
  {name:"Бомбардиро Крокодило",emoji:"🐊",price:50},
  {name:"Тралалеро Тралала",emoji:"🦈",price:75},
@@ -260,20 +233,18 @@ const brainrots = [
  {name:"Капучино Ассасино",emoji:"☕",price:200}
 ];
 
-const dragons = [
+const dragons=[
  {name:"Дракон Брейнрот",emoji:"🐉",price:350},
  {name:"Огненный Дракон",emoji:"🔥",price:450},
  {name:"Золотой Дракон",emoji:"🐲",price:600}
 ];
 
-const secret = {
- name:"Тайный Брейнрот",emoji:"👑",price:500
-};
+const secret={name:"Тайный Брейнрот",emoji:"👑",price:500};
 
 function readJSON(key,fallback){
  try{
   const value=localStorage.getItem(key);
-  return value ? JSON.parse(value) : fallback;
+  return value?JSON.parse(value):fallback;
  }catch(e){return fallback;}
 }
 
@@ -284,21 +255,20 @@ let usedPromos=readJSON("brainpp_used_promos",[]);
 let selectedUpgradeIndex=-1;
 let spinning=false;
 
+let currentCaseType=null;
+let currentPrize=null;
+let caseSpinning=false;
+let freeCaseOpening=false;
+
 const user=window.Telegram?.WebApp?.initDataUnsafe?.user||{};
 const username=(user.username||"").toLowerCase();
 const isOwner=username===OWNER;
 
 function showTab(pageId,button){
- document.querySelectorAll(".page").forEach(page=>{
-  page.classList.add("hidden");
- });
+ document.querySelectorAll(".page").forEach(page=>page.classList.add("hidden"));
  document.getElementById(pageId).classList.remove("hidden");
-
- document.querySelectorAll(".nav button").forEach(btn=>{
-  btn.classList.remove("active");
- });
+ document.querySelectorAll(".nav button").forEach(btn=>btn.classList.remove("active"));
  button.classList.add("active");
-
  if(pageId==="upgraderPage")renderUpgrader();
 }
 
@@ -310,30 +280,17 @@ function save(){
 
 function updateProfile(){
  const name=[user.first_name||"",user.last_name||""].join(" ").trim();
-
  document.getElementById("playerName").textContent=name||"Игрок";
- document.getElementById("playerUsername").textContent=
-  user.username?"@"+user.username:"Telegram не подключён";
-
+ document.getElementById("playerUsername").textContent=user.username?"@"+user.username:"Telegram не подключён";
  document.getElementById("profileCoins").textContent=coins;
  document.getElementById("profileBrainrots").textContent=collection.length;
-
- const totalLevel=collection.reduce((sum,item)=>{
-  return sum+(Number(item.level)||0);
- },0);
-
+ const totalLevel=collection.reduce((sum,item)=>sum+(Number(item.level)||0),0);
  document.getElementById("profileLevel").textContent=totalLevel;
  document.getElementById("profileId").textContent=user.id||"Не найден";
-
- document.getElementById("ownerLabel").textContent=
-  isOwner?"👑 Владелец игры":"Игрок BRAINPP";
-
+ document.getElementById("ownerLabel").textContent=isOwner?"👑 Владелец игры":"Игрок BRAINPP";
  const avatar=document.getElementById("avatar");
- if(user.photo_url){
-  avatar.src=user.photo_url;
- }else{
-  avatar.removeAttribute("src");
- }
+ if(user.photo_url)avatar.src=user.photo_url;
+ else avatar.removeAttribute("src");
 }
 
 function render(){
@@ -346,33 +303,25 @@ function render(){
 function renderCollection(){
  const area=document.getElementById("collection");
  area.innerHTML="";
-
  if(collection.length===0){
   area.textContent="Коллекция пока пуста";
   return;
  }
-
  collection.forEach((item,index)=>{
   const div=document.createElement("div");
   div.className="item";
-
   const emoji=document.createElement("div");
   emoji.className="emoji";
   emoji.textContent=item.emoji;
-
   const name=document.createElement("b");
   name.textContent=item.name;
-
   const level=document.createElement("p");
   level.textContent="Уровень: "+(item.level||0)+"/5";
-
   const price=document.createElement("p");
   price.textContent="Цена продажи: "+getSellPrice(item)+" монет";
-
   const sell=document.createElement("button");
   sell.textContent="💰 Продать";
   sell.onclick=()=>sellBrainrot(index);
-
   div.append(emoji,name,level,price,sell);
   area.appendChild(div);
  });
@@ -381,46 +330,150 @@ function renderCollection(){
 function addBrainrot(item){
  collection.push({...item,level:0});
  save();
- document.getElementById("result").textContent=
-  "🎉 Выпал: "+item.emoji+" "+item.name+"!";
+ document.getElementById("result").textContent="🎉 Выпал: "+item.emoji+" "+item.name+"!";
+}
+
+/* ОТКРЫТИЕ КЕЙСОВ */
+function getCasePrize(type){
+ if(type==="secret")return {...secret};
+ if(type==="dragon")return {...dragons[Math.floor(Math.random()*dragons.length)]};
+ return {...brainrots[Math.floor(Math.random()*brainrots.length)]};
 }
 
 function openCase(type){
  const cost=type==="normal"?100:500;
-
  if(coins<cost){
   document.getElementById("result").textContent="❌ Недостаточно монет!";
   return;
  }
-
- coins-=cost;
-
- if(type==="secret"){
-  addBrainrot(secret);
-  return;
- }
-
- if(type==="dragon"){
-  addBrainrot(dragons[Math.floor(Math.random()*dragons.length)]);
-  return;
- }
-
- addBrainrot(brainrots[Math.floor(Math.random()*brainrots.length)]);
+ currentCaseType=type;
+ freeCaseOpening=false;
+ currentPrize=null;
+ const titles={normal:"🎁 Обычный кейс",dragon:"🐉 Драконий кейс",secret:"👑 Секретный кейс"};
+ const icons={normal:"🎁",dragon:"🐉",secret:"👑"};
+ showCaseModal(titles[type],icons[type]);
 }
 
 function openFree(){
  const last=Number(localStorage.getItem("brainpp_free_time")||0);
-
  if(Date.now()-last<86400000){
-  document.getElementById("result").textContent=
-   "⏳ Бесплатный кейс доступен раз в 24 часа.";
+  document.getElementById("result").textContent="⏳ Бесплатный кейс доступен раз в 24 часа.";
+  return;
+ }
+ currentCaseType="normal";
+ freeCaseOpening=true;
+ currentPrize=null;
+ showCaseModal("🎁 Бесплатный кейс","🎁");
+}
+
+function showCaseModal(title,icon){
+ document.getElementById("caseTitle").textContent=title;
+ document.getElementById("caseIcon").textContent=icon;
+ document.getElementById("caseIcon").classList.remove("hidden");
+ document.getElementById("rouletteArea").classList.add("hidden");
+ document.getElementById("caseStatus").textContent="Готов открыть кейс?";
+ document.getElementById("startCaseButton").classList.remove("hidden");
+ document.getElementById("claimButton").classList.add("hidden");
+ document.getElementById("closeCaseButton").classList.remove("hidden");
+ document.getElementById("caseModal").classList.remove("hidden");
+}
+
+function startCaseOpening(){
+ if(caseSpinning||currentPrize)return;
+ const cost=currentCaseType==="normal"?100:500;
+
+ if(!freeCaseOpening&&coins<cost){
+  document.getElementById("caseStatus").textContent="❌ Недостаточно монет!";
   return;
  }
 
- localStorage.setItem("brainpp_free_time",Date.now());
- addBrainrot(brainrots[Math.floor(Math.random()*brainrots.length)]);
+ if(!freeCaseOpening){
+  coins-=cost;
+  localStorage.setItem("brainpp_coins",coins);
+ }
+ if(freeCaseOpening){
+  localStorage.setItem("brainpp_free_time",Date.now());
+ }
+
+ currentPrize=getCasePrize(currentCaseType);
+ caseSpinning=true;
+
+ document.getElementById("caseIcon").classList.add("hidden");
+ document.getElementById("startCaseButton").classList.add("hidden");
+ document.getElementById("closeCaseButton").classList.add("hidden");
+ document.getElementById("rouletteArea").classList.remove("hidden");
+ document.getElementById("caseStatus").textContent="🎰 Кейс открывается...";
+
+ const reel=document.getElementById("rouletteReel");
+ reel.innerHTML="";
+ const totalCards=45;
+ const winnerIndex=totalCards-1;
+
+ for(let i=0;i<totalCards;i++){
+  const item=i===winnerIndex?currentPrize:getRandomBrainrot(currentCaseType);
+  const card=document.createElement("div");
+  card.className="roulette-card";
+  if(i===winnerIndex)card.classList.add("winner");
+  const emoji=document.createElement("span");
+  emoji.textContent=item.emoji;
+  const name=document.createElement("span");
+  name.textContent=item.name;
+  card.append(emoji,name);
+  reel.appendChild(card);
+ }
+
+ reel.style.transition="none";
+ reel.style.transform="translateY(0)";
+ void reel.offsetHeight;
+
+ requestAnimationFrame(()=>{
+  requestAnimationFrame(()=>{
+   const cardHeight=73;
+   const viewportHeight=250;
+   const target=winnerIndex*cardHeight+34-viewportHeight/2+34;
+   reel.style.transition="transform 5s cubic-bezier(.08,.72,.12,1)";
+   reel.style.transform="translateY(-"+target+"px)";
+  });
+ });
+
+ setTimeout(()=>{
+  caseSpinning=false;
+  document.getElementById("caseStatus").textContent=
+   "🎉 Выпал: "+currentPrize.emoji+" "+currentPrize.name+"!";
+  document.getElementById("claimButton").classList.remove("hidden");
+  document.getElementById("closeCaseButton").classList.remove("hidden");
+  document.getElementById("coins").textContent=coins;
+  updateProfile();
+ },5100);
 }
 
+function getRandomBrainrot(type){
+ if(type==="secret")return {...secret};
+ if(type==="dragon")return {...dragons[Math.floor(Math.random()*dragons.length)]};
+ return {...brainrots[Math.floor(Math.random()*brainrots.length)]};
+}
+
+function claimCasePrize(){
+ if(!currentPrize||caseSpinning)return;
+ collection.push({...currentPrize,level:0});
+ save();
+ document.getElementById("result").textContent=
+  "🎉 Получен брейнрот: "+currentPrize.emoji+" "+currentPrize.name+"!";
+ currentPrize=null;
+ currentCaseType=null;
+ freeCaseOpening=false;
+ closeCaseMenu();
+}
+
+function closeCaseMenu(){
+ if(caseSpinning)return;
+ document.getElementById("caseModal").classList.add("hidden");
+ currentPrize=null;
+ currentCaseType=null;
+ freeCaseOpening=false;
+}
+
+/* ПРОДАЖА */
 function getSellPrice(item){
  return Math.floor(item.price*(1+(item.level||0)*0.5));
 }
@@ -428,40 +481,31 @@ function getSellPrice(item){
 function sellBrainrot(index){
  const item=collection[index];
  if(!item)return;
-
  const price=getSellPrice(item);
  coins+=price;
  collection.splice(index,1);
-
  if(selectedUpgradeIndex===index)selectedUpgradeIndex=-1;
  if(selectedUpgradeIndex>index)selectedUpgradeIndex--;
-
  save();
-
- document.getElementById("result").textContent=
-  "💰 Продан "+item.name+" за "+price+" монет!";
+ document.getElementById("result").textContent="💰 Продан "+item.name+" за "+price+" монет!";
 }
 
+/* АПГРЕЙДЕР */
 function renderUpgrader(){
  const select=document.getElementById("upgradeSelect");
  if(!select)return;
-
  const previous=selectedUpgradeIndex;
  select.innerHTML="";
-
  const first=document.createElement("option");
  first.value="";
  first.textContent="Выбери брейнрота";
  select.appendChild(first);
-
  collection.forEach((item,index)=>{
   const option=document.createElement("option");
   option.value=index;
-  option.textContent=item.emoji+" "+item.name+
-   " — уровень "+(item.level||0)+"/5";
+  option.textContent=item.emoji+" "+item.name+" — уровень "+(item.level||0)+"/5";
   select.appendChild(option);
  });
-
  if(previous>=0&&previous<collection.length){
   selectedUpgradeIndex=previous;
   select.value=String(previous);
@@ -469,7 +513,6 @@ function renderUpgrader(){
   selectedUpgradeIndex=-1;
   select.value="";
  }
-
  updateSpinButton();
 }
 
@@ -477,170 +520,51 @@ function selectUpgrade(){
  const value=document.getElementById("upgradeSelect").value;
  selectedUpgradeIndex=value===""?-1:Number(value);
  updateSpinButton();
-
  const item=collection[selectedUpgradeIndex];
  document.getElementById("upgradeResult").textContent=
-  item ? item.name+" — уровень "+(item.level||0)+"/5" :
-  "Выбери брейнрота для улучшения";
+  item?item.name+" — уровень "+(item.level||0)+"/5":"Выбери брейнрота для улучшения";
 }
 
 function updateSpinButton(){
  const button=document.getElementById("spinButton");
  if(!button)return;
-
  const item=collection[selectedUpgradeIndex];
  button.disabled=spinning||!item||(item.level||0)>=5;
-
- if(spinning){
-  button.textContent="🎰 КРУТИТСЯ...";
- }else if(!item){
-  button.textContent="🎰 КРУТИТЬ!";
- }else if((item.level||0)>=5){
-  button.textContent="👑 МАКСИМАЛЬНЫЙ УРОВЕНЬ";
- }else{
-  button.textContent="🎰 КРУТИТЬ БЕСПЛАТНО!";
- }
+ if(spinning)button.textContent="🎰 КРУТИТСЯ...";
+ else if(!item)button.textContent="🎰 КРУТИТЬ!";
+ else if((item.level||0)>=5)button.textContent="👑 МАКСИМАЛЬНЫЙ УРОВЕНЬ";
+ else button.textContent="🎰 КРУТИТЬ БЕСПЛАТНО!";
 }
 
 function spinUpgrade(){
  if(spinning)return;
-
  const item=collection[selectedUpgradeIndex];
-
  if(!item){
-  document.getElementById("upgradeResult").textContent=
-   "❌ Сначала выбери брейнрота!";
+  document.getElementById("upgradeResult").textContent="❌ Сначала выбери брейнрота!";
   return;
  }
-
  if((item.level||0)>=5){
-  document.getElementById("upgradeResult").textContent=
-   "👑 У этого брейнрота максимальный уровень!";
+  document.getElementById("upgradeResult").textContent="👑 У этого брейнрота максимальный уровень!";
   return;
  }
-
  spinning=true;
  updateSpinButton();
-
  const wheel=document.getElementById("wheel");
  wheel.classList.remove("spinning");
  void wheel.offsetWidth;
  wheel.classList.add("spinning");
-
  document.getElementById("upgradeResult").textContent="🎰 Рулетка крутится...";
-
  setTimeout(()=>{
   const roll=Math.random();
   let upgrade=1;
-
-  if(roll<0.70){
-   upgrade=1;
-  }else if(roll<0.95){
-   upgrade=2;
-  }else{
-   upgrade=3;
-  }
-
+  if(roll<0.70)upgrade=1;
+  else if(roll<0.95)upgrade=2;
+  else upgrade=3;
   const oldLevel=Number(item.level)||0;
   const newLevel=Math.min(5,oldLevel+upgrade);
   const gained=newLevel-oldLevel;
-
   item.level=newLevel;
   spinning=false;
-
   save();
-
   document.getElementById("upgradeResult").textContent=
-   "🎉 "+item.name+" получил +"+gained+
-   " уровня! Теперь уровень "+newLevel+"/5";
-
-  updateSpinButton();
- },2600);
-}
-
-function createPromo(){
- if(!isOwner){
-  document.getElementById("result").textContent="❌ Нет доступа!";
-  return;
- }
-
- const code=document.getElementById("newPromo").value.trim().toUpperCase();
- const amount=Number(document.getElementById("promoAmount").value);
-
- if(!code||!Number.isInteger(amount)||amount<1){
-  document.getElementById("result").textContent="❌ Проверь название и сумму!";
-  return;
- }
-
- if(promos[code]){
-  document.getElementById("result").textContent="❌ Такой промокод уже существует!";
-  return;
- }
-
- promos[code]=amount;
- localStorage.setItem("brainpp_promos",JSON.stringify(promos));
-
- document.getElementById("newPromo").value="";
- document.getElementById("promoAmount").value="";
- document.getElementById("result").textContent=
-  "✅ Промокод "+code+" создан!";
-
- renderPromoList();
-}
-
-function usePromo(){
- const code=document.getElementById("promoInput").value.trim().toUpperCase();
-
- if(!code||!Object.prototype.hasOwnProperty.call(promos,code)){
-  document.getElementById("result").textContent="❌ Промокод не найден!";
-  return;
- }
-
- if(usedPromos.includes(code)){
-  document.getElementById("result").textContent="❌ Ты уже использовал этот промокод!";
-  return;
- }
-
- const amount=Number(promos[code]);
- if(!Number.isFinite(amount)||amount<1){
-  document.getElementById("result").textContent="❌ Ошибка промокода!";
-  return;
- }
-
- coins+=amount;
- usedPromos.push(code);
-
- localStorage.setItem("brainpp_used_promos",JSON.stringify(usedPromos));
- document.getElementById("promoInput").value="";
- save();
-
- document.getElementById("result").textContent=
-  "🎉 Промокод активирован! Получено "+amount+" монет!";
-}
-
-function renderPromoList(){
- const list=document.getElementById("promoList");
- list.innerHTML="";
-
- Object.keys(promos).forEach(code=>{
-  const p=document.createElement("p");
-  p.textContent=code+" — "+promos[code]+" монет";
-  list.appendChild(p);
- });
-}
-
-if(isOwner){
- document.getElementById("ownerPanel").classList.remove("hidden");
- renderPromoList();
-}
-
-if(window.Telegram?.WebApp){
- window.Telegram.WebApp.ready();
- window.Telegram.WebApp.expand();
-}
-
-render();
-</script>
-</body>
- </html>
- 
+   "🎉 
