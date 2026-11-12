@@ -78,6 +78,20 @@ function save(){
  render();
 }
 function render(){
+ function updateProfile(){
+ const user=window.Telegram.WebApp?.initDataUnsafe?.user||{};
+
+ document.getElementById("playerName").textContent=
+ [user.first_name||"",user.last_name||""].join(" ")||"Игрок";
+
+ document.getElementById("playerUsername").textContent=
+ user.username?"@"+user.username:"Telegram";
+
+ document.getElementById("avatar").src=user.photo_url||"";
+
+ document.getElementById("profileCoins").textContent=coins;
+ document.getElementById("profileBrainrots").textContent=collection.length;
+ }
  document.getElementById("coins").textContent=coins;
  let area=document.getElementById("collection");
  updateProfile();
@@ -96,25 +110,7 @@ function render(){
 }
 
 function openCase(type){
- function updateProfile(){
- const user=window.Telegram.WebApp?.initDataUnsafe?.user||{};
-
- document.getElementById("playerName").textContent=
- [user.first_name||"",user.last_name||""].join(" ")||"Игрок";
-
- document.getElementById("playerUsername").textContent=
- user.username?"@"+user.username:"Telegram";
-
- document.getElementById("avatar").src=user.photo_url||"";
-
- document.getElementById("profileCoins").textContent=coins;
- document.getElementById("profileBrainrots").textContent=collection.length;
- }
- let cost=type==="secret"?500:100;
- if(coins<cost){
-  document.getElementById("result").textContent="❌ Недостаточно монет!";
-  return;
- }
+ 
  coins-=cost;
  let item;
  if(type==="secret"){
