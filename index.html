@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+ <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BRAINPP</title>
@@ -21,9 +22,15 @@ h2{margin-top:30px}
 </head>
 <body>
 
-<h1>🧠 BRAINPP</h1>
-<div class="balance">🪙 Баланс: <span id="coins">0</span> монет</div>
-
+<h1>🧠 BRAINPP</h1><div class="balance">🪙 Баланс: <span id="coins">0</span> монет</div>
+ <div class="case" id="profile">
+ <h2>👤 Профиль игрока</h2>
+ <img id="avatar" src="" style="width:80px;height:80px;border-radius:50%;object-fit:cover">
+ <h3 id="playerName">Игрок</h3>
+ <p id="playerUsername">@username</p>
+ <p>🪙 Монеты: <span id="profileCoins">0</span></p>
+ <p>🧠 Брейнроты: <span id="profileBrainrots">0</span></p>
+ </div>
 <h2>🎁 Кейсы</h2>
 <div class="cases">
  <div class="case">
@@ -73,6 +80,7 @@ function save(){
 function render(){
  document.getElementById("coins").textContent=coins;
  let area=document.getElementById("collection");
+ updateProfile();
  area.innerHTML="";
  if(collection.length===0){
   area.innerHTML="<p>Коллекция пока пуста</p>";
@@ -88,6 +96,20 @@ function render(){
 }
 
 function openCase(type){
+ function updateProfile(){
+ const user=window.Telegram.WebApp?.initDataUnsafe?.user||{};
+
+ document.getElementById("playerName").textContent=
+ [user.first_name||"",user.last_name||""].join(" ")||"Игрок";
+
+ document.getElementById("playerUsername").textContent=
+ user.username?"@"+user.username:"Telegram";
+
+ document.getElementById("avatar").src=user.photo_url||"";
+
+ document.getElementById("profileCoins").textContent=coins;
+ document.getElementById("profileBrainrots").textContent=collection.length;
+ }
  let cost=type==="secret"?500:100;
  if(coins<cost){
   document.getElementById("result").textContent="❌ Недостаточно монет!";
