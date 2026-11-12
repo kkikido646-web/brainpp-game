@@ -1,75 +1,273 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>BRAINPP</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRAINPP 4.0</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--bg:#090711;--panel:#171126;--panel2:#211735;--purple:#9b5cff;--pink:#d35cff;--text:#f7f1ff;--muted:#a99bbd;--gold:#ffd45c;--green:#63e6a5;--red:#ff6685}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#321451 0,#100b1b 42%,var(--bg) 80%);color:var(--text);font:15px system-ui,Arial,sans-serif;min-height:100vh}
-.app{max-width:560px;margin:auto;padding:16px 14px 100px}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:5px 0 18px}.logo{font-weight:1000;font-size:25px;letter-spacing:2px;text-shadow:0 0 16px var(--purple)}.balance{background:#211735;border:1px solid #7650a0;border-radius:14px;padding:9px 12px;color:var(--gold);font-weight:800}
-h1{font-size:22px;margin:10px 0 5px}.sub{color:var(--muted);font-size:13px;margin:0 0 16px}.panel{background:linear-gradient(145deg,#281a3d,#130f20);border:1px solid #634184;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 8px 30px #0006}.hero{text-align:center;padding:22px 16px}.hero .emoji{font-size:58px;filter:drop-shadow(0 0 12px #a65cff)}.hero h2{margin:8px 0 4px;font-size:24px}.muted{color:var(--muted)}.btn{border:0;border-radius:14px;padding:13px 16px;background:linear-gradient(100deg,#7437d5,#b34de5);color:white;font-weight:900;font-size:14px;width:100%;margin-top:10px;cursor:pointer}.btn:disabled{opacity:.4}.btn.secondary{background:#302143;border:1px solid #674394}.btn.gold{background:linear-gradient(100deg,#a66b13,#f2c14d);color:#211300}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.case,.brain{background:#211735;border:1px solid #4b3264;border-radius:16px;padding:12px;text-align:center}.case .emoji,.brain .emoji{font-size:38px}.case b,.brain b{display:block;margin:5px 0}.tag{font-size:11px;color:var(--muted)}.price{color:var(--gold);font-weight:800;margin-top:6px}.tabs{position:fixed;bottom:0;left:0;right:0;background:#100b1cf5;border-top:1px solid #634184;display:flex;justify-content:center;gap:2px;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:5}.tab{flex:1;max-width:105px;background:none;border:0;color:#a99bbd;font-size:10px;font-weight:700;padding:6px 1px}.tab span{display:block;font-size:20px;margin-bottom:3px}.tab.active{color:#e0c2ff}.hidden{display:none!important}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.chance{font-size:30px;font-weight:1000;color:var(--green);text-align:center;padding:12px}.select{width:100%;background:#120d1d;color:white;border:1px solid #68458a;border-radius:12px;padding:12px;margin:7px 0}.notice{font-size:12px;color:var(--muted);line-height:1.5}.pill{display:inline-block;padding:5px 9px;border-radius:99px;background:#38214f;color:#d9baff;font-size:11px}.result{text-align:center;font-size:20px;font-weight:900;padding:15px}.empty{text-align:center;color:var(--muted);padding:25px 8px}.rarity{font-size:10px;font-weight:900;padding:4px 7px;border-radius:20px;display:inline-block;background:#40334e;color:#eee}.r-common{color:#ddd}.r-rare{color:#6bc7ff}.r-epic{color:#c58cff}.r-legend{color:#ffd45c}.r-mythic{color:#ff7caa}.r-secret{color:#ffdf73;text-shadow:0 0 8px #ff9b00}.dragon{background:radial-gradient(circle at top,#593014,#21132b 65%);border-color:#d58a32}.leader-row{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #493064}.leader-row:last-child{border:0}
+*{box-sizing:border-box}
+body{
+ margin:0;padding:16px;
+ background:linear-gradient(160deg,#101329,#21113d,#101329);
+ color:white;font-family:Arial,sans-serif;
+}
+h1{text-align:center;color:#b995ff;margin:8px}
+.subtitle{text-align:center;color:#aaa;margin-bottom:18px}
+.balance{
+ background:#292044;border:1px solid #7655aa;
+ border-radius:16px;padding:15px;text-align:center;
+ font-size:21px;margin-bottom:15px;
+}
+.tabs{display:flex;gap:7px;margin-bottom:15px}
+button{
+ border:0;border-radius:12px;padding:12px;
+ background:#7546b9;color:white;font-weight:bold;
+ cursor:pointer;
+}
+.tabs button{flex:1;font-size:13px}
+button:active{transform:scale(.97)}
+.section{display:none}
+.section.active{display:block}
+.card{
+ background:#211d38;border:1px solid #49366c;
+ border-radius:16px;padding:14px;margin:10px 0;
+ text-align:center;
+}
+.case-icon{font-size:55px;margin:8px}
+.price{color:#ffd66b;font-weight:bold}
+.open-btn{width:100%;margin-top:10px;font-size:16px}
+.dragon{
+ background:linear-gradient(135deg,#30204e,#171b35);
+ border:1px solid #7953a8;border-radius:15px;
+ padding:12px;margin:9px 0;text-align:center;
+}
+.dragon-emoji{font-size:48px}
+.rare{color:#d5a6ff;font-size:13px}
+#result{
+ display:none;text-align:center;
+ background:#34204f;border:2px solid #c08cff;
+ border-radius:18px;padding:20px;margin-top:15px;
+}
+#result.show{display:block;animation:appear .5s}
+@keyframes appear{
+ from{opacity:0;transform:scale(.5)}
+ to{opacity:1;transform:scale(1)}
+}
+#result .big{font-size:85px}
+.spin{animation:spin 1.5s ease-in-out}
+@keyframes spin{
+ 0%{transform:rotate(0) scale(.5)}
+ 50%{transform:rotate(360deg) scale(1.3)}
+ 100%{transform:rotate(720deg) scale(1)}
+}
+.muted{color:#aaa;font-size:13px}
 </style>
 </head>
 <body>
-<div class="app">
-<header class="top"><div class="logo">👑 BRAINPP</div><div class="balance">🪙 <span id="coins">1000</span></div></header>
-<main id="home">
- <div class="panel hero"><div class="emoji">🧠</div><h2>Добро пожаловать!</h2><p class="muted">Открывай кейсы, собирай брейнротов и стань легендой BRAINPP.</p><span class="pill">ТВОЯ ИГРА • ТВОИ ПРАВИЛА</span></div>
- <h1>Быстрый доступ</h1><div class="grid">
-  <button class="case" onclick="show('cases')"><div class="emoji">🎁</div><b>Кейсы</b><span class="tag">Открывай и получай</span></button>
-  <button class="case" onclick="show('upgrade')"><div class="emoji">⚡</div><b>Апгрейд</b><span class="tag">Прокачивай брейнротов</span></button>
-  <button class="case" onclick="show('inventory')"><div class="emoji">🎒</div><b>Инвентарь</b><span class="tag">Твоя коллекция</span></button>
-  <button class="case" onclick="show('earn')"><div class="emoji">💰</div><b>Заработать</b><span class="tag">Задания за монеты</span></button>
- </div>
- <div class="panel"><b>🏆 Твоя цель</b><p class="notice">Собери редких брейнротов и поднимись в таблице лидеров.</p><button class="btn secondary" onclick="show('leaders')">Открыть рейтинг</button></div>
-</main>
-<section id="cases" class="hidden"><h1>🎁 Кейсы</h1><p class="sub">Брейнроты выпадают случайным образом.</p><div class="grid" id="caseList"></div><div id="caseResult" class="panel hidden"></div></section>
-<section id="inventory" class="hidden"><h1>🎒 Инвентарь</h1><p class="sub">Твоя коллекция брейнротов</p><div id="inventoryList" class="grid"></div></section>
-<section id="upgrade" class="hidden"><h1>⚡ Апгрейдер</h1><p class="sub">Выбери брейнрота и цель.</p><div class="panel"><b>ИНВЕНТАРЬ</b><select id="source" class="select"></select><div class="chance">➜</div><b>ЦЕЛЬ</b><select id="target" class="select"></select><div class="row"><span class="muted">Шанс успеха</span><b id="chanceText">—</b></div><div class="grid"><button class="btn secondary" onclick="setChance(30)">30%</button><button class="btn secondary" onclick="setChance(50)">50%</button><button class="btn secondary" onclick="setChance(75)">75%</button><button class="btn secondary" onclick="setChance(90)">90%</button></div><button class="btn" id="upgradeBtn" onclick="upgrade()">⚡ ПРОКАЧАТЬ</button><p class="notice">При неудаче выбранный брейнрот исчезнет.</p><div id="upgradeResult" class="result"></div></div></section>
-<section id="earn" class="hidden"><h1>💰 Заработать монеты</h1><p class="sub">Выполняй игровые задания. Раздел «Бесплатно» удалён.</p><div class="panel"><b>🎯 Первое открытие</b><p class="notice">Открой любой кейс и получи награду за задание.</p><button class="btn" id="firstTask" onclick="claimTask('first',150)">Забрать 150 🪙</button></div><div class="panel"><b>🧠 Коллекционер</b><p class="notice">Собери 3 брейнрота в инвентаре.</p><button class="btn" id="collectorTask" onclick="claimTask('collector',300)">Забрать 300 🪙</button></div><div class="panel"><b>📦 Мастер кейсов</b><p class="notice">Открой 5 кейсов.</p><button class="btn" id="masterTask" onclick="claimTask('master',500)">Забрать 500 🪙</button></div><p class="notice">Задания выдаются один раз на этом устройстве.</p></section>
-<section id="leaders" class="hidden"><h1>🏆 Рейтинг игроков</h1><p class="sub">Локальный демонстрационный рейтинг на этом устройстве.</p><div class="panel"><div id="leaderList"></div><p class="notice">Чтобы рейтинг был общим для всех игроков Telegram, потребуется подключить сервер и базу данных. Сейчас другие игроки не видят твои результаты.</p></div></section>
-<section id="profile" class="hidden"><h1>👤 Профиль</h1><div class="panel"><div class="row"><span class="muted">Игрок</span><b id="playerName">Гость BRAINPP</b></div><hr style="border-color:#493064"><div class="row"><span class="muted">Монеты</span><b id="profileCoins">1000 🪙</b></div><div class="row"><span class="muted">Брейнротов</span><b id="profileCount">0</b></div><div class="row"><span class="muted">Открыто кейсов</span><b id="opened">0</b></div></div></section>
+
+<h1>🐉 BRAINPP 4.0</h1>
+<div class="subtitle">Собирай брейнротов и драконов!</div>
+
+<div class="balance">
+ 💰 Монеты: <span id="coins">0</span>
 </div>
-<nav class="tabs">
- <button class="tab active" data-tab="home" onclick="show('home')"><span>🏠</span>Главная</button>
- <button class="tab" data-tab="cases" onclick="show('cases')"><span>🎁</span>Кейсы</button>
- <button class="tab" data-tab="upgrade" onclick="show('upgrade')"><span>⚡</span>Апгрейд</button>
- <button class="tab" data-tab="earn" onclick="show('earn')"><span>💰</span>Монеты</button>
- <button class="tab" data-tab="profile" onclick="show('profile')"><span>👤</span>Профиль</button>
-</nav>
+
+<div class="tabs">
+ <button onclick="showTab('cases')">📦 Кейсы</button>
+ <button onclick="showTab('inventory')">🎒 Инвентарь</button>
+ <button onclick="showTab('tasks')">🎯 Задания</button>
+</div>
+
+<div id="cases" class="section active">
+ <h2>📦 Магазин кейсов</h2>
+
+ <div class="card">
+  <div class="case-icon">📦</div>
+  <h3>Обычный кейс</h3>
+  <div class="price">100 монет</div>
+  <button class="open-btn" onclick="openCase('normal')">Открыть кейс</button>
+ </div>
+
+ <div class="card">
+  <div class="case-icon">💎</div>
+  <h3>Редкий кейс</h3>
+  <div class="price">300 монет</div>
+  <button class="open-btn" onclick="openCase('rare')">Открыть кейс</button>
+ </div>
+
+ <div class="card">
+  <div class="case-icon">👑</div>
+  <h3>Легендарный кейс</h3>
+  <div class="price">600 монет</div>
+  <button class="open-btn" onclick="openCase('legendary')">Открыть кейс</button>
+ </div>
+
+ <div class="card" style="border:2px solid #a65cff">
+  <div class="case-icon">🐉</div>
+  <h3>ДРАКОНИЙ КЕЙС</h3>
+  <div class="price">500 монет</div>
+  <p class="muted">Внутри находятся редкие драконы!</p>
+  <button class="open-btn" onclick="openCase('dragon')">🐉 ОТКРЫТЬ ДРАКОНИЙ КЕЙС</button>
+ </div>
+
+ <div id="result">
+  <h2>🎉 Тебе выпало!</h2>
+  <div class="big" id="resultEmoji">🐉</div>
+  <h2 id="resultName"></h2>
+  <p id="resultRare"></p>
+  <button onclick="closeResult()">Отлично!</button>
+ </div>
+</div>
+
+<div id="inventory" class="section">
+ <h2>🎒 Мой инвентарь</h2>
+ <div id="items"></div>
+</div>
+
+<div id="tasks" class="section">
+ <h2>🎯 Задания</h2>
+ <div class="card">
+  <h3>Открой один кейс</h3>
+  <p>Награда: 50 монет</p>
+  <button onclick="claimTask('open1')">Забрать награду</button>
+ </div>
+ <div class="card">
+  <h3>Собери первого дракона</h3>
+  <p>Награда: 100 монет</p>
+  <button onclick="claimTask('dragon1')">Забрать награду</button>
+ </div>
+</div>
+
 <script>
-const pool=[
- {name:"Тунг Тунг Сахур",emoji:"🪵",rarity:"Обычный",weight:48,rank:1},
- {name:"Тралалеро Тралала",emoji:"🦈",rarity:"Редкий",weight:25,rank:2},
- {name:"Бомбардиро Крокодило",emoji:"🐊",rarity:"Эпический",weight:14,rank:3},
- {name:"Капучино Ассасино",emoji:"☕",rarity:"Легендарный",weight:8,rank:4},
- {name:"Балерина Капучина",emoji:"🩰",rarity:"Мифический",weight:4,rank:5},
- {name:"Дракон Брейнпп",emoji:"🐉",rarity:"Секретный",weight:1,rank:6}
+const tg = window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
+
+let coins = Number(localStorage.getItem('brainpp_coins'));
+if(!Number.isFinite(coins)) coins = 0;
+
+let inventory = JSON.parse(localStorage.getItem('brainpp_inventory') || '[]');
+let opened = Number(localStorage.getItem('brainpp_opened') || 0);
+let tasks = JSON.parse(localStorage.getItem('brainpp_tasks') || '{}');
+
+const dragons = [
+ {name:'Огненный дракон',emoji:'🐉',rare:'Легендарный'},
+ {name:'Изумрудный дракон',emoji:'🐲',rare:'Мифический'},
+ {name:'Золотой дракон',emoji:'🐉',rare:'Мифический'},
+ {name:'Ледяной дракон',emoji:'❄️🐉',rare:'Легендарный'},
+ {name:'Дракон Тьмы',emoji:'🌑🐉',rare:'Секретный'},
+ {name:'Космический дракон',emoji:'🌌🐉',rare:'Секретный'}
 ];
-const cases=[
- {name:"Стартовый кейс",emoji:"📦",price:100,secret:false},
- {name:"Неоновый кейс",emoji:"💜",price:300,secret:false},
- {name:"Золотой кейс",emoji:"👑",price:600,secret:false},
- {name:"Секретный кейс",emoji:"🐉",price:500,secret:true}
+
+const brainrots = [
+ {name:'Тунг Тунг Сахур',emoji:'🪵',rare:'Обычный'},
+ {name:'Тралалеро Тралала',emoji:'🦈',rare:'Редкий'},
+ {name:'Бомбардиро Крокодило',emoji:'🐊',rare:'Редкий'},
+ {name:'Капучино Ассасино',emoji:'☕',rare:'Эпический'},
+ {name:'Балерина Капучина',emoji:'🩰',rare:'Легендарный'}
 ];
-let state=JSON.parse(localStorage.getItem("brainpp")||"null")||{coins:1000,inventory:[],opened:0,claimedTasks:[]};
-let chance=50;
-function save(){localStorage.setItem("brainpp",JSON.stringify(state));refresh()}
-function show(id){document.querySelectorAll("main,section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));if(id==="upgrade")renderSelects();if(id==="leaders")renderLeaders();if(id==="earn")renderTasks()}
-function rarityClass(r){return ({Обычный:"r-common",Редкий:"r-rare",Эпический:"r-epic",Легендарный:"r-legend",Мифический:"r-mythic",Секретный:"r-secret"})[r]||""}
-function renderCases(){document.getElementById("caseList").innerHTML=cases.map((c,i)=>`<div class="case ${c.secret?'dragon':''}"><div class="emoji">${c.emoji}</div><b>${c.name}</b><div class="price">${c.price} 🪙</div>${c.secret?'<span class="rarity r-secret">ОСОБЫЙ КЕЙС</span>':''}<button class="btn ${c.secret?'gold':''}" onclick="openCase(${i})">ОТКРЫТЬ</button></div>`).join("")}
-function pick(secret){let list=secret?pool.filter(x=>x.rarity!=="Обычный"&&x.rarity!=="Редкий"):pool.filter(x=>x.rarity!=="Секретный");let total=list.reduce((s,x)=>s+x.weight,0),n=Math.random()*total;for(const b of list){n-=b.weight;if(n<0)return b}return list[0]}
-function openCase(i){const c=cases[i];if(state.coins<c.price){alert("Не хватает монет!");return}state.coins-=c.price;state.opened++;const b=pick(c.secret);state.inventory.push({...b,id:Date.now()+Math.random()});save();const r=document.getElementById("caseResult");r.classList.remove("hidden");r.innerHTML=`<div class="result">🎉 ТЕБЕ ВЫПАЛ!</div><div class="hero"><div class="emoji">${b.emoji}</div><h2>${b.name}</h2><span class="rarity ${rarityClass(b.rarity)}">${b.rarity}</span></div>`}
-function renderInventory(){const el=document.getElementById("inventoryList");el.innerHTML=state.inventory.length?state.inventory.map(b=>`<div class="brain"><div class="emoji">${b.emoji}</div><b>${b.name}</b><span class="rarity ${rarityClass(b.rarity)}">${b.rarity}</span></div>`).join(""):'<div class="empty" style="grid-column:1/-1">Пока пусто. Открой первый кейс! 🎁</div>'}
-function renderSelects(){const s=document.getElementById("source"),t=document.getElementById("target");s.innerHTML=state.inventory.map((b,i)=>`<option value="${i}">${b.emoji} ${b.name} (${b.rarity})</option>`).join("")||'<option value="">Сначала получи брейнрота из кейса</option>';t.innerHTML=pool.map((b,i)=>`<option value="${i}">${b.emoji} ${b.name} (${b.rarity})</option>`).join("");document.getElementById("chanceText").textContent=state.inventory.length?chance+"%":"—";document.getElementById("upgradeBtn").disabled=!state.inventory.length}
-function setChance(v){chance=v;renderSelects()}
-function upgrade(){const s=document.getElementById("source"),t=document.getElementById("target"),out=document.getElementById("upgradeResult");if(!state.inventory.length||s.value===""){out.textContent="Сначала открой кейс!";return}const idx=Number(s.value),target=pool[Number(t.value)],source=state.inventory[idx];if(source.name===target.name){out.textContent="Выбери другого брейнрота.";return}if(Math.random()*100<chance){state.inventory.splice(idx,1);state.inventory.push({...target,id:Date.now()+Math.random()});out.textContent="✨ УСПЕХ! Получен "+target.name+"!"}else{state.inventory.splice(idx,1);out.textContent="Неудача! "+source.name+" исчез."}save();renderSelects()}
-function claimTask(id,reward){if(state.claimedTasks.includes(id))return;let ready=id==="first"?state.opened>=1:id==="collector"?state.inventory.length>=3:state.opened>=5;if(!ready){alert("Сначала выполни задание!");return}state.claimedTasks.push(id);state.coins+=reward;save();renderTasks()}
-function renderTasks(){const defs=[["first",150,state.opened>=1],["collector",300,state.inventory.length>=3],["master",500,state.opened>=5]];const ids=["firstTask","collectorTask","masterTask"];defs.forEach((d,i)=>{let b=document.getElementById(ids[i]);b.disabled=!d[2]||state.claimedTasks.includes(d[0]);b.textContent=state.claimedTasks.includes(d[0])?"ВЫПОЛНЕНО ✓":d[2]?"ЗАБРАТЬ "+d[1]+" 🪙":"ЕЩЁ НЕ ВЫПОЛНЕНО"})}
-function renderLeaders(){const score=state.inventory.reduce((s,b)=>s+(b.rank||1)*100,0)+state.coins;const rows=[{name:"DragonMaster",score:9800},{name:"BrainKing",score:7200},{name:"NeonPlayer",score:5100},{name:"Ты",score}].sort((a,b)=>b.score-a.score);document.getElementById("leaderList").innerHTML=rows.map((x,i)=>`<div class="leader-row"><b>${i+1}. ${x.name}</b><span>${x.score} очков</span></div>`).join("")}
-function refresh(){document.getElementById("coins").textContent=state.coins;document.getElementById("profileCoins").textContent=state.coins+" 🪙";document.getElementById("profileCount").textContent=state.inventory.length;document.getElementById("opened").textContent=state.opened;renderInventory();renderSelects();renderTasks()}
-renderCases();refresh();
+
+function save(){
+ localStorage.setItem('brainpp_coins',coins);
+ localStorage.setItem('brainpp_inventory',JSON.stringify(inventory));
+ localStorage.setItem('brainpp_opened',opened);
+ localStorage.setItem('brainpp_tasks',JSON.stringify(tasks));
+ update();
+}
+
+function update(){
+ document.getElementById('coins').textContent=coins;
+ renderInventory();
+}
+
+function showTab(id){
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+}
+
+function openCase(type){
+ const prices={normal:100,rare:300,legendary:600,dragon:500};
+ const price=prices[type];
+
+ if(coins<price){
+  alert('Не хватает монет!');
+  return;
+ }
+
+ coins-=price;
+ opened++;
+ let item;
+
+ if(type==='dragon'){
+  const pool=dragons;
+  item=pool[Math.floor(Math.random()*pool.length)];
+ }else if(type==='normal'){
+  item=brainrots[Math.floor(Math.random()*3)];
+ }else if(type==='rare'){
+  item=brainrots[1+Math.floor(Math.random()*4)];
+ }else{
+  item=brainrots[3+Math.floor(Math.random()*2)];
+ }
+
+ inventory.push({...item});
+ save();
+
+ const result=document.getElementById('result');
+ const emoji=document.getElementById('resultEmoji');
+
+ document.getElementById('resultName').textContent=item.name;
+ document.getElementById('resultRare').textContent='Редкость: '+item.rare;
+ emoji.textContent=item.emoji;
+ emoji.classList.remove('spin');
+ result.classList.add('show');
+
+ void emoji.offsetWidth;
+ emoji.classList.add('spin');
+}
+
+function closeResult(){
+ document.getElementById('result').classList.remove('show');
+}
+
+function renderInventory(){
+ const box=document.getElementById('items');
+ if(!inventory.length){
+  box.innerHTML='<p class="muted">Пока здесь пусто. Открой свой первый кейс!</p>';
+  return;
+ }
+
+ box.innerHTML=inventory.map((item,i)=>`
+  <div class="dragon">
+   <div class="dragon-emoji">${item.emoji}</div>
+   <b>${item.name}</b>
+   <div class="rare">${item.rare}</div>
+  </div>
+ `).join('');
+}
+
+function claimTask(id){
+ if(tasks[id]){
+  alert('Ты уже забрал эту награду!');
+  return;
+ }
+
+ if(id==='open1' && opened<1){
+  alert('Сначала открой кейс!');
+  return;
+ }
+
+ if(id==='dragon1' && !inventory.some(x=>x.name.toLowerCase().includes('дракон'))){
+  alert('Сначала получи дракона!');
+  return;
+ }
+
+ tasks[id]=true;
+ coins+=id==='open1'?50:100;
+ save();
+ alert('Награда получена!');
+}
+
+update();
 </script>
 </body>
 </html>
