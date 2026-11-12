@@ -107,14 +107,18 @@ function openCase(type){
 }
 
 function openFree(){
- let username="";
+  let username="";
+ let profileName="";
  try{
-  username=window.Telegram.WebApp.initDataUnsafe.user.username||"";
+  const user=window.Telegram.WebApp.initDataUnsafe.user||{};
+  username=user.username||"";
+  profileName=[user.first_name||"",user.last_name||""].join(" ");
  }catch(e){}
- if(!username.toLowerCase().includes("brainpp")){
+ if(!(username+" "+profileName).toLowerCase().includes("brainpp")){
   document.getElementById("result").textContent=
-  "❌ В твоём Telegram username должно быть слово brainpp!";
+  "❌ В имени или username Telegram должно быть слово brainpp!";
   return;
+ }
  }
  let last=Number(localStorage.getItem("brainpp_free_time")||0);
  if(Date.now()-last<86400000){
