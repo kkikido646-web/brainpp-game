@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,118 +6,141 @@
 <title>BRAINPP</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#090711;color:#fff;font-family:Arial,sans-serif;padding:18px}
-header{text-align:center;color:#c18aff;font-size:30px;font-weight:bold;margin:15px}
-.panel{background:#1b1429;border:1px solid #7040a0;border-radius:16px;padding:18px;margin:14px 0}
-h2{color:#c18aff;margin-top:0}
-button{background:linear-gradient(90deg,#873cff,#d34dff);color:white;border:0;border-radius:12px;padding:13px 18px;font-weight:bold;margin:5px;cursor:pointer}
-button:disabled{opacity:.4}
-.case{font-size:55px;text-align:center;padding:10px}
-.money{font-size:23px;color:#ffe36b;font-weight:bold}
-.item{background:#302044;padding:10px;border-radius:10px;margin:7px 0}
-.small{color:#bca9d0;font-size:13px}
+body{margin:0;background:#10101c;color:white;font-family:Arial;text-align:center;padding:18px}
+h1{color:#a875ff;font-size:38px}
+.balance{background:#24243b;padding:15px;border-radius:15px;font-size:22px;margin:15px 0}
+.cases,.collection{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.case,.item{background:#24243b;border-radius:15px;padding:15px;margin-bottom:10px}
+.case{border:1px solid #7552b9}
+button{background:#8955e8;color:white;border:0;border-radius:10px;padding:12px;font-size:16px;margin:5px;cursor:pointer}
+button:disabled{background:#555;color:#aaa}
+.emoji{font-size:45px}
+#result{font-size:22px;margin:20px}
+h2{margin-top:30px}
 </style>
 </head>
 <body>
-<header>BRAINPP</header>
 
-<div class="panel">
-<h2>👤 Мой профиль</h2>
-<div>Игрок: <b>BRAINPP</b></div>
-<p class="money">🪙 Баланс: <span id="money">1000</span></p>
-<div>⭐ Уровень: <span id="level">1</span></div>
+<h1>🧠 BRAINPP</h1>
+<div class="balance">🪙 Баланс: <span id="coins">0</span> монет</div>
+
+<h2>🎁 Кейсы</h2>
+<div class="cases">
+ <div class="case">
+  <div class="emoji">🎁</div>
+  <h3>Обычный кейс</h3>
+  <p>100 монет</p>
+  <button onclick="openCase('normal')">Открыть</button>
+ </div>
+ <div class="case">
+  <div class="emoji">🐉</div>
+  <h3>Секретный кейс</h3>
+  <p>500 монет</p>
+  <button onclick="openCase('secret')">Открыть</button>
+ </div>
+ <div class="case">
+  <div class="emoji">🎁</div>
+  <h3>Бесплатный кейс</h3>
+  <p>Раз в 24 часа</p>
+  <button onclick="openFree()">Открыть</button>
+ </div>
 </div>
 
-<div class="panel">
-<h2>🎁 Магазин кейсов</h2>
-<div class="case">📦</div>
-<b>Обычный кейс</b>
-<p>Цена: 100 монет</p>
-<button onclick="openCase(100,'Обычный кейс')">Открыть</button>
-<hr>
-<div class="case">🐉</div>
-<b>Секретный кейс</b>
-<p>Цена: 500 монет</p>
-<button onclick="openCase(500,'Секретный кейс')">Открыть секретный кейс</button>
-</div>
+<div id="result"></div>
 
-<div class="panel">
-<h2>⚡ Улучшение</h2>
-<p>Потрать 200 монет, чтобы повысить уровень.</p>
-<button onclick="upgrade()">Улучшить уровень — 200 🪙</button>
-</div>
-
-<div class="panel">
-<h2>🎒 Инвентарь</h2>
-<div id="inventory">Пока пусто</div>
-</div>
-
-<div class="panel">
-<h2>📋 Задания</h2>
-<p>Открой один кейс и получи награду 50 монет.</p>
-<button onclick="task()">Забрать награду</button>
-</div>
-
-<div class="panel">
-<h2>🏆 Рейтинг</h2>
-<p>1. BRAINPP — <span id="score">1000</span> монет</p>
-</div>
+<h2>📦 Моя коллекция</h2>
+<div class="collection" id="collection"></div>
 
 <script>
-let money=Number(localStorage.getItem('brainpp_money')||1000);
-let level=Number(localStorage.getItem('brainpp_level')||1);
-let inventory=JSON.parse(localStorage.getItem('brainpp_items')||'[]');
-let opened=localStorage.getItem('brainpp_opened')==='yes';
-let rewarded=localStorage.getItem('brainpp_rewarded')==='yes';
+const brainrots = [
+ {name:"Тунг Тунг Тунг Сахур",emoji:"🪵",price:25},
+ {name:"Бомбардиро Крокодило",emoji:"🐊",price:50},
+ {name:"Тралалеро Тралала",emoji:"🦈",price:75},
+ {name:"Бомбини Гусини",emoji:"🪿",price:100},
+ {name:"Лирили Ларила",emoji:"🐘",price:150},
+ {name:"Капучино Ассасино",emoji:"☕",price:200},
+ {name:"Тайный Брейнрот",emoji:"👑",price:500}
+];
+
+let coins = Number(localStorage.getItem("brainpp_coins") || 0);
+let collection = JSON.parse(localStorage.getItem("brainpp_collection") || "[]");
 
 function save(){
-localStorage.setItem('brainpp_money',money);
-localStorage.setItem('brainpp_level',level);
-localStorage.setItem('brainpp_items',JSON.stringify(inventory));
-localStorage.setItem('brainpp_opened',opened?'yes':'no');
-localStorage.setItem('brainpp_rewarded',rewarded?'yes':'no');
-render();
+ localStorage.setItem("brainpp_coins",coins);
+ localStorage.setItem("brainpp_collection",JSON.stringify(collection));
+ render();
 }
 
 function render(){
-document.getElementById('money').textContent=money;
-document.getElementById('level').textContent=level;
-document.getElementById('score').textContent=money;
-document.getElementById('inventory').innerHTML=inventory.length?
-inventory.map(x=>'<div class="item">'+x+'</div>').join(''):
-'Пока пусто';
+ document.getElementById("coins").textContent=coins;
+ let area=document.getElementById("collection");
+ area.innerHTML="";
+ if(collection.length===0){
+  area.innerHTML="<p>Коллекция пока пуста</p>";
+ }
+ collection.forEach((item,index)=>{
+  let div=document.createElement("div");
+  div.className="item";
+  div.innerHTML=`<div class="emoji">${item.emoji}</div>
+  <b>${item.name}</b><p>Цена: ${item.price} монет</p>
+  <button onclick="sell(${index})">Продать</button>`;
+  area.appendChild(div);
+ });
 }
 
-function openCase(price,name){
-if(money<price){alert('Недостаточно монет!');return}
-money-=price;
-let prize=name==='Секретный кейс'?
-'🐉 Дракон':
-['💎 Алмаз','👑 Корона','⚔️ Меч','✨ Магический кристалл'][Math.floor(Math.random()*4)];
-inventory.push(prize);
-opened=true;
-save();
-alert('Поздравляем! Ты получил: '+prize);
+function openCase(type){
+ let cost=type==="secret"?500:100;
+ if(coins<cost){
+  document.getElementById("result").textContent="❌ Недостаточно монет!";
+  return;
+ }
+ coins-=cost;
+ let item;
+ if(type==="secret"){
+  item=brainrots[6];
+ }else{
+  item=brainrots[Math.floor(Math.random()*6)];
+ }
+ collection.push({...item});
+ save();
+ document.getElementById("result").textContent=
+ "🎉 Выпал: "+item.emoji+" "+item.name+"!";
 }
 
-function upgrade(){
-if(money<200){alert('Недостаточно монет!');return}
-money-=200;
-level++;
-save();
-alert('Уровень повышен!');
+function openFree(){
+ let username="";
+ try{
+  username=window.Telegram.WebApp.initDataUnsafe.user.username||"";
+ }catch(e){}
+ if(!username.toLowerCase().includes("brainpp")){
+  document.getElementById("result").textContent=
+  "❌ В твоём Telegram username должно быть слово brainpp!";
+  return;
+ }
+ let last=Number(localStorage.getItem("brainpp_free_time")||0);
+ if(Date.now()-last<86400000){
+  document.getElementById("result").textContent=
+  "⏳ Бесплатный кейс доступен раз в 24 часа.";
+  return;
+ }
+ localStorage.setItem("brainpp_free_time",Date.now());
+ let item=brainrots[Math.floor(Math.random()*6)];
+ collection.push({...item});
+ save();
+ document.getElementById("result").textContent=
+ "🎉 Бесплатный кейс! Выпал: "+item.emoji+" "+item.name+"!";
 }
 
-function task(){
-if(!opened){alert('Сначала открой кейс!');return}
-if(rewarded){alert('Награда уже получена!');return}
-money+=50;
-rewarded=true;
-save();
-alert('Ты получил 50 монет!');
+function sell(index){
+ coins+=collection[index].price;
+ let name=collection[index].name;
+ collection.splice(index,1);
+ save();
+ document.getElementById("result").textContent=
+ "💰 Ты продал "+name+"!";
 }
+
 render();
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
