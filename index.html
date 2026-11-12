@@ -110,8 +110,15 @@ function render(){
 }
 
 function openCase(type){
- 
- coins-=cost;
+ let cost = type === "secret" ? 500 : 100;
+
+ if(coins < cost){
+  document.getElementById("result").textContent =
+  "❌ Недостаточно монет!";
+  return;
+ }
+
+ coins -= cost;
  let item;
  if(type==="secret"){
   item=brainrots[6];
