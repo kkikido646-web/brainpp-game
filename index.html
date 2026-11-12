@@ -119,7 +119,7 @@ function openFree(){
   "❌ В имени или username Telegram должно быть слово brainpp!";
   return;
  }
- }
+ 
  let last=Number(localStorage.getItem("brainpp_free_time")||0);
  if(Date.now()-last<86400000){
   document.getElementById("result").textContent=
