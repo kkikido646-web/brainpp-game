@@ -1,36 +1,69 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
- <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BRAINPP</title>
+<title>BRAINPP 2.0</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#10101c;color:white;font-family:Arial;text-align:center;padding:18px}
-h1{color:#a875ff;font-size:38px}
-.balance{background:#24243b;padding:15px;border-radius:15px;font-size:22px;margin:15px 0}
-.cases,.collection{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.case,.item{background:#24243b;border-radius:15px;padding:15px;margin-bottom:10px}
-.case{border:1px solid #7552b9}
-button{background:#8955e8;color:white;border:0;border-radius:10px;padding:12px;font-size:16px;margin:5px;cursor:pointer}
-button:disabled{background:#555;color:#aaa}
-.emoji{font-size:45px}
-#result{font-size:22px;margin:20px}
-h2{margin-top:30px}
+body{
+ margin:0;padding:16px;background:#10101c;color:white;
+ font-family:Arial;text-align:center
+}
+h1{color:#b77aff;font-size:38px}
+h2{color:#c49aff;margin-top:28px}
+.balance,.panel,.case,.item{
+ background:#24243b;border:1px solid #7044ae;
+ border-radius:16px;padding:15px;margin:12px 0
+}
+.balance{font-size:22px}
+.cases,.collection{
+ display:grid;grid-template-columns:1fr 1fr;gap:10px
+}
+.case,.item{margin:0}
+button{
+ background:linear-gradient(135deg,#a52cff,#6735df);
+ color:white;border:0;border-radius:11px;
+ padding:12px;font-size:15px;margin:5px;
+ cursor:pointer
+}
+input{
+ width:90%;padding:12px;border-radius:9px;
+ border:1px solid #8054c5;background:#171729;
+ color:white;margin:6px
+}
+.emoji{font-size:48px}
+#result{font-size:18px;margin:18px;min-height:28px}
+#avatar{
+ width:85px;height:85px;border-radius:50%;
+ object-fit:cover;border:3px solid #a875ff
+}
+.small{font-size:13px;color:#c9b9e8}
+.owner{border:2px solid gold}
+.hidden{display:none}
 </style>
 </head>
 <body>
 
-<h1>🧠 BRAINPP</h1><div class="balance">🪙 Баланс: <span id="coins">0</span> монет</div>
- <div class="case" id="profile">
+<h1>🧠 BRAINPP</h1>
+<p class="small">Открывай кейсы • Улучшай брейнротов • Собирай коллекцию</p>
+
+<div class="balance">
+ 🪙 Баланс: <b id="coins">0</b> монет
+</div>
+
+<div class="panel" id="profile">
  <h2>👤 Профиль игрока</h2>
- <img id="avatar" src="" style="width:80px;height:80px;border-radius:50%;object-fit:cover">
+ <img id="avatar" src="" alt="Аватар">
  <h3 id="playerName">Игрок</h3>
- <p id="playerUsername">@username</p>
- <p>🪙 Монеты: <span id="profileCoins">0</span></p>
- <p>🧠 Брейнроты: <span id="profileBrainrots">0</span></p>
- </div>
+ <p id="playerUsername">Telegram</p>
+ <p>🪙 Монеты: <b id="profileCoins">0</b></p>
+ <p>🧠 Брейнроты: <b id="profileBrainrots">0</b></p>
+ <p id="ownerLabel" class="small"></p>
+</div>
+
 <h2>🎁 Кейсы</h2>
 <div class="cases">
  <div class="case">
@@ -39,12 +72,21 @@ h2{margin-top:30px}
   <p>100 монет</p>
   <button onclick="openCase('normal')">Открыть</button>
  </div>
+
  <div class="case">
   <div class="emoji">🐉</div>
+  <h3>Драконий кейс</h3>
+  <p>500 монет</p>
+  <button onclick="openCase('dragon')">Открыть</button>
+ </div>
+
+ <div class="case">
+  <div class="emoji">👑</div>
   <h3>Секретный кейс</h3>
   <p>500 монет</p>
   <button onclick="openCase('secret')">Открыть</button>
  </div>
+
  <div class="case">
   <div class="emoji">🎁</div>
   <h3>Бесплатный кейс</h3>
@@ -55,117 +97,299 @@ h2{margin-top:30px}
 
 <div id="result"></div>
 
+<h2>⚡ Мои апгрейды</h2>
+<div class="panel">
+ <p>Улучшай своих брейнротов и увеличивай их стоимость продажи.</p>
+ <p class="small">Выбери брейнрота в коллекции ниже.</p>
+</div>
+
+<h2>🎟 Промокоды</h2>
+<div class="panel">
+ <p>Введи промокод и получи монеты!</p>
+ <input id="promoInput" placeholder="ВВЕДИ ПРОМОКОД">
+ <button onclick="usePromo()">Активировать</button>
+</div>
+
+<div id="ownerPanel" class="panel owner hidden">
+ <h2>👑 Панель владельца</h2>
+ <p>Создание промокодов</p>
+ <input id="newPromo" placeholder="Название промокода">
+ <input id="promoAmount" type="number" min="1" placeholder="Количество монет">
+ <button onclick="createPromo()">Создать промокод</button>
+ <div id="promoList"></div>
+ <p class="small">Владелец: @skeruuuttnewera</p>
+</div>
+
 <h2>📦 Моя коллекция</h2>
 <div class="collection" id="collection"></div>
 
 <script>
+const OWNER = "skeruuuttnewera";
+
 const brainrots = [
  {name:"Тунг Тунг Тунг Сахур",emoji:"🪵",price:25},
  {name:"Бомбардиро Крокодило",emoji:"🐊",price:50},
  {name:"Тралалеро Тралала",emoji:"🦈",price:75},
  {name:"Бомбини Гусини",emoji:"🪿",price:100},
  {name:"Лирили Ларила",emoji:"🐘",price:150},
- {name:"Капучино Ассасино",emoji:"☕",price:200},
- {name:"Тайный Брейнрот",emoji:"👑",price:500}
+ {name:"Капучино Ассасино",emoji:"☕",price:200}
 ];
 
-let coins = Number(localStorage.getItem("brainpp_coins") || 0);
-let collection = JSON.parse(localStorage.getItem("brainpp_collection") || "[]");
+const dragons = [
+ {name:"Дракон Брейнрот",emoji:"🐉",price:350},
+ {name:"Огненный Дракон",emoji:"🔥",price:450},
+ {name:"Золотой Дракон",emoji:"🐲",price:600}
+];
+
+const secret = {
+ name:"Тайный Брейнрот",emoji:"👑",price:500
+};
+
+function readJSON(key,fallback){
+ try{
+  const value=localStorage.getItem(key);
+  return value ? JSON.parse(value) : fallback;
+ }catch(e){return fallback;}
+}
+
+let coins=Number(localStorage.getItem("brainpp_coins")||0);
+let collection=readJSON("brainpp_collection",[]);
+let promos=readJSON("brainpp_promos",{});
+let usedPromos=readJSON("brainpp_used_promos",[]);
+
+const user=window.Telegram?.WebApp?.initDataUnsafe?.user||{};
+const username=(user.username||"").toLowerCase();
+const isOwner=username===OWNER;
 
 function save(){
  localStorage.setItem("brainpp_coins",coins);
  localStorage.setItem("brainpp_collection",JSON.stringify(collection));
  render();
 }
-function render(){
- function updateProfile(){
- const user=window.Telegram.WebApp?.initDataUnsafe?.user||{};
 
- document.getElementById("playerName").textContent=
- [user.first_name||"",user.last_name||""].join(" ")||"Игрок";
+function updateProfile(){
+ const name=[user.first_name||"",user.last_name||""].join(" ").trim();
 
+ document.getElementById("playerName").textContent=name||"Игрок";
  document.getElementById("playerUsername").textContent=
- user.username?"@"+user.username:"Telegram";
+  user.username?"@"+user.username:"Telegram";
 
- document.getElementById("avatar").src=user.photo_url||"";
+ if(user.photo_url){
+  document.getElementById("avatar").src=user.photo_url;
+ }
 
  document.getElementById("profileCoins").textContent=coins;
  document.getElementById("profileBrainrots").textContent=collection.length;
- }
+ document.getElementById("ownerLabel").textContent=
+  isOwner?"👑 Владелец игры":"Игрок BRAINPP";
+}
+
+function render(){
  document.getElementById("coins").textContent=coins;
- let area=document.getElementById("collection");
  updateProfile();
+
+ const area=document.getElementById("collection");
  area.innerHTML="";
+
  if(collection.length===0){
-  area.innerHTML="<p>Коллекция пока пуста</p>";
+  area.textContent="Коллекция пока пуста";
+  return;
  }
+
  collection.forEach((item,index)=>{
-  let div=document.createElement("div");
+  const div=document.createElement("div");
   div.className="item";
-  div.innerHTML=`<div class="emoji">${item.emoji}</div>
-  <b>${item.name}</b><p>Цена: ${item.price} монет</p>
-  <button onclick="sell(${index})">Продать</button>`;
+
+  const emoji=document.createElement("div");
+  emoji.className="emoji";
+  emoji.textContent=item.emoji;
+
+  const name=document.createElement("b");
+  name.textContent=item.name;
+
+  const level=document.createElement("p");
+  level.textContent="Уровень: "+(item.level||0)+"/5";
+
+  const price=document.createElement("p");
+  price.textContent="Цена продажи: "+getSellPrice(item)+" монет";
+
+  const upgrade=document.createElement("button");
+  upgrade.textContent="⚡ Улучшить";
+  upgrade.onclick=()=>upgradeBrainrot(index);
+
+  const sell=document.createElement("button");
+  sell.textContent="💰 Продать";
+  sell.onclick=()=>sellBrainrot(index);
+
+  div.append(emoji,name,level,price,upgrade,sell);
   area.appendChild(div);
  });
 }
 
-function openCase(type){
- let cost = type === "secret" ? 500 : 100;
+function addBrainrot(item){
+ collection.push({...item,level:0});
+ save();
+ document.getElementById("result").textContent=
+  "🎉 Выпал: "+item.emoji+" "+item.name+"!";
+}
 
- if(coins < cost){
-  document.getElementById("result").textContent =
-  "❌ Недостаточно монет!";
+function openCase(type){
+ const cost=type==="normal"?100:500;
+
+ if(coins<cost){
+  document.getElementById("result").textContent="❌ Недостаточно монет!";
   return;
  }
 
- coins -= cost;
- let item;
+ coins-=cost;
+
  if(type==="secret"){
-  item=brainrots[6];
- }else{
-  item=brainrots[Math.floor(Math.random()*6)];
+  addBrainrot(secret);
+  return;
  }
- collection.push({...item});
- save();
- document.getElementById("result").textContent=
- "🎉 Выпал: "+item.emoji+" "+item.name+"!";
+
+ if(type==="dragon"){
+  addBrainrot(dragons[Math.floor(Math.random()*dragons.length)]);
+  return;
+ }
+
+ addBrainrot(brainrots[Math.floor(Math.random()*brainrots.length)]);
 }
 
 function openFree(){
-  let username="";
- let profileName="";
- try{
-  const user=window.Telegram.WebApp.initDataUnsafe.user||{};
-  username=user.username||"";
-  profileName=[user.first_name||"",user.last_name||""].join(" ");
- }catch(e){}
- if(!(username+" "+profileName).toLowerCase().includes("brainpp")){
-  document.getElementById("result").textContent=
-  "❌ В имени или username Telegram должно быть слово brainpp!";
-  return;
- }
- 
- let last=Number(localStorage.getItem("brainpp_free_time")||0);
+ const last=Number(localStorage.getItem("brainpp_free_time")||0);
+
  if(Date.now()-last<86400000){
   document.getElementById("result").textContent=
-  "⏳ Бесплатный кейс доступен раз в 24 часа.";
+   "⏳ Бесплатный кейс доступен раз в 24 часа.";
   return;
  }
+
  localStorage.setItem("brainpp_free_time",Date.now());
- let item=brainrots[Math.floor(Math.random()*6)];
- collection.push({...item});
- save();
- document.getElementById("result").textContent=
- "🎉 Бесплатный кейс! Выпал: "+item.emoji+" "+item.name+"!";
+ addBrainrot(brainrots[Math.floor(Math.random()*brainrots.length)]);
 }
 
-function sell(index){
- coins+=collection[index].price;
- let name=collection[index].name;
+function getSellPrice(item){
+ return Math.floor(item.price*(1+(item.level||0)*0.5));
+}
+
+function upgradeBrainrot(index){
+ const item=collection[index];
+ if(!item)return;
+
+ const level=item.level||0;
+ if(level>=5){
+  document.getElementById("result").textContent="👑 Максимальный уровень!";
+  return;
+ }
+
+ const cost=50*(level+1);
+ if(coins<cost){
+  document.getElementById("result").textContent=
+   "❌ Нужно "+cost+" монет для улучшения!";
+  return;
+ }
+
+ coins-=cost;
+ item.level=level+1;
+ save();
+
+ document.getElementById("result").textContent=
+  "⚡ "+item.name+" улучшен до уровня "+item.level+"!";
+}
+
+function sellBrainrot(index){
+ const item=collection[index];
+ if(!item)return;
+
+ const price=getSellPrice(item);
+ coins+=price;
  collection.splice(index,1);
  save();
+
  document.getElementById("result").textContent=
- "💰 Ты продал "+name+"!";
+  "💰 Продан "+item.name+" за "+price+" монет!";
+}
+
+function createPromo(){
+ if(!isOwner){
+  document.getElementById("result").textContent="❌ Нет доступа!";
+  return;
+ }
+
+ const code=document.getElementById("newPromo").value.trim().toUpperCase();
+ const amount=Number(document.getElementById("promoAmount").value);
+
+ if(!code||!Number.isInteger(amount)||amount<1){
+  document.getElementById("result").textContent="❌ Проверь название и сумму!";
+  return;
+ }
+
+ if(promos[code]){
+  document.getElementById("result").textContent="❌ Такой промокод уже существует!";
+  return;
+ }
+
+ promos[code]=amount;
+ localStorage.setItem("brainpp_promos",JSON.stringify(promos));
+
+ document.getElementById("newPromo").value="";
+ document.getElementById("promoAmount").value="";
+ document.getElementById("result").textContent=
+  "✅ Промокод "+code+" создан!";
+
+ renderPromoList();
+}
+
+function usePromo(){
+ const code=document.getElementById("promoInput").value.trim().toUpperCase();
+
+ if(!code||!Object.prototype.hasOwnProperty.call(promos,code)){
+  document.getElementById("result").textContent="❌ Промокод не найден!";
+  return;
+ }
+
+ if(usedPromos.includes(code)){
+  document.getElementById("result").textContent="❌ Ты уже использовал этот промокод!";
+  return;
+ }
+
+ const amount=Number(promos[code]);
+ if(!Number.isFinite(amount)||amount<1){
+  document.getElementById("result").textContent="❌ Ошибка промокода!";
+  return;
+ }
+
+ coins+=amount;
+ usedPromos.push(code);
+
+ localStorage.setItem("brainpp_used_promos",JSON.stringify(usedPromos));
+ document.getElementById("promoInput").value="";
+ save();
+
+ document.getElementById("result").textContent=
+  "🎉 Промокод активирован! Получено "+amount+" монет!";
+}
+
+function renderPromoList(){
+ const list=document.getElementById("promoList");
+ list.innerHTML="";
+
+ Object.keys(promos).forEach(code=>{
+  const p=document.createElement("p");
+  p.textContent=code+" — "+promos[code]+" монет";
+  list.appendChild(p);
+ });
+}
+
+if(isOwner){
+ document.getElementById("ownerPanel").classList.remove("hidden");
+ renderPromoList();
+}
+
+if(window.Telegram?.WebApp){
+ window.Telegram.WebApp.ready();
+ window.Telegram.WebApp.expand();
 }
 
 render();
