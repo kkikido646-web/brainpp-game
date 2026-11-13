@@ -733,4 +733,122 @@ function usePromo(){
     toast("Введи промокод!");
     return;
   }
+  
+  if(data.usedPromos.includes(code)){
+    toast("Ты уже использовал этот промокод!");
+    return;
+  }
+
+  const promo=data.promos[code];
+  if(!promo){
+    toast("Промокод не найден!");
+    return;
+  }
+
+  data.coins+=promo.reward;
+  data.usedPromos.push(code);
+  save();
+  update();
+  renderProfile();
+  input.value="";
+  toast("Промокод активирован! +"+promo.reward+" монет");
+}
+
+function createPromo(){
+  const code=document.getElementById("newPromo").value.trim().toUpperCase();
+  const reward=Number(document.getElementById("promoReward").value);
+  if(!code||!Number.isFinite(reward)||reward<=0){
+    toast("Проверь название и награду!");
+    return;
+  }
+  data.promos[code]={reward:Math.floor(reward)};
+  save();
+  renderPromoList();
+  toast("Промокод создан!");
+}
+
+function renderPromoList(){
+  const box=document.getElementById("promoList");
+  box.innerHTML="<h3>Созданные промокоды</h3>";
+  Object.entries(data.promos).forEach(([code,promo])=>{
+    box.innerHTML+=`<div class="wish-row">
+      <span>${escapeHTML(code)} — 🪙 ${promo.reward}</span>
+      <button class="secondary" onclick="copyPromo('${escapeHTML(code)}')">Копировать</button>
+    </div>`;
+  });
+}
+
+function copyPromo(code){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(code).then(()=>toast("Промокод скопирован!"));
+  }else{
+    toast(code);
+  }
+}
+
+function update(){
+  document.getElementById("balance").textContent=data.coins;
+  const remaining=86400000-(Date.now()-data.lastFree);
+  const freeButton=document.getElementById("freeButton");
+  if(remaining>0){
+    freeButton.textContent="Через "+Math.ceil(remaining/3600000)+" ч.";
+    freeButton.disabled=true;
+  }else{
+    freeButton.textContent="Забрать";
+    freeButton.disabled=false;
+  }
+  renderProfile();
+}
+
+function openSettings(){
+  document.getElementById("settingsModal").classList.add("show");
+}
+function closeSettings(){
+  document.getElementById("settingsModal").classList.remove("show");
+}
+function applySettings(){
+  document.getElementById("graphics").value=settings.graphics;
+  document.getElementById("animations").checked=settings.animations;
+  document.getElementById("sound").checked=settings.sound;
+  document.getElementById("darkTheme").checked=settings.darkTheme;
+  document.getElementById("vibration").checked=settings.vibration;
+  document.body.classList.toggle("light",!settings.darkTheme);
+}
+function setGraphics(value){
+  settings.graphics=value;
+  saveSettings();
+  applySettings();
+}
+function toggleSetting(name,value){
+  settings[name]=value;
+  saveSettings();
+  applySettings();
+}
+function resetSettings(){
+  settings={
+    graphics:"high",
+    animations:true,
+    sound:true,
+    darkTheme:true,
+    vibration:true
+  };
+  saveSettings();
+  applySettings();
+  toast("Настройки сброшены");
+}
+
+applySettings();
+update();
+renderMine();
+renderWishes();
+renderSelect();
+
+if(window.Telegram&&window.Telegram.WebApp){
+  Telegram.WebApp.ready();
+  Telegram.WebApp.expand();
+}
+</script>
+</body>
+</html>
+
      
