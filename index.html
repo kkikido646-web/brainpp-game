@@ -108,4 +108,406 @@ body.medium-effects .mutation-rainbow{animation:none!important}
 </div></div>
 
 <script>
-  </html>
+  
+const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();}
+const OWNER="skeruuuttnewera";
+const WIKI_API="https://stealabrainrot.wiki/api.php";
+
+const catalog=[
+ {name:"Noobini Pizzanini",value:35,page:"Noobini Pizzanini",rarity:"Common"},
+ {name:"Garama and Madundung",value:240,page:"Garama and Madundung",rarity:"Secret"},
+ {name:"Dragon Cannelloni",value:260,page:"Dragon Cannelloni",rarity:"Secret"},
+ {name:"Dragon Gingerini",value:280,page:"Dragon Gingerini",rarity:"Secret"},
+ {name:"Hydra Dragon Cannelloni",value:300,page:"Hydra Dragon Cannelloni",rarity:"Secret"},
+ {name:"Arcadragon",value:230,page:"Arcadragon",rarity:"Secret"},
+ {name:"Dragon Aquanini",value:290,page:"Dragon Aquanini",rarity:"Secret"},
+ {name:"Caylusaurus",value:180,page:"Caylusaurus",rarity:"Secret"},
+ {name:"Los Dragons",value:320,page:"Los Dragons",rarity:"Secret"},
+ {name:"Dragon Skeletonini",value:270,page:"Extinct Dragon",rarity:"Secret"}
+];
+
+const normalCase=[
+ catalog[0],catalog[1],
+ {name:"Tung Tung Tung Sahur",value:45,page:"Tung Tung Tung Sahur",rarity:"Common"},
+ {name:"Bombardiro Crocodilo",value:55,page:"Bombardiro Crocodilo",rarity:"Common"},
+ {name:"Tralalero Tralala",value:65,page:"Tralalero Tralala",rarity:"Rare"},
+ {name:"Brr Brr Patapim",value:75,page:"Brr Brr Patapim",rarity:"Rare"}
+];
+const dragonCase=catalog.slice(2);
+const secretCase=[catalog[1],...catalog.slice(2)];
+
+const mutationTypes=[
+ {id:"normal",name:"Обычный",mult:1},
+ {id:"gold",name:"Золотой",mult:1.25},
+ {id:"rainbow",name:"Радужный",mult:10}
+];
+
+let coins=Number(localStorage.getItem("brainpp_coins")||0);
+let inventory=JSON.parse(localStorage.getItem("brainpp_inventory")||"[]");
+let promos=JSON.parse(localStorage.getItem("brainpp_promos")||"{}");
+let usedPromos=JSON.parse(localStorage.getItem("brainpp_used_promos")||"[]");
+let freeAt=Number(localStorage.getItem("brainpp_free_at")||0);
+let opening=false;
+let imageCache={};
+
+function save(){
+ localStorage.setItem("brainpp_coins",coins);
+ localStorage.setItem("brainpp_inventory",JSON.stringify(inventory));
+ localStorage.setItem("brainpp_promos",JSON.stringify(promos));
+ localStorage.setItem("brainpp_used_promos",JSON.stringify(usedPromos));
+ localStorage.setItem("brainpp_free_at",freeAt);
+}
+function escapeHTML(v){
+ return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function getUser(){return tg?.initDataUnsafe?.user||null;}
+function mutationRoll(){
+ let r=Math.random();
+ return r<.10?"gold":r<.12?"rainbow":"normal";
+}
+function mutationInfo(id){
+ return mutationTypes.find(x=>x.id===id)||mutationTypes[0];
+}
+async function resolveImage(page){
+ if(imageCache[page])return imageCache[page];
+ try{
+  const url=WIKI_API+"?action=query&format=json&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=500&titles="+encodeURIComponent(page);
+  const response=await fetch(url);
+  if(!response.ok)throw Error("image");
+  const data=await response.json();
+  const pages=data.query?.pages||{};
+  const found=Object.values(pages).find(p=>p.thumbnail?.source);
+  if(found){
+   imageCache[page]=found.thumbnail.source;
+   return found.thumbnail.source;
+  }
+ }catch(e){}
+ return "";
+}
+function makeImage(item,extraClass=""){
+ const img=document.createElement("img");
+ img.className="brainrot-img "+extraClass;
+ img.alt=item.name;
+ const initialSrc=item.image||imageCache[item.page||item.name]||"";
+ if(!initialSrc){
+  const fallback=document.createElement("div");
+  fallback.className="image-fallback";
+  fallback.textContent=item.name;
+  resolveImage(item.page||item.name).then(url=>{
+   if(url){
+    const loaded=document.createElement("img");
+    loaded.className="brainrot-img "+extraClass;
+    loaded.alt=item.name;
+    loaded.src=url;
+    const mut=item.mutation||"normal";
+    if(mut==="gold")loaded.classList.add("mutation-gold");
+    if(mut==="rainbow")loaded.classList.add("mutation-rainbow");
+    fallback.replaceWith(loaded);
+   }
+  });
+  return fallback;
+ }
+ img.src=initialSrc;
+ img.onerror=()=>{
+  img.style.display="none";
+  const f=document.createElement("div");
+  f.className="image-fallback";
+  f.textContent=item.name;
+  img.after(f);
+ };
+ const mut=item.mutation||"normal";
+ if(mut==="gold")img.classList.add("mutation-gold");
+ if(mut==="rainbow")img.classList.add("mutation-rainbow");
+ return img;
+}
+function renderCreatureImage(item,container){
+ const image=makeImage(item);
+ container.appendChild(image);
+ if(!item.image&&!imageCache[item.page||item.name]){
+  resolveImage(item.page||item.name).then(url=>{
+   if(url&&image.tagName==="IMG")image.src=url;
+  });
+ }
+}
+function update(){
+ save();
+ document.getElementById("coins").textContent=coins;
+ document.getElementById("profileCoins").textContent=coins;
+ document.getElementById("creatureCount").textContent=inventory.length+" существ";
+ document.getElementById("profileCount").textContent=inventory.length;
+ document.getElementById("profileLevels").textContent=inventory.reduce((s,x)=>s+(Number(x.level)||1),0);
+ renderInventory();
+ renderUpgradeSelects();
+ updateFree();
+}
+function showTab(id,btn){
+ document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+}
+function toggleMenu(){
+ document.getElementById("menuPanel").classList.toggle("hidden");
+}
+function setGraphics(level){
+ document.body.classList.remove("low-effects","medium-effects");
+ if(level==="low")document.body.classList.add("low-effects");
+ if(level==="medium")document.body.classList.add("medium-effects");
+ localStorage.setItem("brainpp_graphics",level);
+ document.getElementById("graphicsLabel").textContent="Выбрано: "+({high:"Высокая",medium:"Средняя",low:"Низкая"}[level]);
+}
+function randomItem(list){
+ return list[Math.floor(Math.random()*list.length)];
+}
+function openCase(type){
+ if(opening)return;
+ const price=type==="normal"?100:type==="dragon"||type==="secret"?500:0;
+ if(type==="free"&&Date.now()<freeAt){
+  alert("Бесплатный кейс пока недоступен!");
+  return;
+ }
+ if(coins<price){
+  alert("Недостаточно монет!");
+  return;
+ }
+ coins-=price;
+ if(type==="free")freeAt=Date.now()+86400000;
+ update();
+ opening=true;
+ const list=type==="dragon"?dragonCase:type==="secret"?secretCase:normalCase;
+ const base=randomItem(list);
+ const mutation=mutationRoll();
+ const result={...base,mutation,level:1,id:Date.now()+Math.random()};
+ const modal=document.getElementById("modal");
+ const icon=document.getElementById("spinIcon");
+ const name=document.getElementById("resultName");
+ const info=document.getElementById("resultInfo");
+ const close=document.getElementById("closeModal");
+ document.getElementById("modalTitle").textContent="🎁 Открытие кейса";
+ modal.style.display="flex";
+ close.classList.add("hidden");
+ name.textContent="Открываем...";
+ info.textContent="Тебе может выпасть редкий Брейнрот!";
+ icon.className="spinning";
+ icon.src="";
+ icon.alt="Открытие кейса";
+ let count=0;
+ const timer=setInterval(async()=>{
+  const preview=randomItem(list);
+  const previewUrl=await resolveImage(preview.page);
+  if(previewUrl)icon.src=previewUrl;
+  count++;
+  if(count>=10){
+   clearInterval(timer);
+   icon.className="";
+   let finalUrl=result.image||await resolveImage(result.page);
+   icon.removeAttribute("src");
+   if(finalUrl){
+    icon.src=finalUrl;
+    icon.style.display="block";
+   }else{
+    icon.style.display="none";
+   }
+   name.textContent=result.name+" — "+mutationInfo(mutation).name;
+   info.textContent="Редкость: "+result.rarity+". Цена: "+Math.floor(result.value*mutationInfo(mutation).mult)+" монет. Добавлен в коллекцию!";
+   inventory.push(result);
+   update();
+   close.classList.remove("hidden");
+   opening=false;
+  }
+ },230);
+}
+function closeCaseModal(){
+ document.getElementById("modal").style.display="none";
+ document.getElementById("spinIcon").style.display="block";
+}
+function renderInventory(){
+ const root=document.getElementById("inventory");
+ root.innerHTML="";
+ if(!inventory.length){
+  root.innerHTML='<div class="box" style="grid-column:1/-1;text-align:center">У тебя пока нет Брейнротов. Открой первый кейс!</div>';
+  return;
+ }
+ inventory.forEach(item=>{
+  const div=document.createElement("div");
+  div.className="creature";
+  renderCreatureImage(item,div);
+  const strong=document.createElement("strong");
+  strong.textContent=item.name;
+  div.appendChild(strong);
+  const level=document.createElement("div");
+  level.className="level";
+  level.textContent="⭐ Уровень "+(item.level||1)+"/5";
+  div.appendChild(level);
+  const mut=document.createElement("div");
+  mut.className="small";
+  mut.textContent=mutationInfo(item.mutation).name+" · "+(item.rarity||"Brainrot");
+  div.appendChild(mut);
+  const price=Math.max(5,Math.floor(item.value*(item.level||1)*mutationInfo(item.mutation).mult*.5));
+  const small=document.createElement("div");
+  small.className="small";
+  small.textContent="Продажа: "+price+" монет";
+  div.appendChild(small);
+  const btn=document.createElement("button");
+  btn.className="full danger";
+  btn.style.marginTop="9px";
+  btn.textContent="Продать";
+  btn.onclick=()=>sellCreature(item.id);
+  div.appendChild(btn);
+  root.appendChild(div);
+ });
+}
+function sellCreature(id){
+ const i=inventory.findIndex(x=>String(x.id)===String(id));
+ if(i<0)return;
+ const item=inventory[i];
+ const price=Math.max(5,Math.floor(item.value*(item.level||1)*mutationInfo(item.mutation).mult*.5));
+ if(!confirm("Продать "+item.name+" за "+price+" монет?"))return;
+ inventory.splice(i,1);
+ coins+=price;
+ update();
+}
+function renderUpgradeSelects(){
+ const source=document.getElementById("upgradeSource");
+ const target=document.getElementById("upgradeTarget");
+ if(!source||!target)return;
+ const oldSource=source.value,oldTarget=target.value;
+ source.innerHTML='<option value="">Выбери из коллекции</option>';
+ inventory.forEach(item=>{
+  const o=document.createElement("option");
+  o.value=String(item.id);
+  o.textContent=item.name+" ("+mutationInfo(item.mutation).name+")";
+  source.appendChild(o);
+ });
+ target.innerHTML="";
+ catalog.forEach((item,i)=>{
+  const o=document.createElement("option");
+  o.value=String(i);
+  o.textContent=item.name+" — "+item.rarity;
+  target.appendChild(o);
+ });
+ if(inventory.some(x=>String(x.id)===oldSource))source.value=oldSource;
+ if(oldTarget!==""&&catalog[Number(oldTarget)])target.value=oldTarget;
+ updateChance();
+}
+function updateChance(){
+ const source=inventory.find(x=>String(x.id)===document.getElementById("upgradeSource").value);
+ const target=catalog[Number(document.getElementById("upgradeTarget").value)];
+ const node=document.getElementById("chance");
+ if(!source||!target){
+  node.textContent="Шанс: —";
+  return;
+ }
+ const sourceValue=source.value*mutationInfo(source.mutation).mult;
+ const chance=Math.max(5,Math.min(90,Math.round(75*Math.sqrt(sourceValue/target.value))));
+ node.textContent="Шанс успеха: "+chance+"%";
+}
+function runUpgrade(){
+ const sourceId=document.getElementById("upgradeSource").value;
+ const target=catalog[Number(document.getElementById("upgradeTarget").value)];
+ const index=inventory.findIndex(x=>String(x.id)===sourceId);
+ if(index<0||!target){
+  alert("Выбери своего Брейнрота и цель.");
+  return;
+ }
+ const source=inventory[index];
+ const sourceValue=source.value*mutationInfo(source.mutation).mult;
+ const chance=Math.max(5,Math.min(90,Math.round(75*Math.sqrt(sourceValue/target.value))));
+ if(!confirm("Попытка апгрейда: "+chance+"%. При неудаче Брейнрот сгорит. Продолжить?"))return;
+ if(Math.random()*100<chance){
+  inventory[index]={...target,id:source.id,level:1,mutation:mutationRoll()};
+  alert("🎉 Успех! Получен "+target.name+"!");
+ }else{
+  inventory.splice(index,1);
+  alert("Неудача! Брейнрот сгорел.");
+ }
+ update();
+}
+function activatePromo(){
+ const input=document.getElementById("promoInput");
+ const code=input.value.trim().toUpperCase();
+ const message=document.getElementById("promoMessage");
+ if(!code){
+  message.textContent="Введи промокод.";
+  return;
+ }
+ if(usedPromos.includes(code)){
+  message.textContent="Ты уже использовал этот промокод.";
+  return;
+ }
+ if(!promos[code]){
+  message.textContent="Промокод не найден.";
+  return;
+ }
+ coins+=Number(promos[code]);
+ usedPromos.push(code);
+ input.value="";
+ message.textContent="Успешно! Получено "+promos[code]+" монет.";
+ update();
+}
+function createPromo(){
+ const code=document.getElementById("newPromo").value.trim().toUpperCase();
+ const reward=Number(document.getElementById("promoReward").value);
+ if(!code||!Number.isFinite(reward)||reward<=0){
+  alert("Введи название и награду больше 0.");
+  return;
+ }
+ if(promos[code]){
+  alert("Такой промокод уже существует.");
+  return;
+ }
+ promos[code]=Math.floor(reward);
+ document.getElementById("newPromo").value="";
+ document.getElementById("promoReward").value="";
+ update();
+ renderPromos();
+ alert("Промокод создан: "+code);
+}
+function renderPromos(){
+ const root=document.getElementById("promoList");
+ root.innerHTML="";
+ Object.keys(promos).forEach(code=>{
+  const p=document.createElement("p");
+  p.textContent=code+" — "+promos[code]+" монет";
+  root.appendChild(p);
+ });
+}
+function updateFree(){
+ const button=document.getElementById("freeButton");
+ const label=document.getElementById("freeTimer");
+ const remaining=freeAt-Date.now();
+ if(remaining<=0){
+  button.disabled=false;
+  label.textContent="Бесплатно";
+  button.textContent="Забрать";
+ }else{
+  button.disabled=true;
+  const h=Math.floor(remaining/3600000);
+  const m=Math.floor(remaining%3600000/60000);
+  const s=Math.floor(remaining%60000/1000);
+  label.textContent=h+"ч "+m+"м "+s+"с";
+  button.textContent="Недоступно";
+ }
+}
+function initProfile(){
+ const user=getUser();
+ if(user){
+  document.getElementById("playerName").textContent=[user.first_name,user.last_name].filter(Boolean).join(" ")||"Игрок";
+  document.getElementById("playerUsername").textContent=user.username?"@"+user.username:"";
+  if(user.photo_url)document.getElementById("avatar").innerHTML='<img src="'+escapeHTML(user.photo_url)+'" style="width:75px;height:75px;border-radius:50%;object-fit:cover">';
+  if(user.username?.toLowerCase()===OWNER.toLowerCase()){
+   document.getElementById("ownerPanel").classList.remove("hidden");
+   renderPromos();
+  }
+ }else{
+  document.getElementById("playerName").textContent="Игрок";
+  document.getElementById("playerUsername").textContent="Открой игру через Telegram";
+ }
+}
+setInterval(updateFree,1000);
+initProfile();
+setGraphics(localStorage.getItem("brainpp_graphics")||"high");
+update();
+   </script>
+</body>
+</html>
