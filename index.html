@@ -2,882 +2,645 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>BRAINPP 4.0</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BRAINPP 3.0</title>
 <style>
-:root{
-  --bg:#090711;
-  --panel:#171126;
-  --panel2:#241936;
-  --purple:#9b5cff;
-  --pink:#ff55b8;
-  --text:#fff;
-  --muted:#aaa0bd;
-  --green:#48e39b;
-  --gold:#ffc857;
-}
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,sans-serif;
-  padding-bottom:85px;
+ margin:0;padding:16px 12px 90px;background:#10101c;color:white;
+ font-family:Arial;text-align:center
 }
-body.light{
-  --bg:#f2edfa;
-  --panel:#fff;
-  --panel2:#e9def8;
-  --text:#241936;
-  --muted:#746783;
+h1{color:#b77aff;font-size:36px}
+h2{color:#c49aff;margin-top:22px}
+h3{margin:10px 0}
+.small{font-size:13px;color:#c9b9e8}
+.balance,.panel,.case,.item{
+ background:#24243b;border:1px solid #7044ae;
+ border-radius:16px;padding:15px;margin:12px 0
 }
-header{
-  position:sticky;
-  top:0;
-  z-index:10;
-  background:var(--bg);
-  border-bottom:1px solid #ffffff15;
-  padding:13px 15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.balance{font-size:21px}
+.cases,.collection{
+ display:grid;grid-template-columns:1fr 1fr;gap:10px
 }
-.logo{font-size:23px;font-weight:900;color:var(--purple)}
-.balance{
-  background:var(--panel);
-  border:1px solid #ffc85755;
-  padding:9px 13px;
-  border-radius:15px;
-  color:var(--gold);
-  font-weight:bold;
-}
-.menu-button{
-  border:0;
-  background:var(--panel);
-  color:var(--text);
-  font-size:25px;
-  border-radius:12px;
-  padding:6px 12px;
-}
-main{padding:15px;max-width:650px;margin:auto}
-h2{font-size:21px;margin:18px 0 12px}
-.subtitle{color:var(--muted);font-size:13px;margin-top:-5px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-.card{
-  background:var(--panel);
-  border:1px solid #ffffff12;
-  border-radius:18px;
-  padding:13px;
-  text-align:center;
-  overflow:hidden;
-}
-.case-icon{
-  height:105px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:65px;
-  background:var(--panel2);
-  border-radius:14px;
-  margin-bottom:10px;
-}
-.case-name{font-weight:bold;font-size:16px}
-.case-price{color:var(--gold);margin:8px 0;font-size:14px}
+.case,.item{margin:0}
 button{
-  border:0;
-  border-radius:12px;
-  padding:11px 14px;
-  background:linear-gradient(110deg,var(--purple),var(--pink));
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
+ background:linear-gradient(135deg,#a52cff,#6735df);
+ color:white;border:0;border-radius:11px;
+ padding:12px;font-size:15px;margin:5px;cursor:pointer
 }
-button:disabled{opacity:.4}
-.full{width:100%}
-.secondary{
-  background:var(--panel2);
-  color:var(--text);
-}
-.danger{background:#d94365}
-.green{background:#159b6b}
-.tabs{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  z-index:20;
-  background:var(--panel);
-  border-top:1px solid #ffffff20;
-  display:flex;
-  justify-content:space-around;
-  padding:9px 3px calc(9px + env(safe-area-inset-bottom));
-}
-.tab{
-  background:none;
-  color:var(--muted);
-  padding:7px 4px;
-  font-size:11px;
-  flex:1;
-}
-.tab.active{color:var(--purple)}
-.tab span{display:block;font-size:21px;margin-bottom:3px}
-.page{display:none}
-.page.active{display:block}
-.brain-img{
-  width:100%;
-  height:105px;
-  object-fit:contain;
-  border-radius:12px;
-  background:var(--panel2);
-}
-.item-name{font-size:13px;font-weight:bold;margin:7px 0}
-.mutation{font-size:11px;color:var(--muted)}
-.gold{color:var(--gold)}
-.rainbow{
-  background:linear-gradient(90deg,#ff5555,#ffb347,#fff45c,#54e88a,#55baff,#bd72ff);
-  -webkit-background-clip:text;
-  color:transparent;
-  font-weight:bold;
-}
-.normal{color:var(--text)}
-.result{
-  text-align:center;
-  padding:20px;
-  background:var(--panel);
-  border:1px solid var(--purple);
-  border-radius:20px;
-  margin-top:15px;
-}
-.result-icon{font-size:75px}
-.result-name{font-size:20px;font-weight:bold;margin:10px}
-.overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:40;
-  background:#000b;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-}
-.overlay.show{display:flex}
-.modal{
-  background:var(--panel);
-  border:1px solid #9b5cff66;
-  border-radius:20px;
-  padding:20px;
-  width:100%;
-  max-width:400px;
-  max-height:85vh;
-  overflow:auto;
-}
-.modal h2{margin-top:0}
+button:disabled{opacity:.4;cursor:not-allowed}
 input,select{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:1px solid #ffffff30;
-  background:var(--panel2);
-  color:var(--text);
+ width:90%;padding:12px;border-radius:9px;
+ border:1px solid #8054c5;background:#171729;
+ color:white;margin:6px
 }
-.setting-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:12px 0;
-  border-bottom:1px solid #ffffff15;
+.emoji{font-size:48px}
+#result{font-size:17px;margin:18px;min-height:28px}
+.hidden{display:none!important}
+.owner{border:2px solid gold}
+.page{max-width:600px;margin:auto}
+.nav{
+ position:fixed;bottom:0;left:0;width:100%;
+ display:grid;grid-template-columns:repeat(4,1fr);
+ background:#191629;border-top:1px solid #7044ae;
+ padding:8px 3px calc(8px + env(safe-area-inset-bottom));
+ z-index:10
 }
-.setting-row select{width:130px;margin:0}
-.toast{
-  position:fixed;
-  z-index:100;
-  bottom:90px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#302344;
-  padding:12px 18px;
-  border-radius:12px;
-  display:none;
-  max-width:90%;
-  text-align:center;
+.nav button{
+ background:transparent;margin:0;padding:8px 2px;
+ font-size:12px;border-radius:9px
 }
-.toast.show{display:block}
-.profile-box{
-  background:var(--panel);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:12px;
+.nav button.active{
+ background:#56318b;color:#fff
 }
-.stat{
-  display:flex;
-  justify-content:space-between;
-  padding:9px 0;
-  border-bottom:1px solid #ffffff15;
+.nav span{display:block;font-size:20px;margin-bottom:4px}
+#avatar{
+ width:105px;height:105px;border-radius:50%;
+ object-fit:cover;border:3px solid #a875ff;
+ background:#24243b
 }
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:30px 10px;
+.profile-stat{
+ background:#24243b;border:1px solid #7044ae;
+ border-radius:13px;padding:13px;margin:9px 0;
+ display:flex;justify-content:space-between
 }
-.small{font-size:12px;color:var(--muted)}
-.wish-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  padding:9px;
-  background:var(--panel2);
-  border-radius:10px;
-  margin:7px 0;
+.wheel-wrap{position:relative;width:230px;margin:25px auto}
+.wheel{
+ width:220px;height:220px;border-radius:50%;
+ border:7px solid #a875ff;
+ background:conic-gradient(
+  #7134c7 0deg 120deg,
+  #a52cff 120deg 240deg,
+  #422477 240deg 360deg
+ );
+ display:flex;align-items:center;justify-content:center;
+ box-shadow:0 0 25px #8b42dd;
+ transition:transform 2.5s cubic-bezier(.12,.7,.15,1)
 }
+.wheel.spinning{transform:rotate(1800deg)}
+.wheel-label{
+ position:absolute;font-size:23px;font-weight:bold;
+ text-shadow:0 2px 5px #000
+}
+.label-one{top:20px;left:50%;transform:translateX(-50%)}
+.label-two{bottom:30px;right:22px}
+.label-three{bottom:30px;left:22px}
+.pointer{
+ position:absolute;top:-13px;left:50%;
+ transform:translateX(-50%);
+ color:#ffd85a;font-size:30px;z-index:2
+}
+.chances{
+ display:flex;justify-content:space-around;
+ gap:5px;margin:15px 0
+}
+.chance{
+ flex:1;background:#171729;border-radius:10px;padding:10px 3px;
+ border:1px solid #7044ae;font-size:13px
+}
+.free-label{color:#7dffad;font-weight:bold}
 </style>
 </head>
 <body>
 
-<header>
-  <button class="menu-button" onclick="openSettings()">☰</button>
-  <div class="logo">BRAINPP</div>
-  <div class="balance">🪙 <span id="balance">0</span></div>
-</header>
+<h1>🧠 BRAINPP</h1>
+<p class="small">Открывай кейсы • Собирай брейнротов • Улучшай их</p>
 
-<main>
-  <section class="page active" id="page-cases">
-    <h2>🎁 Кейсы</h2>
-    <p class="subtitle">Открывай кейсы и собирай коллекцию!</p>
-
-    <div class="grid">
-      <div class="card">
-        <div class="case-icon">📦</div>
-        <div class="case-name">Обычный кейс</div>
-        <div class="case-price">🪙 100 монет</div>
-        <button class="full" onclick="openCase('normal')">Открыть</button>
-      </div>
-
-      <div class="card">
-        <div class="case-icon">🐉</div>
-        <div class="case-name">Драконий кейс</div>
-        <div class="case-price">🪙 500 монет</div>
-        <button class="full" onclick="openCase('dragon')">Открыть</button>
-      </div>
-
-      <div class="card">
-        <div class="case-icon">🔮</div>
-        <div class="case-name">Секретный кейс</div>
-        <div class="case-price">🪙 500 монет</div>
-        <button class="full" onclick="openCase('secret')">Открыть</button>
-      </div>
-
-      <div class="card">
-        <div class="case-icon">🎁</div>
-        <div class="case-name">Бесплатный кейс</div>
-        <div class="case-price">Бесплатно раз в 24 часа</div>
-        <button class="full" onclick="openCase('free')" id="freeButton">Забрать</button>
-      </div>
-    </div>
-
-    <div id="caseResult"></div>
-  </section>
-
-  <section class="page" id="page-collection">
-    <h2>🧠 Моя коллекция</h2>
-    <p class="subtitle">Твои собранные Брейнроты</p>
-    <div id="inventory" class="grid"></div>
-  </section>
-
-  <section class="page" id="page-upgrade">
-    <h2>⚡ Улучшение</h2>
-    <p class="subtitle">Попробуй улучшить мутацию Брейнрота</p>
-    <div class="card">
-      <div style="font-size:55px">⚡</div>
-      <p>Выбери Брейнрота:</p>
-      <select id="upgradeSelect"></select>
-      <button class="full" onclick="spinUpgrade()">Улучшить</button>
-      <p class="small">70% — улучшение, 25% — без изменений, 5% — потеря Брейнрота.</p>
-    </div>
-  </section>
-
-  <section class="page" id="page-wishes">
-    <h2>⭐ Каталог</h2>
-    <p class="subtitle">Добавляй персонажей в список желаний</p>
-    <div id="wishes"></div>
-  </section>
-
-  
-<div class="profile-box">
-  <div style="text-align:center;margin-bottom:12px">
-    <img id="profileAvatar" src=""
-      style="width:90px;height:90px;border-radius:50%;object-fit:cover;display:none;border:3px solid #9b5cff">
-    <div id="profileAvatarFallback" style="font-size:65px">👤</div>
-  </div>
-  <h2 id="profileName" style="text-align:center">Игрок</h2>
-  <div class="stat"><span>Монеты</span><b id="profileCoins">0</b></div>
-  <div class="stat"><span>Брейнроты</span><b id="profileCount">0</b></div>
-  <div class="stat"><span>Открыто кейсов</span><b id="profileOpened">0</b></div>
+<div class="balance">
+ 🪙 Баланс: <b id="coins">0</b> монет
 </div>
-  
 
-    <div class="card">
-      <h3>🎟️ Промокод</h3>
-      <input id="promoInput" placeholder="Введи промокод">
-      <button class="full" onclick="usePromo()">Активировать</button>
-    </div>
+<!-- ГЛАВНАЯ -->
+<section id="homePage" class="page">
+ <h2>🎁 Кейсы</h2>
+ <div class="cases">
+  <div class="case">
+   <div class="emoji">🎁</div>
+   <h3>Обычный кейс</h3>
+   <p>100 монет</p>
+   <button onclick="openCase('normal')">Открыть</button>
+  </div>
 
-    <div class="card" id="ownerPanel" style="display:none;margin-top:12px">
-      <h3>👑 Панель владельца</h3>
-      <input id="newPromo" placeholder="Название промокода">
-      <input id="promoReward" type="number" placeholder="Награда в монетах">
-      <button class="full" onclick="createPromo()">Создать промокод</button>
-      <div id="promoList"></div>
-    </div>
-  </section>
-</main>
+  <div class="case">
+   <div class="emoji">🐉</div>
+   <h3>Драконий кейс</h3>
+   <p>500 монет</p>
+   <button onclick="openCase('dragon')">Открыть</button>
+  </div>
 
-<nav class="tabs">
-  <button class="tab active" onclick="showPage('cases',this)"><span>🎁</span>Кейсы</button>
-  <button class="tab" onclick="showPage('collection',this)"><span>🧠</span>Коллекция</button>
-  <button class="tab" onclick="showPage('upgrade',this)"><span>⚡</span>Улучшение</button>
-  <button class="tab" onclick="showPage('wishes',this)"><span>⭐</span>Каталог</button>
-  <button class="tab" onclick="showPage('profile',this)"><span>👤</span>Профиль</button>
+  <div class="case">
+   <div class="emoji">👑</div>
+   <h3>Секретный кейс</h3>
+   <p>500 монет</p>
+   <button onclick="openCase('secret')">Открыть</button>
+  </div>
+
+  <div class="case">
+   <div class="emoji">🎁</div>
+   <h3>Бесплатный кейс</h3>
+   <p>Раз в 24 часа</p>
+   <button onclick="openFree()">Открыть</button>
+  </div>
+ </div>
+
+ <h2>🎟 Промокоды</h2>
+ <div class="panel">
+  <p>Введи промокод и получи монеты!</p>
+  <input id="promoInput" placeholder="ВВЕДИ ПРОМОКОД">
+  <button onclick="usePromo()">Активировать</button>
+ </div>
+
+ <div id="ownerPanel" class="panel owner hidden">
+  <h2>👑 Панель владельца</h2>
+  <p>Создание промокодов</p>
+  <input id="newPromo" placeholder="Название промокода">
+  <input id="promoAmount" type="number" min="1" placeholder="Количество монет">
+  <button onclick="createPromo()">Создать промокод</button>
+  <div id="promoList"></div>
+  <p class="small">Владелец: @skeruuuttnewera</p>
+ </div>
+</section>
+
+<!-- КОЛЛЕКЦИЯ -->
+<section id="collectionPage" class="page hidden">
+ <h2>📦 Моя коллекция</h2>
+ <p class="small">Здесь находятся все твои брейнроты</p>
+ <div class="collection" id="collection"></div>
+</section>
+
+<!-- АПГРЕЙДЕР -->
+<section id="upgraderPage" class="page hidden">
+ <h2>⚡ АПГРЕЙДЕР</h2>
+ <div class="panel">
+  <p>Выбери брейнрота, которого хочешь улучшить!</p>
+  <select id="upgradeSelect" onchange="selectUpgrade()">
+   <option value="">Выбери брейнрота</option>
+  </select>
+
+  <div class="wheel-wrap">
+   <div class="pointer">▼</div>
+   <div class="wheel" id="wheel">
+    <span class="wheel-label label-one">+1</span>
+    <span class="wheel-label label-two">+2</span>
+    <span class="wheel-label label-three">+3</span>
+   </div>
+  </div>
+
+  <div class="chances">
+   <div class="chance">+1 уровень<br><b>70%</b></div>
+   <div class="chance">+2 уровня<br><b>25%</b></div>
+   <div class="chance">+3 уровня<br><b>5%</b></div>
+  </div>
+
+  <p class="free-label">БЕСПЛАТНО • БЕЗ ОГРАНИЧЕНИЙ</p>
+  <button id="spinButton" onclick="spinUpgrade()">🎰 КРУТИТЬ!</button>
+  <p id="upgradeResult" class="small">Выбери брейнрота для улучшения</p>
+ </div>
+</section>
+
+<!-- ПРОФИЛЬ -->
+<section id="profilePage" class="page hidden">
+ <h2>👤 МОЙ ПРОФИЛЬ</h2>
+ <div class="panel">
+  <img id="avatar" alt="Аватар" src="">
+  <h2 id="playerName">Игрок</h2>
+  <p id="playerUsername" class="small">@username</p>
+  <p id="ownerLabel" class="small"></p>
+ </div>
+
+ <h2>📊 Статистика</h2>
+ <div class="profile-stat">
+  <span>🪙 Баланс</span>
+  <b id="profileCoins">0</b>
+ </div>
+ <div class="profile-stat">
+  <span>🧠 Брейнротов собрано</span>
+  <b id="profileBrainrots">0</b>
+ </div>
+ <div class="profile-stat">
+  <span>⭐ Общий уровень</span>
+  <b id="profileLevel">0</b>
+ </div>
+ <div class="profile-stat">
+  <span>🆔 Telegram ID</span>
+  <b id="profileId">Не найден</b>
+ </div>
+ <p class="small">BRAINPP 3.0</p>
+</section>
+
+<div id="result"></div>
+
+<!-- НИЖНЕЕ МЕНЮ -->
+<nav class="nav">
+ <button class="active" onclick="showTab('homePage',this)">
+  <span>🏠</span>Главная
+ </button>
+ <button onclick="showTab('collectionPage',this)">
+  <span>📦</span>Коллекция
+ </button>
+ <button onclick="showTab('upgraderPage',this)">
+  <span>⚡</span>Апгрейдер
+ </button>
+ <button onclick="showTab('profilePage',this)">
+  <span>👤</span>Профиль
+ </button>
 </nav>
 
-<div class="overlay" id="settingsModal">
-  <div class="modal">
-    <h2>⚙️ Настройки</h2>
-
-    <div class="setting-row">
-      <span>🎨 Графика</span>
-      <select id="graphics" onchange="setGraphics(this.value)">
-        <option value="high">Высокая</option>
-        <option value="medium">Средняя</option>
-        <option value="low">Низкая</option>
-      </select>
-    </div>
-
-    <div class="setting-row">
-      <span>✨ Анимации</span>
-      <input type="checkbox" id="animations" onchange="toggleSetting('animations',this.checked)" style="width:auto">
-    </div>
-
-    <div class="setting-row">
-      <span>🔊 Звук</span>
-      <input type="checkbox" id="sound" onchange="toggleSetting('sound',this.checked)" style="width:auto">
-    </div>
-
-    <div class="setting-row">
-      <span>🌙 Тёмная тема</span>
-      <input type="checkbox" id="darkTheme" onchange="toggleSetting('darkTheme',this.checked)" style="width:auto">
-    </div>
-
-    <div class="setting-row">
-      <span>📳 Вибрация</span>
-      <input type="checkbox" id="vibration" onchange="toggleSetting('vibration',this.checked)" style="width:auto">
-    </div>
-
-    <button class="full danger" onclick="resetSettings()">Сбросить настройки</button>
-    <button class="full secondary" style="margin-top:9px" onclick="closeSettings()">Закрыть</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
 <script>
-const OWNER="skeruuuttnewera";
+const OWNER = "skeruuuttnewera";
 
-const normalCase=[
-{name:"Noobini Pizzanini",emoji:"🍕",chance:35,value:20},
-{name:"Lirili Larila",emoji:"🌵",chance:25,value:30},
-{name:"Tim Cheese",emoji:"🧀",chance:20,value:40},
-{name:"Fluriflura",emoji:"🌸",chance:12,value:65},
-{name:"Trippi Troppi",emoji:"🦐",chance:6,value:100},
-{name:"Cappuccino Assassino",emoji:"☕",chance:2,value:200}
+const brainrots = [
+ {name:"Тунг Тунг Тунг Сахур",emoji:"🪵",price:25},
+ {name:"Бомбардиро Крокодило",emoji:"🐊",price:50},
+ {name:"Тралалеро Тралала",emoji:"🦈",price:75},
+ {name:"Бомбини Гусини",emoji:"🪿",price:100},
+ {name:"Лирили Ларила",emoji:"🐘",price:150},
+ {name:"Капучино Ассасино",emoji:"☕",price:200}
 ];
 
-const dragonCase=[
-{name:"Dragon Cannelloni",emoji:"🐉",chance:25,value:500},
-{name:"Dragon Gingerini",emoji:"🐲",chance:20,value:450},
-{name:"Hydra Dragon Cannelloni",emoji:"🐉",chance:15,value:700},
-{name:"Arcadragon",emoji:"🔥",chance:12,value:650},
-{name:"Dragon Aquanini",emoji:"🌊",chance:10,value:600},
-{name:"Caylusaurus",emoji:"🦖",chance:8,value:800},
-{name:"Los Dragons",emoji:"🐲",chance:6,value:1000},
-{name:"Dragon Skeletonini",emoji:"💀",chance:4,value:1200}
+const dragons = [
+ {name:"Дракон Брейнрот",emoji:"🐉",price:350},
+ {name:"Огненный Дракон",emoji:"🔥",price:450},
+ {name:"Золотой Дракон",emoji:"🐲",price:600}
 ];
 
-const secretCase=[
-{name:"Secret Brainrot",emoji:"👁️",chance:35,value:300},
-{name:"La Grande Combinasion",emoji:"🌟",chance:25,value:450},
-{name:"Nuclearo Dinossauro",emoji:"☢️",chance:20,value:600},
-{name:"Dragon Cannelloni",emoji:"🐉",chance:12,value:900},
-{name:"Secret Lucky",emoji:"🍀",chance:8,value:1500}
-];
+const secret = {
+ name:"Тайный Брейнрот",emoji:"👑",price:500
+};
 
-const allCharacters=[...normalCase,...dragonCase,...secretCase];
-
-let data=JSON.parse(localStorage.getItem("brainpp_data")||"null");
-
-if(!data){
-  data={
-    coins:0,
-    inventory:[],
-    opened:0,
-    lastFree:0,
-    usedPromos:[],
-    wishes:[],
-    promos:{}
-  };
+function readJSON(key,fallback){
+ try{
+  const value=localStorage.getItem(key);
+  return value ? JSON.parse(value) : fallback;
+ }catch(e){return fallback;}
 }
 
-let settings=JSON.parse(localStorage.getItem("brainpp_settings")||"null");
+let coins=Number(localStorage.getItem("brainpp_coins")||0);
+let collection=readJSON("brainpp_collection",[]);
+let promos=readJSON("brainpp_promos",{});
+let usedPromos=readJSON("brainpp_used_promos",[]);
+let selectedUpgradeIndex=-1;
+let spinning=false;
 
-if(!settings){
-  settings={
-    graphics:"high",
-    animations:true,
-    sound:true,
-    darkTheme:true,
-    vibration:true
-  };
+const user=window.Telegram?.WebApp?.initDataUnsafe?.user||{};
+const username=(user.username||"").toLowerCase();
+const isOwner=username===OWNER;
+
+function showTab(pageId,button){
+ document.querySelectorAll(".page").forEach(page=>{
+  page.classList.add("hidden");
+ });
+ document.getElementById(pageId).classList.remove("hidden");
+
+ document.querySelectorAll(".nav button").forEach(btn=>{
+  btn.classList.remove("active");
+ });
+ button.classList.add("active");
+
+ if(pageId==="upgraderPage")renderUpgrader();
 }
 
 function save(){
-  localStorage.setItem("brainpp_data",JSON.stringify(data));
+ localStorage.setItem("brainpp_coins",coins);
+ localStorage.setItem("brainpp_collection",JSON.stringify(collection));
+ render();
 }
 
-function saveSettings(){
-  localStorage.setItem("brainpp_settings",JSON.stringify(settings));
+function updateProfile(){
+ const name=[user.first_name||"",user.last_name||""].join(" ").trim();
+
+ document.getElementById("playerName").textContent=name||"Игрок";
+ document.getElementById("playerUsername").textContent=
+  user.username?"@"+user.username:"Telegram не подключён";
+
+ document.getElementById("profileCoins").textContent=coins;
+ document.getElementById("profileBrainrots").textContent=collection.length;
+
+ const totalLevel=collection.reduce((sum,item)=>{
+  return sum+(Number(item.level)||0);
+ },0);
+
+ document.getElementById("profileLevel").textContent=totalLevel;
+ document.getElementById("profileId").textContent=user.id||"Не найден";
+
+ document.getElementById("ownerLabel").textContent=
+  isOwner?"👑 Владелец игры":"Игрок BRAINPP";
+
+ const avatar=document.getElementById("avatar");
+ if(user.photo_url){
+  avatar.src=user.photo_url;
+ }else{
+  avatar.removeAttribute("src");
+ }
 }
 
-function toast(message){
-  const el=document.getElementById("toast");
-  el.textContent=message;
-  el.classList.add("show");
-  clearTimeout(window.toastTimer);
-  window.toastTimer=setTimeout(()=>el.classList.remove("show"),2500);
+function render(){
+ document.getElementById("coins").textContent=coins;
+ updateProfile();
+ renderCollection();
+ renderUpgrader();
 }
 
-function vibrate(){
-  if(settings.vibration && navigator.vibrate) navigator.vibrate(40);
+function renderCollection(){
+ const area=document.getElementById("collection");
+ area.innerHTML="";
+
+ if(collection.length===0){
+  area.textContent="Коллекция пока пуста";
+  return;
+ }
+
+ collection.forEach((item,index)=>{
+  const div=document.createElement("div");
+  div.className="item";
+
+  const emoji=document.createElement("div");
+  emoji.className="emoji";
+  emoji.textContent=item.emoji;
+
+  const name=document.createElement("b");
+  name.textContent=item.name;
+
+  const level=document.createElement("p");
+  level.textContent="Уровень: "+(item.level||0)+"/5";
+
+  const price=document.createElement("p");
+  price.textContent="Цена продажи: "+getSellPrice(item)+" монет";
+
+  const sell=document.createElement("button");
+  sell.textContent="💰 Продать";
+  sell.onclick=()=>sellBrainrot(index);
+
+  div.append(emoji,name,level,price,sell);
+  area.appendChild(div);
+ });
 }
 
-function sound(){
-  if(!settings.sound)return;
-  try{
-    const AudioCtx=window.AudioContext||window.webkitAudioContext;
-    if(!AudioCtx)return;
-    const ctx=new AudioCtx();
-    const oscillator=ctx.createOscillator();
-    const gain=ctx.createGain();
-    oscillator.connect(gain);
-    gain.connect(ctx.destination);
-    oscillator.frequency.value=550;
-    gain.gain.value=0.05;
-    oscillator.start();
-    oscillator.stop(ctx.currentTime+0.12);
-  }catch(e){}
-}
-
-function showPage(name,button){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById("page-"+name).classList.add("active");
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  if(button)button.classList.add("active");
-
-  if(name==="collection")renderMine();
-  if(name==="upgrade")renderSelect();
-  if(name==="wishes")renderWishes();
-  if(name==="profile")renderProfile();
-}
-
-function weightedRandom(list){
-  let total=list.reduce((sum,item)=>sum+item.chance,0);
-  let random=Math.random()*total;
-  for(const item of list){
-    random-=item.chance;
-    if(random<=0)return item;
-  }
-  return list[0];
-}
-
-function randomMutation(){
-  const n=Math.random()*100;
-  if(n<5)return "rainbow";
-  if(n<20)return "gold";
-  return "normal";
-}
-
-function mutationName(m){
-  if(m==="rainbow")return "🌈 Радужный";
-  if(m==="gold")return "🥇 Золотой";
-  return "Обычный";
-}
-
-function imageHTML(item){
-  // Если изображение с вики недоступно, показывается символ персонажа.
-  const filename=encodeURIComponent(item.name.replaceAll(" ","_")+".png");
-  const url="https://stealabrainrot.wiki/Special:FilePath/"+filename;
-  return `<img class="brain-img" src="${url}" alt="${escapeHTML(item.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-  <div class="brain-img" style="display:none;align-items:center;justify-content:center;font-size:55px">${item.emoji||"🧠"}</div>`;
-}
-
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g,char=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[char]));
+function addBrainrot(item){
+ collection.push({...item,level:0});
+ save();
+ document.getElementById("result").textContent=
+  "🎉 Выпал: "+item.emoji+" "+item.name+"!";
 }
 
 function openCase(type){
-  let price=0;
-  let list;
+ const cost=type==="normal"?100:500;
 
-  if(type==="normal"){price=100;list=normalCase}
-  if(type==="dragon"){price=500;list=dragonCase}
-  if(type==="secret"){price=500;list=secretCase}
+ if(coins<cost){
+  document.getElementById("result").textContent="❌ Недостаточно монет!";
+  return;
+ }
 
-  if(type==="free"){
-    const now=Date.now();
-    if(now-data.lastFree<86400000){
-      const remaining=86400000-(now-data.lastFree);
-      const hours=Math.ceil(remaining/3600000);
-      toast("Бесплатный кейс будет доступен через "+hours+" ч.");
-      return;
-    }
-    data.lastFree=now;
-    list=normalCase;
-  }else{
-    if(data.coins<price){
-      toast("Недостаточно монет!");
-      return;
-    }
-    data.coins-=price;
-  }
+ coins-=cost;
 
-  const character=weightedRandom(list);
-  const mutation=randomMutation();
+ if(type==="secret"){
+  addBrainrot(secret);
+  return;
+ }
 
-  const item={
-    id:Date.now()+Math.floor(Math.random()*100000),
-    name:character.name,
-    emoji:character.emoji,
-    mutation:mutation,
-    value:character.value*(mutation==="gold"?3:mutation==="rainbow"?8:1)
-  };
+ if(type==="dragon"){
+  addBrainrot(dragons[Math.floor(Math.random()*dragons.length)]);
+  return;
+ }
 
-  data.inventory.push(item);
-  data.opened++;
-
-  save();
-  update();
-  sound();
-  vibrate();
-
-  document.getElementById("caseResult").innerHTML=`
-    <div class="result">
-      <div class="result-icon">${item.emoji}</div>
-      <div class="small">ТЕБЕ ВЫПАЛ</div>
-      <div class="result-name">${escapeHTML(item.name)}</div>
-      <div class="${item.mutation}">${mutationName(item.mutation)}</div>
-      <p>Стоимость: 🪙 ${item.value}</p>
-      <button class="full" onclick="showPage('collection',document.querySelectorAll('.tab')[1])">В коллекцию</button>
-    </div>`;
-
-  toast("Поздравляем! Новый Брейнрот!");
+ addBrainrot(brainrots[Math.floor(Math.random()*brainrots.length)]);
 }
 
-function renderMine(){
-  const box=document.getElementById("inventory");
-  if(!data.inventory.length){
-    box.innerHTML='<div class="empty" style="grid-column:1/-1">У тебя пока нет Брейнротов 😢<br>Открой свой первый кейс!</div>';
-    return;
-  }
+function openFree(){
+ const last=Number(localStorage.getItem("brainpp_free_time")||0);
 
-  box.innerHTML=data.inventory.map(item=>`
-    <div class="card">
-      ${imageHTML(item)}
-      <div class="item-name">${escapeHTML(item.name)}</div>
-      <div class="${item.mutation}">${mutationName(item.mutation)}</div>
-      <p class="small">Цена: 🪙 ${item.value}</p>
-      <button class="full danger" onclick="sellItem(${item.id})">Продать</button>
-    </div>
-  `).join("");
+ if(Date.now()-last<86400000){
+  document.getElementById("result").textContent=
+   "⏳ Бесплатный кейс доступен раз в 24 часа.";
+  return;
+ }
+
+ localStorage.setItem("brainpp_free_time",Date.now());
+ addBrainrot(brainrots[Math.floor(Math.random()*brainrots.length)]);
 }
 
-function sellItem(id){
-  const index=data.inventory.findIndex(x=>x.id===id);
-  if(index<0)return;
-  const item=data.inventory[index];
-  data.coins+=item.value;
-  data.inventory.splice(index,1);
-  save();
-  update();
-  renderMine();
-  renderSelect();
-  toast("Продано за "+item.value+" монет!");
+function getSellPrice(item){
+ return Math.floor(item.price*(1+(item.level||0)*0.5));
 }
 
-function renderSelect(){
-  const select=document.getElementById("upgradeSelect");
-  if(!select)return;
+function sellBrainrot(index){
+ const item=collection[index];
+ if(!item)return;
 
-  const old=select.value;
-  select.innerHTML='<option value="">Выбери Брейнрота</option>'+
-    data.inventory.map(item=>
-      `<option value="${item.id}">${escapeHTML(item.name)} — ${mutationName(item.mutation)}</option>`
-    ).join("");
+ const price=getSellPrice(item);
+ coins+=price;
+ collection.splice(index,1);
 
-  if(data.inventory.some(x=>String(x.id)===old))select.value=old;
+ if(selectedUpgradeIndex===index)selectedUpgradeIndex=-1;
+ if(selectedUpgradeIndex>index)selectedUpgradeIndex--;
+
+ save();
+
+ document.getElementById("result").textContent=
+  "💰 Продан "+item.name+" за "+price+" монет!";
 }
 
-let spinning=false;
+function renderUpgrader(){
+ const select=document.getElementById("upgradeSelect");
+ if(!select)return;
+
+ const previous=selectedUpgradeIndex;
+ select.innerHTML="";
+
+ const first=document.createElement("option");
+ first.value="";
+ first.textContent="Выбери брейнрота";
+ select.appendChild(first);
+
+ collection.forEach((item,index)=>{
+  const option=document.createElement("option");
+  option.value=index;
+  option.textContent=item.emoji+" "+item.name+
+   " — уровень "+(item.level||0)+"/5";
+  select.appendChild(option);
+ });
+
+ if(previous>=0&&previous<collection.length){
+  selectedUpgradeIndex=previous;
+  select.value=String(previous);
+ }else{
+  selectedUpgradeIndex=-1;
+  select.value="";
+ }
+
+ updateSpinButton();
+}
+
+function selectUpgrade(){
+ const value=document.getElementById("upgradeSelect").value;
+ selectedUpgradeIndex=value===""?-1:Number(value);
+ updateSpinButton();
+
+ const item=collection[selectedUpgradeIndex];
+ document.getElementById("upgradeResult").textContent=
+  item ? item.name+" — уровень "+(item.level||0)+"/5" :
+  "Выбери брейнрота для улучшения";
+}
+
+function updateSpinButton(){
+ const button=document.getElementById("spinButton");
+ if(!button)return;
+
+ const item=collection[selectedUpgradeIndex];
+ button.disabled=spinning||!item||(item.level||0)>=5;
+
+ if(spinning){
+  button.textContent="🎰 КРУТИТСЯ...";
+ }else if(!item){
+  button.textContent="🎰 КРУТИТЬ!";
+ }else if((item.level||0)>=5){
+  button.textContent="👑 МАКСИМАЛЬНЫЙ УРОВЕНЬ";
+ }else{
+  button.textContent="🎰 КРУТИТЬ БЕСПЛАТНО!";
+ }
+}
 
 function spinUpgrade(){
-  if(spinning)return;
+ if(spinning)return;
 
-  const select=document.getElementById("upgradeSelect");
-  const index=data.inventory.findIndex(x=>String(x.id)===select.value);
+ const item=collection[selectedUpgradeIndex];
 
-  if(index<0){
-    toast("Сначала получи Брейнрота!");
-    return;
-  }
+ if(!item){
+  document.getElementById("upgradeResult").textContent=
+   "❌ Сначала выбери брейнрота!";
+  return;
+ }
 
-  const item=data.inventory[index];
+ if((item.level||0)>=5){
+  document.getElementById("upgradeResult").textContent=
+   "👑 У этого брейнрота максимальный уровень!";
+  return;
+ }
 
-  if(item.mutation==="rainbow"){
-    toast("У этого Брейнрота уже максимальная мутация!");
-    return;
-  }
+ spinning=true;
+ updateSpinButton();
 
-  spinning=true;
-  const button=document.querySelector("#page-upgrade button");
-  button.disabled=true;
-  button.textContent="Улучшение...";
+ const wheel=document.getElementById("wheel");
+ wheel.classList.remove("spinning");
+ void wheel.offsetWidth;
+ wheel.classList.add("spinning");
 
-  setTimeout(()=>{
-    const chance=Math.random()*100;
+ document.getElementById("upgradeResult").textContent="🎰 Рулетка крутится...";
 
-    if(chance<70){
-      if(item.mutation==="normal"){
-        item.mutation="gold";
-        item.value*=3;
-      }else{
-        item.mutation="rainbow";
-        item.value=Math.round(item.value/3*8);
-      }
-      toast("Успех! Мутация улучшена!");
-    }else if(chance<95){
-      toast("Не получилось! Попробуй ещё раз.");
-    }else{
-      data.inventory.splice(index,1);
-      toast("Брейнрот сгорел!");
-    }
+ setTimeout(()=>{
+  const roll=Math.random();
+  let upgrade=1;
 
-    spinning=false;
-    button.disabled=false;
-    button.textContent="Улучшить";
-
-    save();
-    update();
-    renderSelect();
-    renderMine();
-  },settings.animations?1300:100);
-}
-
-function toggleWish(name){
-  if(data.wishes.includes(name)){
-    data.wishes=data.wishes.filter(x=>x!==name);
-    toast("Удалено из желаний");
+  if(roll<0.70){
+   upgrade=1;
+  }else if(roll<0.95){
+   upgrade=2;
   }else{
-    data.wishes.push(name);
-    toast("Добавлено в желания ⭐");
+   upgrade=3;
   }
+
+  const oldLevel=Number(item.level)||0;
+  const newLevel=Math.min(5,oldLevel+upgrade);
+  const gained=newLevel-oldLevel;
+
+  item.level=newLevel;
+  spinning=false;
+
   save();
-  renderWishes();
-}
 
-function renderWishes(){
-  const box=document.getElementById("wishes");
-  box.innerHTML=allCharacters.map(item=>{
-    const selected=data.wishes.includes(item.name);
-    return `<div class="wish-row">
-      <span>${item.emoji} ${escapeHTML(item.name)}</span>
-      <button class="${selected?"secondary":"green"}" onclick="toggleWish('${escapeHTML(item.name)}')">${selected?"Убрать":"☆ Добавить"}</button>
-    </div>`;
-  }).join("");
-}
+  document.getElementById("upgradeResult").textContent=
+   "🎉 "+item.name+" получил +"+gained+
+   " уровня! Теперь уровень "+newLevel+"/5";
 
-  
-function renderProfile(){
-  const tg=window.Telegram&&window.Telegram.WebApp;
-  const user=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
-  const name=user?(user.username?"@"+user.username:user.first_name):"Игрок";
-
-  const avatar=document.getElementById("profileAvatar");
-  const fallback=document.getElementById("profileAvatarFallback");
-
-  if(user&&user.photo_url){
-    avatar.src=user.photo_url;
-    avatar.style.display="block";
-    fallback.style.display="none";
-  }else{
-    avatar.style.display="none";
-    fallback.style.display="block";
-  }
-
-  document.getElementById("profileName").textContent=name;
-  document.getElementById("profileCoins").textContent=data.coins;
-  document.getElementById("profileCount").textContent=data.inventory.length;
-  document.getElementById("profileOpened").textContent=data.opened;
-
-  const isOwner=user&&user.username&&user.username.toLowerCase()===OWNER.toLowerCase();
-  document.getElementById("ownerPanel").style.display=isOwner?"block":"none";
-
-  if(isOwner)renderPromoList();
-}
-  
-
-  document.getElementById("profileName").textContent=name;
-  document.getElementById("profileCoins").textContent=data.coins;
-  document.getElementById("profileCount").textContent=data.inventory.length;
-  document.getElementById("profileOpened").textContent=data.opened;
-
-  const isOwner=user&&user.username&&user.username.toLowerCase()===OWNER.toLowerCase();
-  document.getElementById("ownerPanel").style.display=isOwner?"block":"none";
-
-  if(isOwner)renderPromoList();
-}
-
-function usePromo(){
-  const input=document.getElementById("promoInput");
-  const code=input.value.trim().toUpperCase();
-
-  if(!code){
-    toast("Введи промокод!");
-    return;
-  }
-  
-  if(data.usedPromos.includes(code)){
-    toast("Ты уже использовал этот промокод!");
-    return;
-  }
-
-  const promo=data.promos[code];
-  if(!promo){
-    toast("Промокод не найден!");
-    return;
-  }
-
-  data.coins+=promo.reward;
-  data.usedPromos.push(code);
-  save();
-  update();
-  renderProfile();
-  input.value="";
-  toast("Промокод активирован! +"+promo.reward+" монет");
+  updateSpinButton();
+ },2600);
 }
 
 function createPromo(){
-  const code=document.getElementById("newPromo").value.trim().toUpperCase();
-  const reward=Number(document.getElementById("promoReward").value);
-  if(!code||!Number.isFinite(reward)||reward<=0){
-    toast("Проверь название и награду!");
-    return;
-  }
-  data.promos[code]={reward:Math.floor(reward)};
-  save();
-  renderPromoList();
-  toast("Промокод создан!");
+ if(!isOwner){
+  document.getElementById("result").textContent="❌ Нет доступа!";
+  return;
+ }
+
+ const code=document.getElementById("newPromo").value.trim().toUpperCase();
+ const amount=Number(document.getElementById("promoAmount").value);
+
+ if(!code||!Number.isInteger(amount)||amount<1){
+  document.getElementById("result").textContent="❌ Проверь название и сумму!";
+  return;
+ }
+
+ if(promos[code]){
+  document.getElementById("result").textContent="❌ Такой промокод уже существует!";
+  return;
+ }
+
+ promos[code]=amount;
+ localStorage.setItem("brainpp_promos",JSON.stringify(promos));
+
+ document.getElementById("newPromo").value="";
+ document.getElementById("promoAmount").value="";
+ document.getElementById("result").textContent=
+  "✅ Промокод "+code+" создан!";
+
+ renderPromoList();
+}
+
+function usePromo(){
+ const code=document.getElementById("promoInput").value.trim().toUpperCase();
+
+ if(!code||!Object.prototype.hasOwnProperty.call(promos,code)){
+  document.getElementById("result").textContent="❌ Промокод не найден!";
+  return;
+ }
+
+ if(usedPromos.includes(code)){
+  document.getElementById("result").textContent="❌ Ты уже использовал этот промокод!";
+  return;
+ }
+
+ const amount=Number(promos[code]);
+ if(!Number.isFinite(amount)||amount<1){
+  document.getElementById("result").textContent="❌ Ошибка промокода!";
+  return;
+ }
+
+ coins+=amount;
+ usedPromos.push(code);
+
+ localStorage.setItem("brainpp_used_promos",JSON.stringify(usedPromos));
+ document.getElementById("promoInput").value="";
+ save();
+
+ document.getElementById("result").textContent=
+  "🎉 Промокод активирован! Получено "+amount+" монет!";
 }
 
 function renderPromoList(){
-  const box=document.getElementById("promoList");
-  box.innerHTML="<h3>Созданные промокоды</h3>";
-  Object.entries(data.promos).forEach(([code,promo])=>{
-    box.innerHTML+=`<div class="wish-row">
-      <span>${escapeHTML(code)} — 🪙 ${promo.reward}</span>
-      <button class="secondary" onclick="copyPromo('${escapeHTML(code)}')">Копировать</button>
-    </div>`;
-  });
+ const list=document.getElementById("promoList");
+ list.innerHTML="";
+
+ Object.keys(promos).forEach(code=>{
+  const p=document.createElement("p");
+  p.textContent=code+" — "+promos[code]+" монет";
+  list.appendChild(p);
+ });
 }
 
-function copyPromo(code){
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(code).then(()=>toast("Промокод скопирован!"));
-  }else{
-    toast(code);
-  }
+if(isOwner){
+ document.getElementById("ownerPanel").classList.remove("hidden");
+ renderPromoList();
 }
 
-function update(){
-  document.getElementById("balance").textContent=data.coins;
-  const remaining=86400000-(Date.now()-data.lastFree);
-  const freeButton=document.getElementById("freeButton");
-  if(remaining>0){
-    freeButton.textContent="Через "+Math.ceil(remaining/3600000)+" ч.";
-    freeButton.disabled=true;
-  }else{
-    freeButton.textContent="Забрать";
-    freeButton.disabled=false;
-  }
-  renderProfile();
+if(window.Telegram?.WebApp){
+ window.Telegram.WebApp.ready();
+ window.Telegram.WebApp.expand();
 }
 
-function openSettings(){
-  document.getElementById("settingsModal").classList.add("show");
-}
-function closeSettings(){
-  document.getElementById("settingsModal").classList.remove("show");
-}
-function applySettings(){
-  document.getElementById("graphics").value=settings.graphics;
-  document.getElementById("animations").checked=settings.animations;
-  document.getElementById("sound").checked=settings.sound;
-  document.getElementById("darkTheme").checked=settings.darkTheme;
-  document.getElementById("vibration").checked=settings.vibration;
-  document.body.classList.toggle("light",!settings.darkTheme);
-}
-function setGraphics(value){
-  settings.graphics=value;
-  saveSettings();
-  applySettings();
-}
-function toggleSetting(name,value){
-  settings[name]=value;
-  saveSettings();
-  applySettings();
-}
-function resetSettings(){
-  settings={
-    graphics:"high",
-    animations:true,
-    sound:true,
-    darkTheme:true,
-    vibration:true
-  };
-  saveSettings();
-  applySettings();
-  toast("Настройки сброшены");
-}
-
-applySettings();
-update();
-renderMine();
-renderWishes();
-renderSelect();
-
-if(window.Telegram&&window.Telegram.WebApp){
-  Telegram.WebApp.ready();
-  Telegram.WebApp.expand();
-}
+render();
 </script>
 </body>
-</html>
-
-     
+ </html>
+ 
