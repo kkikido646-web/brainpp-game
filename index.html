@@ -189,3 +189,246 @@ function sell(id){let i=inventory.findIndex(x=>x.id===id);if(i<0)return;let item
 function renderSelect(){let s=document.getElementById("upgradeSelect");if(!s)return;let old=s.value;s.innerHTML="";inventory.forEach(x=>{let o=document.createElement("option");o.value=x.id;o.textContent=x.name+" — "+info(x.mutation).name;s.appendChild(o)});if(old)s.value=old}
 let spinning=false;
 function spinUpgrade(){if(spinning)return;let s=document.getElementById("upgradeSelect"),idx=inventory.findIndex(x=>x.id===s.value);if(idx<0){toast("Сначала получи Брейнрота!");return}let item=inventory[idx];if(item.mutation==="rainbow"){toa
+  
+let spinning=false;
+
+function spinUpgrade(){
+ if(spinning)return;
+ const s=document.getElementById("upgradeSelect");
+ const idx=inventory.findIndex(x=>x.id===s.value);
+ if(idx<0){toast("Сначала получи Брейнрота!");return}
+ const item=inventory[idx];
+
+ if(item.mutation==="rainbow"){
+  toast("Этот персонаж уже радужный!");
+  return;
+ }
+
+ spinning=true;
+ const button=document.getElementById("upgradeButton");
+ const wheel=document.getElementById("wheel");
+ button.disabled=true;
+ wheel.style.transform="rotate("+(1080+Math.random()*720)+"deg)";
+ feedback();
+
+ setTimeout(()=>{
+  const current=inventory.findIndex(x=>x.id===item.id);
+  if(current<0){
+   spinning=false;
+   button.disabled=false;
+   return;
+  }
+
+  const chance=Math.random()*100;
+
+  if(chance<70){
+   inventory[current].mutation=item.mutation==="normal"?"gold":"rainbow";
+   toast("🎉 Улучшение успешно!");
+  }else if(chance<95){
+   toast("😐 Ничего не изменилось!");
+  }else{
+   inventory.splice(current,1);
+   toast("💥 Персонаж сгорел!");
+  }
+
+  save();
+  update();
+  renderMine();
+  renderSelect();
+  wheel.style.transform="rotate(0deg)";
+  button.disabled=false;
+  spinning=false;
+ },3100);
+}
+
+// Желаемые персонажи
+function toggleWish(name){
+ if(wishes.includes(name)){
+  wishes=wishes.filter(x=>x!==name);
+  toast("Удалено из желаемых");
+ }else{
+  wishes.push(name);
+  toast("Добавлено в желаемые ⭐");
+ }
+ save();
+ renderWishes();
+}
+
+function renderWishes(){
+ const g=document.getElementById("wishGrid");
+ g.innerHTML="";
+
+ catalog.forEach(item=>{
+  const selected=wishes.includes(item.name);
+  const c=document.createElement("div");
+  c.className="card";
+  c.innerHTML=
+   imageHTML(item)+
+   '<div class="creature-name">'+esc(item.name)+'</div>'+
+   '<div class="small">'+(item.type==="dragon"?"🐉 Дракон":"🧠 Брейнрот")+'</div>'+
+   '<button class="full '+(selected?"secondary":"")+'" style="margin-top:8px" onclick="toggleWish(\''+esc(item.name)+'\')">'+
+   (selected?"Убрать ⭐":"Добавить ⭐")+
+   '</button>';
+  g.appendChild(c);
+ });
+}
+
+// Профиль
+function renderProfile(){
+ const u=user();
+ document.getElementById("profileName").textContent=
+  u?.first_name||u?.username||"Игрок";
+
+ document.getElementById("profileUsername").textContent=
+  u?.username?"@"+u.username:"Telegram не подключён";
+
+ document.getElementById("ownerPanel").style.display=
+  isOwner()?"block":"none";
+
+ renderPromoList();
+ update();
+}
+
+function usePromo(){
+ const input=document.getElementById("promoInput");
+ const code=input.value.trim().toUpperCase();
+
+ if(!code){
+  toast("Введи промокод!");
+  return;
+ }
+
+ if(used.includes(code)){
+  toast("Ты уже использовал этот промокод!");
+  return;
+ }
+
+ const reward=promos[code];
+
+ if(!reward){
+  toast("Промокод не найден!");
+  return;
+ }
+
+ coins+=Number(reward);
+ used.push(code);
+ save();
+ update();
+ input.value="";
+ toast("🎉 Получено "+reward+" монет!");
+ feedback();
+}
+
+function createPromo(){
+ if(!isOwner()){
+  toast("Нет доступа!");
+  return;
+ }
+
+ const input=document.getElementById("newPromo");
+ const rewardInput=document.getElementById("promoReward");
+ const code=input.value.trim().toUpperCase();
+ const reward=Math.floor(Number(rewardInput.value));
+
+ if(!code){
+  toast("Введи название промокода!");
+  return;
+ }
+
+ if(!Number.isFinite(reward)||reward<1){
+  toast("Укажи награду больше 0!");
+  return;
+ }
+
+ if(promos[code]){
+  toast("Такой промокод уже существует!");
+  return;
+ }
+
+ promos[code]=reward;
+ save();
+ input.value="";
+ rewardInput.value="";
+ renderPromoList();
+ toast("Промокод создан!");
+}
+
+function renderPromoList(){
+ const list=document.getElementById("promoList");
+ if(!list)return;
+
+ const entries=Object.entries(promos);
+
+ if(!entries.length){
+  list.textContent="Промокодов пока нет.";
+  return;
+ }
+
+ list.innerHTML="<b>Созданные промокоды:</b><br>"+
+  entries.map(([code,reward])=>
+   esc(code)+" — "+reward+" монет"
+  ).join("<br>");
+}
+
+// Настройки
+function applySettings(){
+ document.body.classList.toggle("light",!settings.theme);
+ document.body.classList.toggle("low",settings.graphics==="low");
+ document.body.classList.toggle("no-animations",!settings.animations);
+
+ document.getElementById("graphics").value=settings.graphics;
+ document.getElementById("animations").checked=settings.animations;
+ document.getElementById("sound").checked=settings.sound;
+ document.getElementById("theme").checked=settings.theme;
+ document.getElementById("vibration").checked=settings.vibration;
+}
+
+function setGraphics(value){
+ settings.graphics=value;
+ localStorage.setItem("brainpp_graphics",value);
+ applySettings();
+}
+
+function toggleSetting(name,value){
+ settings[name]=value;
+
+ const keys={
+  animations:"brainpp_animations",
+  sound:"brainpp_sound",
+  theme:"brainpp_theme",
+  vibration:"brainpp_vibration"
+ };
+
+ if(keys[name]){
+  localStorage.setItem(keys[name],String(value));
+ }
+
+ applySettings();
+}
+
+function resetSettings(){
+ settings={
+  graphics:"high",
+  animations:true,
+  sound:true,
+  theme:true,
+  vibration:true
+ };
+
+ localStorage.setItem("brainpp_graphics","high");
+ localStorage.setItem("brainpp_animations","true");
+ localStorage.setItem("brainpp_sound","true");
+ localStorage.setItem("brainpp_theme","true");
+ localStorage.setItem("brainpp_vibration","true");
+
+ applySettings();
+ toast("Настройки сброшены!");
+}
+
+// Запуск игры
+applySettings();
+update();
+renderMine();
+renderWishes();
+renderProfile();
+ 
