@@ -531,4 +531,173 @@ function formatTime(ms){
   return h+" ч. "+m+" мин.";
 }
 function updateFreeButton(){
-  co
+  ins=document.getElementById("freeButton");
+  if(Date.now()>=freeAt){
+    coins>=0;
+    if(ins)ins.textContent="Открыть";
+  }else{
+    if(ins)ins.textContent="Через "+formatTime(freeAt-Date.now());
+  }
+}
+
+function showResult(creature){
+  document.getElementById("resultImage").innerHTML=imageHTML(creature,true);
+  document.getElementById("resultName").textContent=creature.name;
+  const m=mutationInfo(creature.mutation);
+  document.getElementById("resultMutation").textContent=m.name;
+  document.getElementById("resultMutation").className="result-mutation "+m.class;
+  document.getElementById("resultModal").classList.add("open");
+}
+function closeResult(){
+  document.getElementById("resultModal").classList.remove("open");
+}
+function renderCollection(){
+  const grid=document.getElementById("inventoryGrid");
+  const empty=document.getElementById("emptyCollection");
+  grid.innerHTML="";
+  empty.style.display=inventory.length?"none":"block";
+  inventory.forEach((item,index)=>{
+    const m=mutationInfo(item.mutation);
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+      ${imageHTML(item)}
+      <div class="creature-name">${escapeHTML(item.name)}</div>
+      <div class="mutation ${m.class}">${m.name}</div>
+      <div class="small">Продажа: ${50*m.multiplier} монет</div>
+      <button class="full" style="margin-top:9px" onclick="sellCreature('${item.id}')">Продать</button>
+    `;
+    grid.appendChild(card);
+  });
+  update();
+}
+function sellCreature(id){
+  const index=inventory.findIndex(x=>x.id===id);
+  if(index<0)return;
+  const item=inventory[index];
+  const m=mutationInfo(item.mutation);
+  coins+=50*m.multiplier;
+  inventory.splice(index,1);
+  save();update();renderCollection();feedback();
+  toast("Продано за "+50*m.multiplier+" монет!");
+}
+function renderUpgradeSelect(){
+  const select=document.getElementById("upgradeSelect");
+  if(!select)return;
+  const old=select.value;
+  select.innerHTML="";
+  inventory.forEach(item=>{
+    const option=document.createElement("option");
+    option.value=item.id;
+    option.textContent=item.name+" — "+mutationInfo(item.mutation).name;
+    select.appendChild(option);
+  });
+  if(old)select.value=old;
+}
+function upgradeCreature(){
+  const select=document.getElementById("upgradeSelect");
+  const index=inventory.findIndex(x=>x.id===select.value);
+  if(index<0){toast("Сначала получи Брейнрота!");return}
+  const item=inventory[index];
+  if(item.mutation==="rainbow"){
+    toast("Этот персонаж уже радужный!");
+    return;
+  }
+  if(Math.random()<0.5){
+    item.mutation=item.mutation==="normal"?"gold":"rainbow";
+    save();update();renderCollection();feedback();
+    toast("Успех! Мутация улучшена!");
+  }else{
+    inventory.splice(index,1);
+    save();update();renderCollection();
+    toast("Неудача! Брейнрот сгорел!");
+  }
+}
+function renderProfile(){
+  const user=getUser();
+  document.getElementById("profileName").textContent=user?.first_name||"Игрок";
+  document.getElementById("profileUsername").textContent=user?.username?"@"+user.username:"Telegram";
+  document.getElementById("ownerPanel").style.display=isOwner()?"block":"none";
+  renderPromoList();
+}
+function usePromo(){
+  const input=document.getElementById("promoInput");
+  const code=input.value.trim().toUpperCase();
+  if(!code){toast("Введи промокод");return}
+  if(usedPromos.includes(code)){toast("Ты уже использовал этот промокод");return}
+  if(!promos[code]){toast("Промокод не найден");return}
+  coins+=promos[code];
+  usedPromos.push(code);
+  save();update();
+  input.value="";
+  toast("Получено "+promos[code]+" монет!");
+}
+function createPromo(){
+  if(!isOwner()){toast("Нет доступа");return}
+  const code=document.getElementById("newPromo").value.trim().toUpperCase();
+  const reward=Number(document.getElementById("promoReward").value);
+  if(!code||!Number.isFinite(reward)||reward<1){
+    toast("Проверь название и награду");return;
+  }
+  if(promos[code]){toast("Такой промокод уже существует");return}
+  promos[code]=Math.floor(reward);
+  save();renderPromoList();
+  document.getElementById("newPromo").value="";
+  document.getElementById("promoReward").value="";
+  toast("Промокод создан!");
+}
+function renderPromoList(){
+  const el=document.getElementById("promoList");
+  if(!el)return;
+  el.innerHTML=Object.entries(promos).map(([code,reward])=>
+    `<div style="padding:7px 0;border-bottom:1px solid #ffffff20">${escapeHTML(code)} — ${reward} монет</div>`
+  ).join("")||"Промокодов пока нет";
+}
+function setGraphics(value){
+  settings.graphics=value;
+  document.body.classList.toggle("low",value==="low");
+  localStorage.setItem("brainpp_graphics",value);
+}
+function toggleAnimations(value){
+  settings.animations=value;
+  document.body.classList.toggle("no-animations",!value);
+  localStorage.setItem("brainpp_animations",String(value));
+}
+function toggleSound(value){
+  settings.sound=value;
+  localStorage.setItem("brainpp_sound",String(value));
+}
+function toggleTheme(value){
+  settings.theme=value;
+  document.body.classList.toggle("light",!value);
+  localStorage.setItem("brainpp_theme",value?"dark":"light");
+}
+function toggleVibration(value){
+  settings.vibration=value;
+  localStorage.setItem("brainpp_vibration",String(value));
+}
+function resetSettings(){
+  settings={graphics:"high",animations:true,sound:true,theme:true,vibration:true};
+  localStorage.removeItem("brainpp_graphics");
+  localStorage.removeItem("brainpp_animations");
+  localStorage.removeItem("brainpp_sound");
+  localStorage.removeItem("brainpp_theme");
+  localStorage.removeItem("brainpp_vibration");
+  applySettings();
+  toast("Настройки сброшены");
+}
+function applySettings(){
+  document.getElementById("graphics").value=settings.graphics;
+  document.getElementById("animations").checked=settings.animations;
+  document.getElementById("sound").checked=settings.sound;
+  document.getElementById("theme").checked=settings.theme;
+  document.getElementById("vibration").checked=settings.vibration;
+  document.body.classList.toggle("low",settings.graphics==="low");
+  document.body.classList.toggle("no-animations",!settings.animations);
+  document.body.classList.toggle("light",!settings.theme);
+}
+applySettings();
+update();
+</script>
+</body>
+</html>
