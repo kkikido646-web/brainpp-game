@@ -3,701 +3,189 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>BRAINPP 5.0</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>BRAINPP 4.0</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
-:root{
-  --bg:#090711;
-  --panel:#171126;
-  --panel2:#211735;
-  --purple:#9b5cff;
-  --pink:#e65cff;
-  --text:#fff;
-  --muted:#aaa0bb;
-  --green:#45df9a;
-  --red:#ff5874;
-}
+:root{--bg:#090711;--panel:#171126;--panel2:#241936;--purple:#9b5cff;--pink:#e65cff;--text:#fff;--muted:#aaa0bb}
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Arial,sans-serif;min-height:100vh;
-}
-body.light{
-  --bg:#eeeaf7;--panel:#fff;--panel2:#e8e0f5;
-  --text:#211735;--muted:#71677e;
-}
-body.low *{box-shadow:none!important;animation:none!important;transition:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+body.light{--bg:#eeeaf7;--panel:#fff;--panel2:#e8e0f5;--text:#211735;--muted:#71677e}
+body.low *{box-shadow:none!important;transition:none!important}
 body.no-animations *{animation:none!important;transition:none!important}
-header{
-  position:sticky;top:0;z-index:10;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:13px;background:var(--panel);
-  border-bottom:1px solid #ffffff12;
-}
-.header-left{display:flex;align-items:center;gap:12px}
-h1{font-size:21px;margin:0;color:var(--purple);letter-spacing:1px}
-.menu-btn{
-  border:0;background:var(--panel2);color:var(--text);
-  font-size:24px;border-radius:10px;width:42px;height:40px;
-}
-.balance{
-  background:var(--panel2);padding:10px 13px;
-  border-radius:12px;font-weight:bold;color:#ffd45c;
-}
-main{padding:14px;max-width:750px;margin:auto;padding-bottom:90px}
+header{position:sticky;top:0;z-index:10;background:var(--panel);padding:12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff18}
+.headleft{display:flex;align-items:center;gap:10px}
+h1{font-size:21px;color:var(--purple);margin:0;letter-spacing:1px}
+.menu-btn{font-size:24px;width:42px;height:40px;padding:0;background:var(--panel2);color:var(--text)}
+.balance{background:var(--panel2);padding:10px 12px;border-radius:12px;color:#ffd45c;font-weight:bold}
+main{max-width:760px;margin:auto;padding:14px 14px 95px}
 h2{font-size:20px;margin:8px 0 14px}
-.subtitle{color:var(--muted);font-size:13px;margin-top:-7px;margin-bottom:15px}
-.hero{
-  background:linear-gradient(135deg,#3d206d,#171126 70%);
-  padding:20px;border-radius:18px;margin-bottom:18px;
-  border:1px solid #a65cff55;
-}
-.hero h2{font-size:25px;margin:0 0 8px}
-.hero p{color:#d8c9ed;margin:0;font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{
-  background:var(--panel);border:1px solid #ffffff12;
-  border-radius:15px;padding:13px;min-width:0;
-}
-.case-icon{
-  height:105px;display:flex;align-items:center;justify-content:center;
-  font-size:65px;background:var(--panel2);border-radius:12px;margin-bottom:10px;
-}
-.case-name{font-weight:bold;font-size:15px;margin-bottom:5px}
-.case-price{font-size:13px;color:#ffd45c;margin-bottom:10px}
-button{
-  cursor:pointer;border:0;border-radius:10px;padding:11px 13px;
-  background:linear-gradient(135deg,var(--purple),var(--pink));
-  color:white;font-weight:bold;font-size:14px;
-}
-button:disabled{opacity:.45;cursor:not-allowed}
-.full{width:100%}
-.secondary{background:var(--panel2);color:var(--text)}
-.danger{background:#7e2940}
-.nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:9;
-  display:flex;justify-content:space-around;gap:4px;
-  padding:9px 5px calc(9px + env(safe-area-inset-bottom));
-  background:var(--panel);border-top:1px solid #ffffff15;
-}
-.nav button{
-  flex:1;background:transparent;color:var(--muted);
-  padding:8px 2px;font-size:11px;
-}
-.nav button.active{color:var(--purple);background:var(--panel2)}
-.page{display:none}
-.page.active{display:block}
-.creature-img{
-  width:100%;height:125px;object-fit:contain;
-  display:block;background:var(--panel2);border-radius:10px;
-}
-.image-fallback{
-  height:125px;background:var(--panel2);border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:40px;
-}
-.creature-name{font-size:13px;font-weight:bold;margin:9px 0 5px}
-.mutation{font-size:11px;color:var(--muted);margin-bottom:8px}
-.gold{color:#ffd45c}
-.rainbow{
-  background:linear-gradient(90deg,#ff6262,#ffcf55,#60e58a,#5ccfff,#c77aff);
-  background-clip:text;-webkit-background-clip:text;color:transparent;
-}
-.normal{color:var(--muted)}
-.small{font-size:12px;color:var(--muted)}
+.subtitle,.small{font-size:12px;color:var(--muted)}
+.hero{padding:20px;border-radius:18px;margin-bottom:18px;background:linear-gradient(135deg,#4b267d,#171126 75%);border:1px solid #a65cff66}
+.hero h2{font-size:26px;margin:0 0 8px}.hero p{font-size:14px;color:#e0d2f3;margin:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.card{background:var(--panel);border:1px solid #ffffff16;border-radius:15px;padding:12px;min-width:0;margin-bottom:10px}
+.case-icon{height:100px;background:var(--panel2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:60px;margin-bottom:10px}
+.case-name,.creature-name{font-weight:bold;font-size:14px;margin-bottom:6px}
+.case-price{font-size:12px;color:#ffd45c;margin-bottom:10px}
+button{border:0;border-radius:10px;padding:11px 13px;background:linear-gradient(135deg,var(--purple),var(--pink));color:white;font-weight:bold;font-size:13px;cursor:pointer}
+button:disabled{opacity:.4}.full{width:100%}.secondary{background:var(--panel2);color:var(--text)}.danger{background:#842c46}
+.page{display:none}.page.active{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:9;display:flex;gap:3px;padding:8px 4px calc(8px + env(safe-area-inset-bottom));background:var(--panel);border-top:1px solid #ffffff18}
+.nav button{flex:1;background:transparent;color:var(--muted);font-size:10px;padding:8px 1px}
+.nav button.active{background:var(--panel2);color:var(--purple)}
+.creature-img,.image-fallback{width:100%;height:120px;object-fit:contain;display:flex;align-items:center;justify-content:center;background:var(--panel2);border-radius:10px}
+.image-fallback{font-size:42px}
+.mutation{font-size:11px;margin:7px 0;color:var(--muted)}
+.gold{color:#ffd45c}.rainbow{background:linear-gradient(90deg,#ff6262,#ffcf55,#60e58a,#5ccfff,#c77aff);background-clip:text;color:transparent}
 .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.field{
-  width:100%;padding:12px;border-radius:10px;
-  background:var(--panel2);border:1px solid #ffffff20;
-  color:var(--text);margin:7px 0 12px;font-size:14px;
-}
-.setting{
-  background:var(--panel);padding:13px;border-radius:12px;
-  margin-bottom:10px;
-}
-.setting select{max-width:145px}
-#sideMenu{
-  display:none;position:fixed;inset:0;z-index:20;
-  background:#0009;
-}
+.field,select{width:100%;padding:12px;border-radius:10px;background:var(--panel2);border:1px solid #ffffff22;color:var(--text);margin:7px 0 12px;font-size:14px}
+.setting{background:var(--panel);padding:13px;border-radius:12px;margin-bottom:10px}
+#sideMenu,.modal{display:none;position:fixed;inset:0;z-index:20;background:#000b}
 #sideMenu.open{display:block}
-.menu-panel{
-  width:min(310px,85vw);height:100%;background:var(--panel);
-  padding:18px;overflow:auto;
-}
-.menu-title{font-size:20px;font-weight:bold;margin:5px 0 18px}
-.close-row{display:flex;justify-content:space-between;align-items:center}
-.modal{
-  display:none;position:fixed;inset:0;z-index:30;
-  background:#000c;align-items:center;justify-content:center;padding:18px;
-}
+.menu-panel{width:min(315px,86vw);height:100%;background:var(--panel);padding:17px;overflow:auto}
+.menu-title{font-size:20px;font-weight:bold;margin:8px 0 18px}
+.modal{z-index:30;align-items:center;justify-content:center;padding:18px}
 .modal.open{display:flex}
-.modal-box{
-  background:var(--panel);border:1px solid #a65cff66;
-  border-radius:18px;padding:20px;width:100%;max-width:360px;text-align:center;
-}
-.modal-box img{width:100%;height:190px;object-fit:contain}
+.modal-box{background:var(--panel);padding:20px;border-radius:18px;width:100%;max-width:370px;text-align:center;border:1px solid #a65cff77}
 .modal-box h2{margin:10px 0}
-.result-mutation{font-size:16px;font-weight:bold;margin:8px}
-#toast{
-  position:fixed;left:50%;bottom:82px;transform:translateX(-50%);
-  background:#302344;color:white;padding:12px 18px;border-radius:12px;
-  z-index:50;display:none;max-width:90%;text-align:center;
-}
-.progress{
-  height:8px;background:var(--panel2);border-radius:8px;overflow:hidden;
-}
-.progress div{height:100%;background:var(--purple);width:0}
-@media(max-width:380px){
-  main{padding:10px}.grid{gap:8px}.card{padding:9px}
-  .case-icon{height:85px}
-}
+#toast{display:none;position:fixed;z-index:50;bottom:85px;left:50%;transform:translateX(-50%);background:#302344;color:white;padding:12px 16px;border-radius:12px;max-width:90%;text-align:center}
+.wheel{width:220px;height:220px;border-radius:50%;margin:15px auto;background:conic-gradient(#45df9a 0 70%,#9b5cff 70% 95%,#ff5874 95% 100%);border:7px solid #fff;position:relative;display:flex;align-items:center;justify-content:center;transition:transform 3s cubic-bezier(.12,.7,.1,1)}
+.wheel:after{content:"⚡";background:#211735;border:4px solid white;border-radius:50%;width:58px;height:58px;display:grid;place-items:center;font-size:25px}
+.wheel-label{font-size:12px;line-height:1.5}
+@media(max-width:380px){main{padding:10px 9px 90px}.grid{gap:8px}.card{padding:9px}.case-icon{height:85px}}
 </style>
 </head>
-
 <body>
 <header>
-  <div class="header-left">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <h1>BRAINPP</h1>
-  </div>
-  <div class="balance">🪙 <span id="coins">0</span></div>
+ <div class="headleft"><button class="menu-btn" onclick="toggleMenu()">☰</button><h1>BRAINPP</h1></div>
+ <div class="balance">🪙 <span id="coins">0</span></div>
 </header>
-
 <main>
-  <section class="page active" id="home">
-    <div class="hero">
-      <h2>🐉 BRAINPP 5.0</h2>
-      <p>Открывай кейсы, собирай Брейнротов и пополняй свою коллекцию!</p>
-    </div>
-    <h2>🎁 Кейсы</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="case-icon">📦</div>
-        <div class="case-name">Обычный кейс</div>
-        <div class="case-price">🪙 100 монет</div>
-        <button class="full" onclick="openCase('normal')">Открыть</button>
-      </div>
-      <div class="card">
-        <div class="case-icon">🐉</div>
-        <div class="case-name">Драконий кейс</div>
-        <div class="case-price">🪙 500 монет</div>
-        <button class="full" onclick="openCase('dragon')">Открыть</button>
-      </div>
-      <div class="card">
-        <div class="case-icon">🔮</div>
-        <div class="case-name">Секретный кейс</div>
-        <div class="case-price">🪙 500 монет</div>
-        <button class="full" onclick="openCase('secret')">Открыть</button>
-      </div>
-      <div class="card">
-        <div class="case-icon">🎁</div>
-        <div class="case-name">Бесплатный кейс</div>
-        <div class="case-price">Бесплатно раз в 24 часа</div>
-        <button class="full" id="freeButton" onclick="openCase('free')">Открыть</button>
-      </div>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <div class="row">
-        <b>🎒 Моя коллекция</b>
-        <span class="small" id="homeCount">0 персонажей</span>
-      </div>
-      <button class="secondary full" style="margin-top:12px" onclick="showTab('collection')">Открыть коллекцию</button>
-    </div>
-  </section>
+<section class="page active" id="home">
+ <div class="hero"><h2>🐉 BRAINPP 4.0</h2><p>Открывай кейсы, собирай Брейнротов и создавай свою коллекцию!</p></div>
+ <h2>🎁 Кейсы</h2>
+ <div class="grid">
+  <div class="card"><div class="case-icon">📦</div><div class="case-name">Обычный кейс</div><div class="case-price">🪙 100 монет</div><button class="full" onclick="openCase('normal')">Открыть</button></div>
+  <div class="card"><div class="case-icon">🐉</div><div class="case-name">Драконий кейс</div><div class="case-price">🪙 500 монет</div><button class="full" onclick="openCase('dragon')">Открыть</button></div>
+  <div class="card"><div class="case-icon">🔮</div><div class="case-name">Секретный кейс</div><div class="case-price">🪙 500 монет</div><button class="full" onclick="openCase('secret')">Открыть</button></div>
+  <div class="card"><div class="case-icon">🎁</div><div class="case-name">Бесплатный кейс</div><div class="case-price" id="freeInfo">Раз в 24 часа</div><button class="full" id="freeButton" onclick="openCase('free')">Открыть</button></div>
+ </div>
+ <div class="card"><div class="row"><b>🎒 Моя коллекция</b><span class="small" id="homeCount">0 персонажей</span></div><button class="secondary full" style="margin-top:12px" onclick="showTab('mine')">Открыть «Мои»</button></div>
+</section>
 
-  <section class="page" id="collection">
-    <h2>🎒 Коллекция</h2>
-    <p class="subtitle">Все твои полученные Брейнроты.</p>
-    <div class="row" style="margin-bottom:12px">
-      <span class="small" id="collectionCount">Всего: 0</span>
-      <button class="secondary" onclick="renderCollection()">Обновить</button>
-    </div>
-    <div class="grid" id="inventoryGrid"></div>
-    <div id="emptyCollection" class="card small" style="text-align:center;display:none">
-      Коллекция пока пустая. Открой свой первый кейс!
-    </div>
-  </section>
+<section class="page" id="mine">
+ <h2>🎒 Мои Брейнроты</h2><p class="subtitle">Твоя коллекция персонажей.</p>
+ <div class="row"><span class="small" id="mineCount">Всего: 0</span><button class="secondary" onclick="renderMine()">Обновить</button></div>
+ <div class="grid" id="mineGrid"></div><div class="card small" id="mineEmpty" style="display:none;text-align:center">Коллекция пока пустая. Открой кейс!</div>
+</section>
 
-  <section class="page" id="upgrade">
-    <h2>⚡ Апгрейдер</h2>
-    <p class="subtitle">Попробуй улучшить мутацию своего Брейнрота. При неудаче он сгорит!</p>
-    <div class="card">
-      <b>Выбери персонажа</b>
-      <select class="field" id="upgradeSelect"></select>
-      <div class="small">Шанс улучшения: 50%</div>
-      <div class="progress" style="margin:10px 0 15px"><div style="width:50%"></div></div>
-      <button class="full" onclick="upgradeCreature()">⚡ Улучшить мутацию</button>
-    </div>
-    <div class="card" style="margin-top:12px">
-      <b>Как работает?</b>
-      <p class="small">При успехе обычный Брейнрот может стать золотым, а золотой — радужным. При неудаче выбранный персонаж исчезнет из коллекции.</p>
-    </div>
-  </section>
+<section class="page" id="wishlist">
+ <h2>⭐ Желаемые</h2><p class="subtitle">Добавляй сюда персонажей, которых хочешь получить.</p>
+ <div class="grid" id="wishGrid"></div>
+</section>
 
-  <section class="page" id="profile">
-    <h2>👤 Профиль</h2>
-    <div class="card">
-      <div style="font-size:45px;text-align:center">👤</div>
-      <h2 style="text-align:center" id="profileName">Игрок</h2>
-      <p class="small" style="text-align:center" id="profileUsername">@username</p>
-      <div class="row"><span>🪙 Монеты</span><b id="profileCoins">0</b></div>
-      <div class="row" style="margin-top:12px"><span>🎒 Персонажей</span><b id="profileItems">0</b></div>
-      <div class="row" style="margin-top:12px"><span>📦 Открыто кейсов</span><b id="profileCases">0</b></div>
-    </div>
-    <div class="card" style="margin-top:12px">
-      <h3 style="margin-top:0">🎟️ Промокод</h3>
-      <input class="field" id="promoInput" placeholder="Введи промокод">
-      <button class="full" onclick="usePromo()">Активировать</button>
-    </div>
-    <div class="card" id="ownerPanel" style="display:none;margin-top:12px">
-      <h3 style="margin-top:0">👑 Панель владельца</h3>
-      <p class="small">Создание промокодов на этом устройстве.</p>
-      <input class="field" id="newPromo" placeholder="Название промокода">
-      <input class="field" id="promoReward" type="number" min="1" placeholder="Награда в монетах">
-      <button class="full" onclick="createPromo()">Создать промокод</button>
-      <div id="promoList" class="small" style="margin-top:12px"></div>
-      <p class="small">Важно: клиентская панель не защищена от взлома. Для настоящих общих промокодов нужен сервер.</p>
-    </div>
-  </section>
+<section class="page" id="shop">
+ <h2>🛒 Магазин</h2><p class="subtitle">Магазин предметов и управление коллекцией.</p>
+ <div class="card"><b>💰 Продажа Брейнротов</b><p class="small">Продавай ненужных персонажей во вкладке «Мои» и получай монеты.</p><button class="full" onclick="showTab('mine')">Перейти к коллекции</button></div>
+ <div class="card"><b>🎁 Бесплатная награда</b><p class="small">Бесплатный кейс доступен раз в 24 часа.</p><button class="full" onclick="openCase('free')">Забрать награду</button></div>
+ <div class="card"><b>🪙 Игровые монеты</b><p class="small">Монеты можно получить за продажу персонажей и промокоды. Покупка за реальные деньги пока не подключена.</p></div>
+</section>
+
+<section class="page" id="upgrade">
+ <h2>⚡ Колесо апгрейда</h2><p class="subtitle">Выбери персонажа и испытай удачу!</p>
+ <div class="card">
+  <select class="field" id="upgradeSelect"></select>
+  <div class="wheel" id="wheel"></div>
+  <div class="wheel-label">🟢 70% — улучшение<br>🟣 25% — без изменений<br>🔴 5% — персонаж сгорает</div>
+  <button class="full" style="margin-top:15px" id="upgradeButton" onclick="spinUpgrade()">Крутить колесо</button>
+ </div>
+</section>
+
+<section class="page" id="profile">
+ <h2>👤 Профиль</h2>
+ <div class="card"><div style="font-size:45px;text-align:center">👤</div><h2 id="profileName" style="text-align:center">Игрок</h2><p class="small" id="profileUsername" style="text-align:center">Telegram</p>
+ <div class="row"><span>🪙 Монеты</span><b id="profileCoins">0</b></div><div class="row" style="margin-top:12px"><span>🎒 Персонажей</span><b id="profileItems">0</b></div><div class="row" style="margin-top:12px"><span>📦 Открыто кейсов</span><b id="profileCases">0</b></div></div>
+ <div class="card"><h3>🎟️ Промокод</h3><input class="field" id="promoInput" placeholder="Введи промокод"><button class="full" onclick="usePromo()">Активировать</button></div>
+ <div class="card" id="ownerPanel" style="display:none"><h3>👑 Панель владельца</h3><input class="field" id="newPromo" placeholder="Название промокода"><input class="field" id="promoReward" type="number" min="1" placeholder="Награда в монетах"><button class="full" onclick="createPromo()">Создать промокод</button><div id="promoList" class="small"></div><p class="small">Промокоды хранятся только на этом устройстве. Для общих промокодов нужен сервер.</p></div>
+</section>
 </main>
 
 <nav class="nav">
-  <button class="active" data-tab="home" onclick="showTab('home')">🏠<br>Главная</button>
-  <button data-tab="collection" onclick="showTab('collection')">🎒<br>Коллекция</button>
-  <button data-tab="upgrade" onclick="showTab('upgrade')">⚡<br>Апгрейд</button>
-  <button data-tab="profile" onclick="showTab('profile')">👤<br>Профиль</button>
+ <button class="active" data-tab="home" onclick="showTab('home')">🏠<br>Главная</button>
+ <button data-tab="mine" onclick="showTab('mine')">🎒<br>Мои</button>
+ <button data-tab="wishlist" onclick="showTab('wishlist')">⭐<br>Желаемые</button>
+ <button data-tab="shop" onclick="showTab('shop')">🛒<br>Магазин</button>
+ <button data-tab="upgrade" onclick="showTab('upgrade')">⚡<br>Апгрейд</button>
+ <button data-tab="profile" onclick="showTab('profile')">👤<br>Профиль</button>
 </nav>
 
 <div id="sideMenu" onclick="if(event.target.id==='sideMenu')toggleMenu()">
-  <div class="menu-panel">
-    <div class="close-row">
-      <div class="menu-title">⚙️ Настройки</div>
-      <button class="secondary" onclick="toggleMenu()">✕</button>
-    </div>
-
-    <div class="setting">
-      <div class="row"><b>🎨 Графика</b>
-        <select class="field" id="graphics" onchange="setGraphics(this.value)" style="width:130px;margin:0">
-          <option value="high">Высокая</option>
-          <option value="medium">Средняя</option>
-          <option value="low">Низкая</option>
-        </select>
-      </div>
-    </div>
-    <div class="setting">
-      <div class="row"><b>✨ Анимации</b>
-        <input type="checkbox" id="animations" onchange="toggleAnimations(this.checked)" checked>
-      </div>
-    </div>
-    <div class="setting">
-      <div class="row"><b>🔊 Звук</b>
-        <input type="checkbox" id="sound" onchange="toggleSound(this.checked)" checked>
-      </div>
-    </div>
-    <div class="setting">
-      <div class="row"><b>🌙 Тёмная тема</b>
-        <input type="checkbox" id="theme" onchange="toggleTheme(this.checked)" checked>
-      </div>
-    </div>
-    <div class="setting">
-      <div class="row"><b>📳 Вибрация</b>
-        <input type="checkbox" id="vibration" onchange="toggleVibration(this.checked)" checked>
-      </div>
-    </div>
-    <button class="danger full" onclick="resetSettings()">Сбросить настройки</button>
-    <p class="small" style="margin-top:18px">BRAINPP 5.0</p>
-  </div>
+ <div class="menu-panel">
+  <div class="row"><div class="menu-title">⚙️ Настройки</div><button class="secondary" onclick="toggleMenu()">✕</button></div>
+  <div class="setting"><div class="row"><b>🎨 Графика</b><select id="graphics" onchange="setGraphics(this.value)" style="width:130px;margin:0"><option value="high">Высокая</option><option value="medium">Средняя</option><option value="low">Низкая</option></select></div></div>
+  <div class="setting"><div class="row"><b>✨ Анимации</b><input type="checkbox" id="animations" onchange="toggleSetting('animations',this.checked)" checked></div></div>
+  <div class="setting"><div class="row"><b>🔊 Звук</b><input type="checkbox" id="sound" onchange="toggleSetting('sound',this.checked)" checked></div></div>
+  <div class="setting"><div class="row"><b>🌙 Тёмная тема</b><input type="checkbox" id="theme" onchange="toggleSetting('theme',this.checked)" checked></div></div>
+  <div class="setting"><div class="row"><b>📳 Вибрация</b><input type="checkbox" id="vibration" onchange="toggleSetting('vibration',this.checked)" checked></div></div>
+  <button class="danger full" onclick="resetSettings()">Сбросить настройки</button><p class="small">BRAINPP 4.0</p>
+ </div>
 </div>
 
-<div class="modal" id="resultModal">
-  <div class="modal-box">
-    <div class="small">ТЕБЕ ВЫПАЛ</div>
-    <div id="resultImage"></div>
-    <h2 id="resultName">Персонаж</h2>
-    <div class="result-mutation" id="resultMutation"></div>
-    <button class="full" onclick="closeResult()">Отлично!</button>
-  </div>
-</div>
-
+<div class="modal" id="resultModal"><div class="modal-box"><div class="small">ТЕБЕ ВЫПАЛ</div><div id="resultImage"></div><h2 id="resultName"></h2><div id="resultMutation" class="mutation"></div><button class="full" onclick="closeResult()">Отлично!</button></div></div>
 <div id="toast"></div>
 
 <script>
-const OWNER = "skeruuuttnewera";
-const WIKI_API = "https://stealabrainrot.wiki/api.php";
-
-const catalog = [
-  {name:"Noobini Pizzanini",page:"Noobini Pizzanini",emoji:"🍕",type:"normal"},
-  {name:"Garama and Madundung",page:"Garama and Madundung",emoji:"🗿",type:"normal"},
-  {name:"Tung Tung Tung Sahur",page:"Tung Tung Tung Sahur",emoji:"🪵",type:"normal"},
-  {name:"Bombardiro Crocodilo",page:"Bombardiro Crocodilo",emoji:"🐊",type:"normal"},
-  {name:"Tralalero Tralala",page:"Tralalero Tralala",emoji:"🦈",type:"normal"},
-  {name:"Brr Brr Patapim",page:"Brr Brr Patapim",emoji:"🌳",type:"normal"},
-
-  {name:"Dragon Cannelloni",page:"Dragon Cannelloni",emoji:"🐉",type:"dragon"},
-  {name:"Dragon Gingerini",page:"Dragon Gingerini",emoji:"🐲",type:"dragon"},
-  {name:"Hydra Dragon Cannelloni",page:"Hydra Dragon Cannelloni",emoji:"🐉",type:"dragon"},
-  {name:"Arcadragon",page:"Arcadragon",emoji:"🐉",type:"dragon"},
-  {name:"Dragon Aquanini",page:"Dragon Aquanini",emoji:"🌊",type:"dragon"},
-  {name:"Caylusaurus",page:"Caylusaurus",emoji:"🦖",type:"dragon"},
-  {name:"Los Dragons",page:"Los Dragons",emoji:"🐲",type:"dragon"},
-  {name:"Dragon Skeletonini",page:"Extinct Dragon",emoji:"💀",type:"dragon"}
+const OWNER="skeruuuttnewera";
+const API="https://stealabrainrot.wiki/api.php";
+const catalog=[
+{name:"Noobini Pizzanini",page:"Noobini Pizzanini",emoji:"🍕",type:"normal"},
+{name:"Lirili Larila",page:"Lirili Larila",emoji:"🐘",type:"normal"},
+{name:"Tim Cheese",page:"Tim Cheese",emoji:"🧀",type:"normal"},
+{name:"Fluriflura",page:"Fluriflura",emoji:"🦊",type:"normal"},
+{name:"Trippi Troppi",page:"Trippi Troppi",emoji:"🦐",type:"normal"},
+{name:"Tung Tung Tung Sahur",page:"Tung Tung Tung Sahur",emoji:"🪵",type:"normal"},
+{name:"Bombardiro Crocodilo",page:"Bombardiro Crocodilo",emoji:"🐊",type:"normal"},
+{name:"Tralalero Tralala",page:"Tralalero Tralala",emoji:"🦈",type:"normal"},
+{name:"Brr Brr Patapim",page:"Brr Brr Patapim",emoji:"🌳",type:"normal"},
+{name:"Dragon Cannelloni",page:"Dragon Cannelloni",emoji:"🐉",type:"dragon"},
+{name:"Dragon Gingerini",page:"Dragon Gingerini",emoji:"🐲",type:"dragon"},
+{name:"Hydra Dragon Cannelloni",page:"Hydra Dragon Cannelloni",emoji:"🐉",type:"dragon"},
+{name:"Arcadragon",page:"Arcadragon",emoji:"🐉",type:"dragon"},
+{name:"Dragon Aquanini",page:"Dragon Aquanini",emoji:"🌊",type:"dragon"},
+{name:"Caylusaurus",page:"Caylusaurus",emoji:"🦖",type:"dragon"},
+{name:"Los Dragons",page:"Los Dragons",emoji:"🐲",type:"dragon"},
+{name:"Dragon Skeletonini",page:"Extinct Dragon",emoji:"💀",type:"dragon"}
 ];
-
-const normalCase = catalog.slice(0,6);
-const dragonCase = catalog.filter(x=>x.type==="dragon");
-const secretCase = [catalog[1],catalog[3],catalog[4],...dragonCase];
-
-function readNumber(key, fallback=0){
-  const value=localStorage.getItem(key);
-  const n=Number(value);
-  return value===null || !Number.isFinite(n) ? fallback : n;
-}
-function readJSON(key,fallback){
-  try{
-    const v=JSON.parse(localStorage.getItem(key));
-    return v ?? fallback;
-  }catch(e){return fallback}
-}
-
-let coins = readNumber("brainpp_coins",0);
-let inventory = readJSON("brainpp_inventory",[]);
-let usedPromos = readJSON("brainpp_used_promos",[]);
-let promos = readJSON("brainpp_promos",{});
-let freeAt = readNumber("brainpp_free_at",0);
-let casesOpened = readNumber("brainpp_cases_opened",0);
-
-let settings = {
-  graphics:localStorage.getItem("brainpp_graphics") || "high",
-  animations:localStorage.getItem("brainpp_animations") !== "false",
-  sound:localStorage.getItem("brainpp_sound") !== "false",
-  theme:localStorage.getItem("brainpp_theme") !== "light",
-  vibration:localStorage.getItem("brainpp_vibration") !== "false"
-};
-
-const tg = window.Telegram?.WebApp;
-try{tg?.ready();tg?.expand()}catch(e){}
-
-function getUser(){
-  return tg?.initDataUnsafe?.user || null;
-}
-function isOwner(){
-  return getUser()?.username?.toLowerCase()===OWNER.toLowerCase();
-}
-function save(){
-  localStorage.setItem("brainpp_coins",String(coins));
-  localStorage.setItem("brainpp_inventory",JSON.stringify(inventory));
-  localStorage.setItem("brainpp_used_promos",JSON.stringify(usedPromos));
-  localStorage.setItem("brainpp_promos",JSON.stringify(promos));
-  localStorage.setItem("brainpp_free_at",String(freeAt));
-  localStorage.setItem("brainpp_cases_opened",String(casesOpened));
-}
-function toast(message){
-  const el=document.getElementById("toast");
-  el.textContent=message;el.style.display="block";
-  clearTimeout(window.toastTimer);
-  window.toastTimer=setTimeout(()=>el.style.display="none",2500);
-}
-function feedback(){
-  if(settings.vibration && navigator.vibrate) navigator.vibrate(35);
-  if(settings.sound){
-    try{
-      const C=window.AudioContext||window.webkitAudioContext;
-      const ctx=new C(),osc=ctx.createOscillator(),gain=ctx.createGain();
-      osc.connect(gain);gain.connect(ctx.destination);
-      osc.frequency.value=520;gain.gain.value=.05;
-      osc.start();osc.stop(ctx.currentTime+.09);
-    }catch(e){}
-  }
-}
-function update(){
-  document.getElementById("coins").textContent=coins.toLocaleString("ru-RU");
-  document.getElementById("homeCount").textContent=inventory.length+" персонажей";
-  document.getElementById("collectionCount").textContent="Всего: "+inventory.length;
-  document.getElementById("profileCoins").textContent=coins;
-  document.getElementById("profileItems").textContent=inventory.length;
-  document.getElementById("profileCases").textContent=casesOpened;
-  updateFreeButton();
-  renderUpgradeSelect();
-}
-function showTab(tab){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(tab).classList.add("active");
-  document.querySelectorAll(".nav button").forEach(b=>{
-    b.classList.toggle("active",b.dataset.tab===tab);
-  });
-  if(tab==="collection")renderCollection();
-  if(tab==="profile")renderProfile();
-  if(tab==="upgrade")renderUpgradeSelect();
-  window.scrollTo(0,0);
-}
-function toggleMenu(){
-  document.getElementById("sideMenu").classList.toggle("open");
-}
-
-function mutationRoll(){
-  const n=Math.random()*100;
-  if(n<2)return "rainbow";
-  if(n<12)return "gold";
-  return "normal";
-}
-function mutationInfo(m){
-  if(m==="rainbow")return {name:"РАДУЖНЫЙ",class:"rainbow",multiplier:5};
-  if(m==="gold")return {name:"ЗОЛОТОЙ",class:"gold",multiplier:2};
-  return {name:"ОБЫЧНЫЙ",class:"normal",multiplier:1};
-}
-function makeCreature(item){
-  return {
-    id:Date.now()+"_"+Math.random().toString(16).slice(2),
-    name:item.name,page:item.page,emoji:item.emoji,
-    mutation:mutationRoll(),obtained:Date.now()
-  };
-}
-
-/* Получение картинок персонажей с вики */
+const normalCase=catalog.filter(x=>x.type==="normal").slice(0,6);
+const dragonCase=catalog.filter(x=>x.type==="dragon");
+const secretCase=[catalog[6],catalog[7],catalog[8],...dragonCase];
+function getNum(k,d=0){let v=localStorage.getItem(k);return v===null?d:(Number(v)||0)}
+function getJSON(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
+let coins=getNum("brainpp_coins"),inventory=getJSON("brainpp_inventory",[]),wishes=getJSON("brainpp_wishes",[]),used=getJSON("brainpp_used_promos",[]),promos=getJSON("brainpp_promos",{}),freeAt=getNum("brainpp_free_at"),cases=getNum("brainpp_cases_opened");
+let settings={graphics:localStorage.getItem("brainpp_graphics")||"high",animations:localStorage.getItem("brainpp_animations")!=="false",sound:localStorage.getItem("brainpp_sound")!=="false",theme:localStorage.getItem("brainpp_theme")!=="light",vibration:localStorage.getItem("brainpp_vibration")!=="false"};
+const tg=window.Telegram?.WebApp;try{tg?.ready();tg?.expand()}catch(e){}
+function user(){return tg?.initDataUnsafe?.user||null}
+function isOwner(){return user()?.username?.toLowerCase()===OWNER.toLowerCase()}
+function save(){localStorage.setItem("brainpp_coins",coins);localStorage.setItem("brainpp_inventory",JSON.stringify(inventory));localStorage.setItem("brainpp_wishes",JSON.stringify(wishes));localStorage.setItem("brainpp_used_promos",JSON.stringify(used));localStorage.setItem("brainpp_promos",JSON.stringify(promos));localStorage.setItem("brainpp_free_at",freeAt);localStorage.setItem("brainpp_cases_opened",cases)}
+function toast(s){let e=document.getElementById("toast");e.textContent=s;e.style.display="block";clearTimeout(window.tt);window.tt=setTimeout(()=>e.style.display="none",2400)}
+function feedback(){if(settings.vibration&&navigator.vibrate)navigator.vibrate(35);if(settings.sound){try{let C=AudioContext||webkitAudioContext,c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=520;g.gain.value=.04;o.start();o.stop(c.currentTime+.08)}catch(e){}}}
+function mutation(){let n=Math.random()*100;return n<2?"rainbow":n<12?"gold":"normal"}
+function info(m){return m==="rainbow"?{name:"РАДУЖНЫЙ",class:"rainbow",mult:5}:m==="gold"?{name:"ЗОЛОТОЙ",class:"gold",mult:2}:{name:"ОБЫЧНЫЙ",class:"normal",mult:1}}
+function make(item){return{id:Date.now()+"_"+Math.random().toString(16).slice(2),name:item.name,page:item.page,emoji:item.emoji,type:item.type,mutation:mutation()}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 const imageCache={};
-async function resolveImage(page){
-  if(imageCache[page])return imageCache[page];
-  try{
-    const url=WIKI_API+"?action=query&format=json&prop=pageimages&piprop=thumbnail&pithumbsize=600&titles="+encodeURIComponent(page)+"&origin=*";
-    const response=await fetch(url);
-    if(!response.ok)throw new Error("Wiki error");
-    const data=await response.json();
-    const pages=data.query?.pages || {};
-    const first=Object.values(pages)[0];
-    const src=first?.thumbnail?.source || null;
-    if(src)imageCache[page]=src;
-    return src;
-  }catch(e){return null}
-}
-function imageHTML(item,large=false){
-  const id="img_"+Math.random().toString(36).slice(2);
-  const height=large?190:125;
-  setTimeout(async()=>{
-    const src=await resolveImage(item.page || item.name);
-    const el=document.getElementById(id);
-    if(el && src){
-      el.outerHTML='<img id="'+id+'" class="creature-img" style="height:'+height+'px" src="'+src+'" alt="'+escapeHTML(item.name)+'" onerror="imageFailed(this,\''+escapeJS(item.emoji||"🐉")+'\')">';
-    }
-  },0);
-  return '<div class="image-fallback" id="'+id+'" style="height:'+height+'px">'+(item.emoji||"🐉")+'</div>';
-}
-function imageFailed(el,emoji){
-  const div=document.createElement("div");
-  div.className="image-fallback";
-  div.textContent=emoji;
-  el.replaceWith(div);
-}
-function escapeHTML(s){
-  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function escapeJS(s){
-  return String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
-}
-
-function openCase(type){
-  const prices={normal:100,dragon:500,secret:500,free:0};
-  const price=prices[type];
-  if(type==="free" && Date.now()<freeAt){
-    const left=freeAt-Date.now();
-    toast("Бесплатный кейс будет доступен через "+formatTime(left));
-    return;
-  }
-  if(coins<price){
-    toast("Недостаточно монет!");
-    return;
-  }
-  let pool=normalCase;
-  if(type==="dragon")pool=dragonCase;
-  if(type==="secret")pool=secretCase;
-  if(type==="free")pool=catalog;
-
-  coins-=price;
-  if(type==="free")freeAt=Date.now()+24*60*60*1000;
-  const base=pool[Math.floor(Math.random()*pool.length)];
-  const creature=makeCreature(base);
-  inventory.push(creature);
-  casesOpened++;
-  save();update();feedback();
-  showResult(creature);
-  renderCollection();
-}
-function formatTime(ms){
-  const total=Math.ceil(ms/1000);
-  const h=Math.floor(total/3600);
-  const m=Math.floor((total%3600)/60);
-  return h+" ч. "+m+" мин.";
-}
-function updateFreeButton(){
-  ins=document.getElementById("freeButton");
-  if(Date.now()>=freeAt){
-    coins>=0;
-    if(ins)ins.textContent="Открыть";
-  }else{
-    if(ins)ins.textContent="Через "+formatTime(freeAt-Date.now());
-  }
-}
-
-function showResult(creature){
-  document.getElementById("resultImage").innerHTML=imageHTML(creature,true);
-  document.getElementById("resultName").textContent=creature.name;
-  const m=mutationInfo(creature.mutation);
-  document.getElementById("resultMutation").textContent=m.name;
-  document.getElementById("resultMutation").className="result-mutation "+m.class;
-  document.getElementById("resultModal").classList.add("open");
-}
-function closeResult(){
-  document.getElementById("resultModal").classList.remove("open");
-}
-function renderCollection(){
-  const grid=document.getElementById("inventoryGrid");
-  const empty=document.getElementById("emptyCollection");
-  grid.innerHTML="";
-  empty.style.display=inventory.length?"none":"block";
-  inventory.forEach((item,index)=>{
-    const m=mutationInfo(item.mutation);
-    const card=document.createElement("div");
-    card.className="card";
-    card.innerHTML=`
-      ${imageHTML(item)}
-      <div class="creature-name">${escapeHTML(item.name)}</div>
-      <div class="mutation ${m.class}">${m.name}</div>
-      <div class="small">Продажа: ${50*m.multiplier} монет</div>
-      <button class="full" style="margin-top:9px" onclick="sellCreature('${item.id}')">Продать</button>
-    `;
-    grid.appendChild(card);
-  });
-  update();
-}
-function sellCreature(id){
-  const index=inventory.findIndex(x=>x.id===id);
-  if(index<0)return;
-  const item=inventory[index];
-  const m=mutationInfo(item.mutation);
-  coins+=50*m.multiplier;
-  inventory.splice(index,1);
-  save();update();renderCollection();feedback();
-  toast("Продано за "+50*m.multiplier+" монет!");
-}
-function renderUpgradeSelect(){
-  const select=document.getElementById("upgradeSelect");
-  if(!select)return;
-  const old=select.value;
-  select.innerHTML="";
-  inventory.forEach(item=>{
-    const option=document.createElement("option");
-    option.value=item.id;
-    option.textContent=item.name+" — "+mutationInfo(item.mutation).name;
-    select.appendChild(option);
-  });
-  if(old)select.value=old;
-}
-function upgradeCreature(){
-  const select=document.getElementById("upgradeSelect");
-  const index=inventory.findIndex(x=>x.id===select.value);
-  if(index<0){toast("Сначала получи Брейнрота!");return}
-  const item=inventory[index];
-  if(item.mutation==="rainbow"){
-    toast("Этот персонаж уже радужный!");
-    return;
-  }
-  if(Math.random()<0.5){
-    item.mutation=item.mutation==="normal"?"gold":"rainbow";
-    save();update();renderCollection();feedback();
-    toast("Успех! Мутация улучшена!");
-  }else{
-    inventory.splice(index,1);
-    save();update();renderCollection();
-    toast("Неудача! Брейнрот сгорел!");
-  }
-}
-function renderProfile(){
-  const user=getUser();
-  document.getElementById("profileName").textContent=user?.first_name||"Игрок";
-  document.getElementById("profileUsername").textContent=user?.username?"@"+user.username:"Telegram";
-  document.getElementById("ownerPanel").style.display=isOwner()?"block":"none";
-  renderPromoList();
-}
-function usePromo(){
-  const input=document.getElementById("promoInput");
-  const code=input.value.trim().toUpperCase();
-  if(!code){toast("Введи промокод");return}
-  if(usedPromos.includes(code)){toast("Ты уже использовал этот промокод");return}
-  if(!promos[code]){toast("Промокод не найден");return}
-  coins+=promos[code];
-  usedPromos.push(code);
-  save();update();
-  input.value="";
-  toast("Получено "+promos[code]+" монет!");
-}
-function createPromo(){
-  if(!isOwner()){toast("Нет доступа");return}
-  const code=document.getElementById("newPromo").value.trim().toUpperCase();
-  const reward=Number(document.getElementById("promoReward").value);
-  if(!code||!Number.isFinite(reward)||reward<1){
-    toast("Проверь название и награду");return;
-  }
-  if(promos[code]){toast("Такой промокод уже существует");return}
-  promos[code]=Math.floor(reward);
-  save();renderPromoList();
-  document.getElementById("newPromo").value="";
-  document.getElementById("promoReward").value="";
-  toast("Промокод создан!");
-}
-function renderPromoList(){
-  const el=document.getElementById("promoList");
-  if(!el)return;
-  el.innerHTML=Object.entries(promos).map(([code,reward])=>
-    `<div style="padding:7px 0;border-bottom:1px solid #ffffff20">${escapeHTML(code)} — ${reward} монет</div>`
-  ).join("")||"Промокодов пока нет";
-}
-function setGraphics(value){
-  settings.graphics=value;
-  document.body.classList.toggle("low",value==="low");
-  localStorage.setItem("brainpp_graphics",value);
-}
-function toggleAnimations(value){
-  settings.animations=value;
-  document.body.classList.toggle("no-animations",!value);
-  localStorage.setItem("brainpp_animations",String(value));
-}
-function toggleSound(value){
-  settings.sound=value;
-  localStorage.setItem("brainpp_sound",String(value));
-}
-function toggleTheme(value){
-  settings.theme=value;
-  document.body.classList.toggle("light",!value);
-  localStorage.setItem("brainpp_theme",value?"dark":"light");
-}
-function toggleVibration(value){
-  settings.vibration=value;
-  localStorage.setItem("brainpp_vibration",String(value));
-}
-function resetSettings(){
-  settings={graphics:"high",animations:true,sound:true,theme:true,vibration:true};
-  localStorage.removeItem("brainpp_graphics");
-  localStorage.removeItem("brainpp_animations");
-  localStorage.removeItem("brainpp_sound");
-  localStorage.removeItem("brainpp_theme");
-  localStorage.removeItem("brainpp_vibration");
-  applySettings();
-  toast("Настройки сброшены");
-}
-function applySettings(){
-  document.getElementById("graphics").value=settings.graphics;
-  document.getElementById("animations").checked=settings.animations;
-  document.getElementById("sound").checked=settings.sound;
-  document.getElementById("theme").checked=settings.theme;
-  document.getElementById("vibration").checked=settings.vibration;
-  document.body.classList.toggle("low",settings.graphics==="low");
-  document.body.classList.toggle("no-animations",!settings.animations);
-  document.body.classList.toggle("light",!settings.theme);
-}
-applySettings();
-update();
-</script>
-</body>
-</html>
+async function imageURL(page){if(imageCache[page])return imageCache[page];try{let u=API+"?action=query&format=json&prop=pageimages&piprop=thumbnail&pithumbsize=500&titles="+encodeURIComponent(page)+"&origin=*";let r=await fetch(u);let j=await r.json();let p=Object.values(j.query.pages)[0];return imageCache[page]=p?.thumbnail?.source||null}catch(e){return null}}
+function imageHTML(item,large=false){let id="im"+Math.random().toString(36).slice(2),h=large?180:120;setTimeout(async()=>{let src=await imageURL(item.page||item.name),el=document.getElementById(id);if(el&&src){let img=document.createElement("img");img.id=id;img.className="creature-img";img.style.height=h+"px";img.src=src;img.alt=item.name;img.onerror=()=>{img.replaceWith(Object.assign(document.createElement("div"),{className:"image-fallback",textContent:item.emoji||"🐉"}))};el.replaceWith(img)}},0);return'<div class="image-fallback" id="'+id+'" style="height:'+h+'px">'+(item.emoji||"🐉")+"</div>"}
+function update(){document.getElementById("coins").textContent=coins.toLocaleString("ru-RU");document.getElementById("homeCount").textContent=inventory.length+" персонажей";document.getElementById("mineCount").textContent="Всего: "+inventory.length;document.getElementById("profileCoins").textContent=coins;document.getElementById("profileItems").textContent=inventory.length;document.getElementById("profileCases").textContent=cases;updateFree();renderSelect()}
+function showTab(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));if(id==="mine")renderMine();if(id==="wishlist")renderWishes();if(id==="profile")renderProfile();if(id==="upgrade")renderSelect();window.scrollTo(0,0)}
+function toggleMenu(){document.getElementById("sideMenu").classList.toggle("open")}
+function openCase(type){let prices={normal:100,dragon:500,secret:500,free:0};if(type==="free"&&Date.now()<freeAt){toast("Подожди "+timeLeft(freeAt-Date.now()));return}if(coins<prices[type]){toast("Недостаточно монет!");return}let pool=type==="dragon"?dragonCase:type==="secret"?secretCase:type==="free"?catalog:normalCase;if(!pool.length)return;coins-=prices[type];if(type==="free")freeAt=Date.now()+86400000;let item=make(pool[Math.floor(Math.random()*pool.length)]);inventory.push(item);cases++;save();update();feedback();document.getElementById("resultImage").innerHTML=imageHTML(item,true);document.getElementById("resultName").textContent=item.name;let m=info(item.mutation);document.getElementById("resultMutation").textContent=m.name;document.getElementById("resultMutation").className="mutation "+m.class;document.getElementById("resultModal").classList.add("open")}
+function closeResult(){document.getElementById("resultModal").classList.remove("open")}
+function timeLeft(ms){let n=Math.ceil(ms/60000);return Math.floor(n/60)+" ч. "+n%60+" мин."}
+function updateFree(){let b=document.getElementById("freeButton"),i=document.getElementById("freeInfo");if(Date.now()>=freeAt){b.textContent="Открыть";i.textContent="Бесплатно раз в 24 часа"}else{b.textContent="Через "+timeLeft(freeAt-Date.now());i.textContent="Следующий через "+timeLeft(freeAt-Date.now())}}
+function renderMine(){let g=document.getElementById("mineGrid");g.innerHTML="";document.getElementById("mineEmpty").style.display=inventory.length?"none":"block";inventory.forEach(item=>{let m=info(item.mutation),c=document.createElement("div");c.className="card";c.innerHTML=imageHTML(item)+'<div class="creature-name">'+esc(item.name)+'</div><div class="mutation '+m.class+'">'+m.name+'</div><div class="small">Продажа: '+50*m.mult+' монет</div><button class="full" style="margin-top:8px" onclick="sell(\''+item.id+'\')">Продать</button>';g.appendChild(c)});update()}
+function sell(id){let i=inventory.findIndex(x=>x.id===id);if(i<0)return;let item=inventory[i];coins+=50*info(item.mutation).mult;inventory.splice(i,1);save();renderMine();toast("Персонаж продан!");feedback()}
+function renderSelect(){let s=document.getElementById("upgradeSelect");if(!s)return;let old=s.value;s.innerHTML="";inventory.forEach(x=>{let o=document.createElement("option");o.value=x.id;o.textContent=x.name+" — "+info(x.mutation).name;s.appendChild(o)});if(old)s.value=old}
+let spinning=false;
+function spinUpgrade(){if(spinning)return;let s=document.getElementById("upgradeSelect"),idx=inventory.findIndex(x=>x.id===s.value);if(idx<0){toast("Сначала получи Брейнрота!");return}let item=inventory[idx];if(item.mutation==="rainbow"){toa
