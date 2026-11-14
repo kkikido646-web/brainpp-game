@@ -64,42 +64,28 @@ body.noParticles .caseArt:after{display:none}
 .avatarSkin:after{content:"";position:absolute;top:22px;left:9px;width:36px;height:26px;border-radius:4px;background:var(--skin);box-shadow:-8px 2px 0 -2px var(--skin),8px 2px 0 -2px var(--skin),-5px 26px 0 -4px var(--skin),5px 26px 0 -4px var(--skin)}
 .avatarSkin.black{--skin:#10131c}.avatarSkin.white{--skin:#f4f6ff}
 .caseArt.skin{background:radial-gradient(circle,#7b6ad0,#25243f 68%,#171b2b)}
-.case{transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:hidden;padding:10px;background:linear-gradient(160deg,#252b42 0%,#111725 72%);border:1px solid #ffffff26;box-shadow:0 7px 18px #0005}
 .caseHeader{display:flex;align-items:center;justify-content:space-between;margin:8px 2px 12px}.caseHeader .heading{font-size:23px;letter-spacing:1.5px;margin:8px 0}.caseHeaderMark{font-size:10px;font-weight:1000;letter-spacing:2px;color:#c4a5ff;border:1px solid #a78bfa66;border-radius:8px;padding:7px}
 .caseArt{height:118px;border-radius:12px;margin-bottom:10px;font-size:58px;background:radial-gradient(circle at 50% 35%,#8874df,#39335f 54%,#191e31);border:1px solid #ffffff25;text-shadow:0 5px 12px #0009}
 .case h3{font-size:14px;font-weight:1000;letter-spacing:.3px;margin:7px 0}.case p{min-height:26px;line-height:1.35}.case .btn{font-size:12px;padding:11px}
 .caseArt.skin{background:radial-gradient(circle at 50% 35%,#9b8bff,#433b78 54%,#191e31)}
 .case:nth-child(2) .caseArt{background:radial-gradient(circle,#5a8bcb,#233653 65%,#151d2c)}
 .case:nth-child(3) .caseArt{background:radial-gradient(circle,#9d70d6,#44305e 65%,#171b2b)}
-.case:nth-child(4) .caseArt{background:radial-gradient(circle,#65a87a,#254d3b 65%,#151d2a)}
-.case:nth-child(5) .caseArt{background:radial-gradient(circle,#d2a84e,#5d4521 65%,#211b16)}
-.case:nth-child(6) .caseArt{background:radial-gradient(circle,#b5c7e8,#52647e 65%,#20283a)}
-.case:nth-child(7) .caseArt{background:radial-gradient(circle,#5b5b70,#252638 65%,#10131c)}
-.case:active{transform:scale(.97)}
-.caseArt{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 35%,#7762b8,#25243f 68%,#171b2b)}
-.caseArt:after{content:"";position:absolute;inset:-50%;background:linear-gradient(110deg,transparent 40%,#ffffff22 50%,transparent 60%);transform:translateX(-70%);animation:shine 4s infinite}
-@keyframes shine{to{transform:translateX(70%)}}
-.modal.show .modal{animation:pop .22s ease-out}
-@keyframes pop{from{transform:scale(.88);opacity:.5}to{transform:scale(1);opacity:1}}
-.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.upgradePro{margin-top:12px;padding:12px;border-radius:12px;background:linear-gradient(135deg,#302052,#172b42);border:1px solid #a78bfa55}
-hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
-@media (max-width:700px){html,body{overflow-x:hidden!important;overflow-y:auto!important}main{padding-bottom:28px}.section{min-height:1px}}
-[hidden]{display:none!important}
+.case:nth-child(4) .caseArt{background:radial-gradient(circle,#d88a43,#63391f 65%,#211923)}
+.case:nth-child(5) .caseArt{background:radial-gradient(circle,#f5c75c,#775023 65%,#251b20)}
+@media(max-width:360px){.grid{gap:8px}.case{padding:8px}.caseArt{height:100px}}
 </style>
 </head>
 <body>
+<div class="app">
 <header class="top">
 <button type="button" class="menu" data-action="menu">☰</button>
-<div class="logo">BRAINPP <small style="font-size:10px;color:#aaa">6.0</small></div>
-<button type="button" class="profile" data-action="profile"><span class="avatar" id="avatar">B</span><span id="userName">Игрок</span></button>
+<div class="logo">👑 BRAINPP</div>
+<button type="button" class="profile" data-action="profile"><span class="avatar" id="avatar">B</span></button>
 </header>
-
 <div class="balances">
 <div class="balance"><small>🪙 МОНЕТЫ</small><strong class="coin" id="coins">0</strong></div>
 <div class="balance"><small>💎 ТОКЕНЫ</small><strong class="token" id="tokens">0</strong></div>
 </div>
-
 <main>
 <section class="section" id="home">
 <div class="heading">Моя статистика</div>
@@ -160,8 +146,8 @@ hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
 
 <div class="drawer" id="drawer"><div class="drawerPanel">
 <div class="row"><h2 style="color:#c4a5ff">BRAINPP</h2><button type="button" class="menu" data-action="closeMenu">✕</button></div>
-<button type="button" class="navBtn active" data-tab="home">🏠 Главная</button>
-<button type="button" class="navBtn" data-tab="cases">📦 Кейсы</button>
+<button type="button" class="navBtn" data-tab="home">🏠 Главная</button>
+<button type="button" class="navBtn active" data-tab="cases">📦 Кейсы</button>
 <button type="button" class="navBtn" data-tab="inventory">🎒 Коллекция</button>
 <button type="button" class="navBtn" data-tab="upgrade">⚡ Апгрейд</button>
 <button type="button" class="navBtn" data-tab="daily">🎁 Награды</button>
@@ -180,7 +166,6 @@ hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
 <div class="modalWrap" id="message"><div class="modal">
 <div class="modalArt" id="msgEmoji">ℹ️</div><h2 id="msgTitle">Сообщение</h2><p id="msgText" class="muted"></p><button type="button" class="btn" data-action="msgClose">ОК</button>
 </div></div>
-
 <script>
 (function(){
 'use strict';
@@ -202,6 +187,7 @@ const defaults={coins:0,tokens:0,inventory:[],opened:0,lastDaily:0,lastFree:0,us
 function loadData(){
  let saved={};
  try{saved=JSON.parse(localStorage.getItem('brainpp_data')||'{}')||{};}catch(e){}
+ // Перенос старой коллекции, если новый инвентарь ещё пуст.
  if(!Array.isArray(saved.inventory)||saved.inventory.length===0){
   try{const old=JSON.parse(localStorage.getItem('brainpp_collection')||'[]');if(Array.isArray(old)&&old.length)saved.inventory=old;}catch(e){}
  }
@@ -229,4 +215,171 @@ function tab(id){
  document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===id));
  document.querySelectorAll('.navBtn').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));
  $('drawer').classList.remove('show');
- if(id==='inventory')renderInventory();if(id==='upgrade')renderUpgrade();if(id==='profilePage')rend
+ if(id==='inventory')renderInventory();if(id==='upgrade')renderUpgrade();if(id==='profilePage')renderProfile();
+}
+function caseArtwork(id,c){if(id==='skeru')return '<div class="caseArt skin"><span class="avatarSkin black"></span></div>';if(id==='wizard')return '<div class="caseArt skin"><span class="avatarSkin white"></span></div>';return `<div class="caseArt">${c.emoji}</div>`;}
+function renderCases(){
+ $('caseGrid').innerHTML=Object.entries(cases).map(([id,c])=>`<article class="case">${caseArtwork(id,c)}<h3>${c.name}</h3><p>${c.desc}</p><p><b>${c.currency==='free'?'БЕСПЛАТНО':c.price.toLocaleString('ru-RU')+(c.currency==='tokens'?' 💎':' 🪙')}</b></p><button type="button" class="btn" data-preview="${id}">Посмотреть</button></article>`).join('');
+}
+function renderInventory(){
+ $('inventoryCount').textContent=d.inventory.length+' предметов';$('sellStatus').textContent=d.sell?'ВКЛ':'ВЫКЛ';
+ $('inventoryGrid').innerHTML=d.inventory.length?d.inventory.map((x,i)=>`<div class="item"><div class="emoji">${esc(x.emoji||'🧠')}</div><strong>${esc(x.name||'Брейнрот')}</strong><span class="tag ${esc(x.rarity||'common')}">${esc(x.rarity||'common')}</span><p class="muted">${Number(x.value)||20} 🪙</p>${d.sell?`<button type="button" class="btn red" data-sell="${i}">Продать</button>`:''}</div>`).join(''):'<div class="empty" style="grid-column:1/-1">🎒<br><br>Коллекция пока пуста. Открой первый кейс!</div>';
+}
+function allItems(){return Object.values(cases).flatMap(c=>c.items.map(a=>({name:a[0],emoji:a[1],rarity:a[2],chance:a[3],value:a[4]})));}
+function renderUpgrade(){
+ const s=$('upgradeSource'),t=$('upgradeTarget');
+ s.innerHTML=d.inventory.length?d.inventory.map((x,i)=>`<option value="${i}">${esc(x.emoji)} ${esc(x.name)}</option>`).join(''):'<option value="">Нет Брейнротов</option>';
+ const unique=[...new Map(allItems().map(x=>[x.name,x])).values()];
+ t.innerHTML=unique.map(x=>`<option value="${esc(x.name)}">${esc(x.emoji)} ${esc(x.name)} (${x.value} 🪙)</option>`).join('');chance();
+}
+function chance(){
+ const x=d.inventory[Number($('upgradeSource').value)],y=allItems().find(z=>z.name===$('upgradeTarget').value);let n=0;
+ if(x&&y&&x.name!==y.name)n=y.value>(x.value||20)?Math.min(75,Math.max(5,Math.floor((x.value||20)/y.value*75))):50;
+ $('upgradeChance').textContent=n+'%';
+}
+function preview(id){
+ const c=cases[id];if(!c)return;
+ $('modalCaseName').textContent=c.name;$('modalArt').textContent=c.emoji;$('modalTitle').textContent='Содержимое кейса';
+ $('modalInfo').innerHTML=c.items.map(x=>`<p style="display:flex;justify-content:space-between;gap:8px"><span>${x[1]} ${esc(x[0])}</span><span class="${x[2]}">${x[2]} · ${x[3]}%</span></p>`).join('');
+ $('modalText').textContent=c.currency==='free'?'Бесплатно':`Цена: ${c.price.toLocaleString('ru-RU')} ${c.currency==='tokens'?'токенов':'монет'}`;
+ $('modal').dataset.case=id;$('modalOpenBtn').hidden=false;$('modalOpenBtn').disabled=false;$('modalOpenBtn').textContent='ОТКРЫТЬ КЕЙС';$('modal').classList.add('show');
+}
+function randomItem(items){let n=Math.random()*items.reduce((a,x)=>a+x[3],0);for(const x of items){n-=x[3];if(n<=0)return x;}return items[items.length-1];}
+function openCase(id){
+ const c=cases[id];if(!c)return;
+ if(id==='free'&&Date.now()-d.lastFree<DAY){msg('Подожди','Бесплатный кейс доступен раз в 24 часа.','⏳');return;}
+ if(c.currency==='coins'&&d.coins<c.price){msg('Не хватает монет',`Нужно ещё ${c.price-d.coins} монет.`,'🪙');return;}
+ if(c.currency==='tokens'&&d.tokens<c.price){msg('Не хватает токенов',`Нужно ещё ${c.price-d.tokens} токенов.`,'💎');return;}
+ if(c.currency==='coins')d.coins-=c.price;if(c.currency==='tokens')d.tokens-=c.price;if(id==='free')d.lastFree=Date.now();
+ const a=randomItem(c.items),item={name:a[0],emoji:a[1],rarity:a[2],value:a[4],uid:Date.now()+Math.random()};
+ d.inventory.push(item);d.opened++;save();renderAll();
+ $('modalCaseName').textContent=c.name;$('modalArt').textContent=item.emoji;$('modalTitle').textContent=item.name;
+ $('modalInfo').innerHTML=`<span class="tag ${item.rarity}">${item.rarity.toUpperCase()}</span>`;
+ $('modalText').textContent=`Ты получил нового Брейнрота! Стоимость: ${item.value} монет.`;
+ $('modalOpenBtn').hidden=true;$('modal').classList.add('show');
+}
+function sell(i){
+ const x=d.inventory[i];if(!x||!d.sell)return;
+ d.coins+=Math.max(1,Math.floor((Number(x.value)||20)*.5));d.inventory.splice(i,1);save();renderAll();
+}
+function doUpgrade(){
+ const i=Number($('upgradeSource').value),x=d.inventory[i],y=allItems().find(z=>z.name===$('upgradeTarget').value);
+ if(!x||!y){msg('Нет предмета','Сначала получи Брейнрота из кейса.','⚡');return;}
+ if(x.name===y.name){msg('Выбери другую цель','Нельзя улучшить предмет в самого себя.','⚡');return;}
+ const n=y.value>(x.value||20)?Math.min(75,Math.max(5,Math.floor((x.value||20)/y.value*75))):50;
+ d.inventory.splice(i,1);
+ if(Math.random()*100<n){d.inventory.push({...y,uid:Date.now()});save();renderAll();msg('УСПЕХ!',`Получен ${y.name}!`,'🎉');}
+ else{save();renderAll();msg('Неудача',`${x.name} сгорел.`,'💥');}
+}
+function doUpgradePro(){
+ const i=Number($('upgradeSource').value),x=d.inventory[i],y=allItems().find(z=>z.name===$('upgradeTarget').value);
+ if(!x||!y||x.name===y.name){msg('Выбери предметы','Нужны исходный Брейнрот и другая цель.','⚡');return;}
+ if(d.tokens<2){msg('Не хватает токенов','Для профессионального апгрейда нужно 2 токена.','💎');return;}
+ d.tokens-=2;
+ const base=y.value>(x.value||20)?Math.min(75,Math.max(5,Math.floor((x.value||20)/y.value*75))):50;
+ const n=Math.min(95,base+20);
+ d.inventory.splice(i,1);
+ if(Math.random()*100<n){d.inventory.push({...y,uid:Date.now()});save();renderAll();msg('ПРОФЕССИОНАЛЬНЫЙ УСПЕХ!',`Получен ${y.name}! Шанс был ${n}%.`,'⚡');}
+ else{save();renderAll();msg('Апгрейд не удался',`${x.name} сгорел. Шанс был ${n}%.`,'💥');}
+}
+function doUpgradeLegend(){
+ const i=Number($('upgradeSource').value),x=d.inventory[i],y=allItems().find(z=>z.name===$('upgradeTarget').value);
+ if(!x||!y||x.name===y.name){msg('Выбери предметы','Нужны исходный Брейнрот и другая цель.','⚡');return;}
+ if(d.tokens<5){msg('Не хватает токенов','Для ультра-апгрейда нужно 5 токенов.','💎');return;}
+ d.tokens-=5;const base=y.value>(x.value||20)?Math.min(75,Math.max(5,Math.floor((x.value||20)/y.value*75))):50;const n=Math.min(99,base+40);d.inventory.splice(i,1);
+ if(Math.random()*100<n){d.inventory.push({...y,uid:Date.now()});save();renderAll();msg('УЛЬТРА-УСПЕХ!',`Получен ${y.name}! Шанс был ${n}%.`,'🌟');}
+ else{save();renderAll();msg('Апгрейд не удался',`${x.name} сгорел. Шанс был ${n}%.`,'💥');}
+}
+function remaining(ts){return Math.max(0,DAY-(Date.now()-(Number(ts)||0)));}
+function fmt(ms){return Math.floor(ms/3600000)+' ч. '+Math.floor(ms%3600000/60000)+' мин.';}
+ function updateTimers(){
+ const a=remaining(d.lastDaily),b=remaining(d.lastFree);
+ $('dailyBtn').disabled=!!a;$('dailyBtn').textContent=a?'УЖЕ ПОЛУЧЕНО':'ЗАБРАТЬ 5 ТОКЕНОВ';
+ $('dailyStatus').textContent=a?'Следующая награда через '+fmt(a):'Награда доступна!';
+ $('freeBtn').disabled=!!b;$('freeStatus').textContent=b?'Доступно через '+fmt(b):'Бесплатный кейс готов!';
+}
+function daily(){
+ if(remaining(d.lastDaily)){msg('Уже получено','Возвращайся через 24 часа.','⏳');return;}
+ d.tokens+=5;d.lastDaily=Date.now();save();renderAll();msg('Награда получена','Тебе начислено 5 токенов.','💎');
+}
+function usePromo(){
+ const code=$('promoInput').value.trim().toUpperCase(),p=d.promos[code];
+ if(!code||!p){$('promoMessage').textContent='Промокод не найден.';return;}
+ if(d.used[code]){$('promoMessage').textContent='Этот код уже использован.';return;}
+ d.used[code]=true;d.coins+=Math.max(0,Number(p.coins)||0);d.tokens+=Math.max(0,Number(p.tokens)||0);
+ save();renderAll();$('promoMessage').textContent='Промокод активирован!';$('promoInput').value='';
+}
+function createPromo(){
+ const code=$('newPromo').value.trim().toUpperCase(),coins=Math.max(0,Number($('promoCoins').value)||0),tokens=Math.max(0,Number($('promoTokens').value)||0);
+ if(!code){$('ownerMessage').textContent='Введи название промокода.';return;}
+ if(!coins&&!tokens){$('ownerMessage').textContent='Укажи награду в монетах или токенах.';return;}
+ if(d.promos[code]){$('ownerMessage').textContent='Такой промокод уже существует.';return;}
+ d.promos[code]={coins,tokens};save();renderPromos();$('ownerMessage').textContent='Промокод '+code+' создан.';
+ $('newPromo').value='';$('promoCoins').value='';$('promoTokens').value='';
+}
+function renderPromos(){
+ const el=$('promoList');if(!el)return;const keys=Object.keys(d.promos);
+ el.innerHTML=keys.length?keys.map(k=>`<p class="muted">${esc(k)} — ${Number(d.promos[k].coins)||0} 🪙, ${Number(d.promos[k].tokens)||0} 💎</p>`).join(''):'<p class="muted">Промокодов пока нет.</p>';
+}
+function setAvatar(el){
+ const name=user?(user.first_name||user.username||'Игрок'):'Игрок';
+ if(user&&user.photo_url){el.innerHTML='<img alt="Аватар Telegram" src="'+esc(user.photo_url)+'">';}
+ else{el.textContent=(name.trim()[0]||'B').toUpperCase();}
+}
+function renderProfile(){
+ const name=user?(user.first_name||user.username||'Игрок'):'Игрок';
+ $('profileName').textContent=name;$('profileUsername').textContent=user&&user.username?'@'+user.username:'Telegram не подключён';
+ setAvatar($('profileAvatar'));
+ $('profileCoins').textContent=d.coins.toLocaleString('ru-RU');$('profileTokens').textContent=d.tokens.toLocaleString('ru-RU');
+ $('profileOpened').textContent=d.opened;$('profileItems').textContent=d.inventory.length;
+}
+function renderAll(){
+ $('coins').textContent=d.coins.toLocaleString('ru-RU');$('tokens').textContent=d.tokens.toLocaleString('ru-RU');
+ $('statOpened').textContent=d.opened;$('statItems').textContent=d.inventory.length;$('level').textContent=String(1+Math.floor(d.opened/10));
+ $('userName').textContent=user?(user.first_name||user.username||'Игрок'):'Игрок';setAvatar($('avatar'));
+ renderInventory();renderPromos();updateTimers();if($('profilePage').classList.contains('active'))renderProfile();
+}
+function showMenu(){$('drawer').classList.add('show');}
+function hideMenu(){$('drawer').classList.remove('show');}
+
+// Единый обработчик на документе: работает и для кнопок, созданных динамически.
+function handleAction(event){
+ const target=event.target;
+ if(!target || typeof target.closest!=='function')return;
+ const el=target.closest('button,[data-tab],[data-preview],[data-case],[data-sell]');
+ if(!el)return;
+ if(event.cancelable)event.preventDefault();
+ if(el.dataset.tab){tab(el.dataset.tab);return;}
+ if(el.dataset.preview){preview(el.dataset.preview);return;}
+ if(el.dataset.case){openCase(el.dataset.case);return;}
+ if(el.dataset.sell!==undefined){sell(Number(el.dataset.sell));return;}
+ switch(el.dataset.action){
+  case 'menu':showMenu();break;case 'closeMenu':hideMenu();break;case 'profile':tab('profilePage');break;
+  case 'sellToggle':d.sell=!d.sell;save();renderInventory();break;case 'upgrade':doUpgrade();break;case 'upgradePro':doUpgradePro();break;case 'upgradeLegend':doUpgradeLegend();break;case 'daily':daily();break;
+  case 'promoUse':usePromo();break;case 'promoCreate':createPromo();break;
+  case 'modalOpen':{const id=$('modal').dataset.case;if(id)openCase(id);break;}
+  case 'modalClose':$('modal').classList.remove('show');break;case 'msgClose':closeMsg();break;
+ }
+}
+// Единая делегация click: Telegram Android WebView сам создаёт click после касания.
+// Не перехватываем touchend — это сохраняет обычную прокрутку страницы свайпом.
+document.addEventListener('click',function(event){
+ handleAction(event);
+},false);
+$('upgradeSource').addEventListener('change',chance);$('upgradeTarget').addEventListener('change',chance);
+$('graphics').value=d.settings.graphics||'ultra';$('soundToggle').checked=d.settings.sound!==false;$('animToggle').checked=d.settings.animations!==false;$('particlesToggle').checked=d.settings.particles!==false;
+function applyVisualSettings(){document.body.classList.remove('low','medium','ultra');if(d.settings.graphics==='low'||d.settings.animations===false)document.body.classList.add('low');else if(d.settings.graphics==='medium')document.body.classList.add('medium');else if(d.settings.graphics==='ultra')document.body.classList.add('ultra');document.body.classList.toggle('noParticles',d.settings.particles===false);}
+$('graphics').addEventListener('change',function(){d.settings.graphics=this.value;applyVisualSettings();save();});
+$('soundToggle').addEventListener('change',function(){d.settings.sound=this.checked;save();});
+$('animToggle').addEventListener('change',function(){d.settings.animations=this.checked;applyVisualSettings();save();});
+$('particlesToggle').addEventListener('change',function(){d.settings.particles=this.checked;applyVisualSettings();save();});
+$('drawer').addEventListener('click',function(e){if(e.target===$('drawer'))hideMenu();});
+$('modal').addEventListener('click',function(e){if(e.target===$('modal'))$('modal').classList.remove('show');});
+$('message').addEventListener('click',function(e){if(e.target===$('message'))closeMsg();});
+if(owner)$('ownerPanel').hidden=false;
+applyVisualSettings();
+renderCases();renderAll();
+})();
+</script>
+</body>
+</html>
