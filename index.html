@@ -5,42 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>BRAINPP 5.0</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
-:root {
- --bg:#090711;
- --panel:#211735;
- --purple:#9b5cff;
- --pink:#d35cff;
- --text:#f7f1ff;
- --muted:#a99bbd;
- --gold:#ffd45c;
+:root{
+ --bg:#090711;--panel:#211735;--purple:#9b5cff;
+ --pink:#d35cff;--text:#f7f1ff;--muted:#a99bbd;--gold:#ffd45c;
 }
 *{box-sizing:border-box}
 body{
- margin:0;
- background:radial-gradient(circle at top,#29143e,#090711 60%);
- color:var(--text);
- font-family:Arial,sans-serif;
- min-height:100vh;
+ margin:0;background:radial-gradient(circle at top,#29143e,#090711 60%);
+ color:var(--text);font-family:Arial,sans-serif;min-height:100vh;
 }
 header{
- position:sticky;top:0;z-index:5;
- background:#100b1bee;
- border-bottom:1px solid #ffffff20;
- padding:12px;
- text-align:center;
+ position:sticky;top:0;z-index:5;background:#100b1bee;
+ border-bottom:1px solid #ffffff20;padding:12px;text-align:center;
 }
 .logo{font-size:25px;font-weight:1000;color:#c58aff;letter-spacing:2px}
-.menu-button{
- position:absolute;left:12px;top:12px;
- width:42px;height:40px;padding:5px;
- font-size:22px!important;
-}
+.menu-button{position:absolute;left:12px;top:12px;width:42px;height:40px;padding:5px;font-size:22px}
 .balance{
  display:inline-block;margin-top:9px;padding:8px 16px;
- background:#2b1b40;border:1px solid #7542a5;
- border-radius:20px;color:var(--gold);font-weight:bold;
+ background:#2b1b40;border:1px solid #7542a5;border-radius:20px;
+ color:var(--gold);font-weight:bold;
 }
 main{max-width:650px;margin:auto;padding:16px 13px 100px}
 h2{font-size:21px;margin:12px 0}
@@ -77,10 +61,10 @@ nav button{background:transparent;color:#bcaecc;padding:8px 2px;font-size:12px}
 nav button.active{background:#39234f;color:white}
 nav span{display:block;font-size:20px;margin-bottom:4px}
 input,select{
- width:100%;padding:12px;margin:7px 0;
- background:#100b19;border:1px solid #65418a;
- border-radius:10px;color:white;font-size:15px;
+ width:100%;padding:12px;margin:7px 0;background:#100b19;
+ border:1px solid #65418a;border-radius:10px;color:white;font-size:15px;
 }
+input[type=checkbox]{width:20px;height:20px}
 select option{background:#171126}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .creature{text-align:center;min-width:0}
@@ -94,14 +78,11 @@ select option{background:#171126}
 .wizard-case{border-color:#9b5cff}
 .skeru-case{border-color:#777}
 .shadow-case{border-color:#5d6b8c}
-#drawerShade{
- display:none;position:fixed;inset:0;background:#0009;z-index:20;
-}
+#drawerShade{display:none;position:fixed;inset:0;background:#0009;z-index:20}
 #drawer{
  position:fixed;left:0;top:0;bottom:0;width:min(300px,82vw);
- background:#160f23;border-right:1px solid #704b91;
- z-index:21;padding:20px 15px;
- transform:translateX(-105%);transition:transform .2s;
+ background:#160f23;border-right:1px solid #704b91;z-index:21;
+ padding:20px 15px;transform:translateX(-105%);transition:transform .2s;
 }
 #drawer.open{transform:translateX(0)}
 .drawer-title{font-size:23px;color:#c58aff;font-weight:bold;margin:10px 0 22px}
@@ -109,14 +90,10 @@ select option{background:#171126}
  display:block;width:100%;text-align:left;margin:8px 0;
  background:#281b39;border:1px solid #ffffff15;
 }
-.quality-choice{
- display:flex;justify-content:space-between;width:100%;
- margin:9px 0;background:#281b39;
-}
+.quality-choice{display:flex;justify-content:space-between;width:100%;margin:9px 0;background:#281b39}
 .quality-choice.selected{border:2px solid #9b5cff}
 #preview,#modal{
- display:none;position:fixed;inset:0;
- background:#05030bed;z-index:30;
+ display:none;position:fixed;inset:0;background:#05030bed;z-index:30;
  align-items:center;justify-content:center;padding:18px;
 }
 .modal-content{
@@ -124,10 +101,7 @@ select option{background:#171126}
  background:linear-gradient(145deg,#302047,#130d20);
  border:1px solid #a45bdb;border-radius:22px;padding:20px;
 }
-.result-visual{
- font-size:85px;margin:15px;
- filter:drop-shadow(0 0 15px #bd78ff);
-}
+.result-visual{font-size:85px;margin:15px;filter:drop-shadow(0 0 15px #bd78ff)}
 .result-name{font-size:22px;font-weight:bold;margin:10px}
 .spinning{animation:spin .2s linear infinite}
 @keyframes spin{
@@ -135,31 +109,18 @@ select option{background:#171126}
  50%{transform:rotate(8deg) scale(1.1)}
  100%{transform:rotate(-8deg) scale(.9)}
 }
-.upgrade-arena{
- border:1px solid #8c55bd;border-radius:15px;
- padding:13px;text-align:center;background:#160f23;
-}
-.upgrade-visuals{
- display:grid;grid-template-columns:1fr auto 1fr;
- align-items:center;gap:8px;margin:12px 0;
-}
+.upgrade-arena{border:1px solid #8c55bd;border-radius:15px;padding:13px;text-align:center;background:#160f23}
+.upgrade-visuals{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin:12px 0}
 .upgrade-visual{font-size:43px}
 .chance{font-size:27px;color:var(--gold);font-weight:bold;margin:12px}
 .graphic-note{font-size:12px;color:var(--muted)}
-body[data-quality="medium"] .card,
-body[data-quality="medium"] .creature{box-shadow:none}
+body[data-quality="medium"] .card,body[data-quality="medium"] .creature{box-shadow:none}
 body[data-quality="low"]{background:#090711}
-body[data-quality="low"] *{animation:none!important;transition:none!important;backdrop-filter:none!important}
-body[data-quality="low"] .card,
-body[data-quality="low"] .creature{box-shadow:none;background:#191323}
-@media(max-width:360px){
- .logo{font-size:21px}
- .grid{gap:8px}
- .card{padding:9px}
-}
+body[data-quality="low"] *{animation:none!important;transition:none!important}
+body[data-quality="low"] .card,body[data-quality="low"] .creature{box-shadow:none;background:#191323}
+@media(max-width:360px){.logo{font-size:21px}.grid{gap:8px}.card{padding:9px}}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -172,7 +133,6 @@ body[data-quality="low"] .creature{box-shadow:none;background:#191323}
 </header>
 
 <div id="drawerShade" onclick="toggleDrawer(false)"></div>
-
 <aside id="drawer">
  <div class="drawer-title">🐉 BRAINPP</div>
  <button class="drawer-link" onclick="goTab('home')">🏠 Главная</button>
@@ -185,164 +145,116 @@ body[data-quality="low"] .creature{box-shadow:none;background:#191323}
 
 <main>
 
-<!-- ГЛАВНАЯ -->
 <section id="home" class="section active">
  <h2>🎁 Кейсы</h2>
  <p class="subtitle">Открывай кейсы и собирай Брейнротов!</p>
-
  <div class="grid">
-
   <div class="card">
-   <div class="case-icon">📦</div>
-   <div class="case-name">Обычный кейс</div>
+   <div class="case-icon">📦</div><div class="case-name">Обычный кейс</div>
    <div class="case-price">🪙 100 монет</div>
    <button class="full" onclick="previewCase('normal')">Открыть</button>
   </div>
-
   <div class="card">
-   <div class="case-icon">🐉</div>
-   <div class="case-name">Драконий кейс</div>
+   <div class="case-icon">🐉</div><div class="case-name">Драконий кейс</div>
    <div class="case-price">🪙 500 монет</div>
    <button class="full" onclick="previewCase('dragon')">Открыть</button>
   </div>
-
   <div class="card">
-   <div class="case-icon">🔮</div>
-   <div class="case-name">Секретный кейс</div>
+   <div class="case-icon">🔮</div><div class="case-name">Секретный кейс</div>
    <div class="case-price">🪙 500 монет</div>
    <button class="full" onclick="previewCase('secret')">Открыть</button>
   </div>
-
   <div class="card">
-   <div class="case-icon">🎁</div>
-   <div class="case-name">Бесплатный кейс</div>
+   <div class="case-icon">🎁</div><div class="case-name">Бесплатный кейс</div>
    <div class="case-price" id="freeTimer">Бесплатно</div>
-   <button class="full" id="freeButton" onclick="previewCase('free')">Забрать</button>
+   <button class="full" onclick="previewCase('free')">Забрать</button>
   </div>
-
   <div class="card garamu-case">
-   <div class="case-icon">🦍</div>
-   <div class="case-name">Кейс Гараму</div>
+   <div class="case-icon">🦍</div><div class="case-name">Кейс Гараму</div>
    <div class="case-price">🪙 50 монет</div>
    <button class="full" onclick="previewCase('garamu')">Посмотреть</button>
   </div>
-
   <div class="card emperor-case">
-   <div class="case-icon">🍓🐘</div>
-   <div class="case-name">Кейс ИМПЕРАТОР</div>
+   <div class="case-icon">🍓🐘</div><div class="case-name">Кейс ИМПЕРАТОР</div>
    <div class="case-price">💎 10 000 токенов</div>
    <button class="full" onclick="previewCase('emperor')">Посмотреть</button>
   </div>
-
   <div class="card wizard-case">
-   <div class="case-icon">🧙</div>
-   <div class="case-name">Кейс W1zard</div>
+   <div class="case-icon">🧙</div><div class="case-name">Кейс W1zard</div>
    <div class="case-price">🪙 2 500 монет</div>
    <button class="full" onclick="previewCase('wizard')">Посмотреть</button>
   </div>
-
   <div class="card skeru-case">
-   <div class="case-icon">⬛</div>
-   <div class="case-name">Кейс skeru</div>
+   <div class="case-icon">⬛</div><div class="case-name">Кейс skeru</div>
    <div class="case-price">🪙 5 000 монет</div>
    <button class="full" onclick="previewCase('skeru')">Посмотреть</button>
   </div>
-
   <div class="card shadow-case">
-   <div class="case-icon">🌑</div>
-   <div class="case-name">Теневой кейс</div>
+   <div class="case-icon">🌑</div><div class="case-name">Теневой кейс</div>
    <div class="case-price">💎 750 токенов</div>
    <button class="full" onclick="previewCase('shadow')">Посмотреть</button>
   </div>
-
  </div>
-
  <div class="box" style="margin-top:15px">
   <b>✨ BRAINPP 5.0</b>
   <p class="subtitle">Собирай редких персонажей, улучшай их и открывай новые кейсы!</p>
  </div>
 </section>
 
-<!-- КОЛЛЕКЦИЯ -->
 <section id="collection" class="section">
  <h2>🎒 Моя коллекция</h2>
- <div class="row">
-  <span class="subtitle">Твои Брейнроты</span>
-  <b id="creatureCount">0 существ</b>
- </div>
+ <div class="row"><span class="subtitle">Твои Брейнроты</span><b id="creatureCount">0 существ</b></div>
  <div id="inventory" class="grid" style="margin-top:14px"></div>
 </section>
 
-<!-- АПГРЕЙД -->
 <section id="upgrade" class="section">
  <h2>⚡ Апгрейд</h2>
-
  <div class="box">
   <b>Выбери Брейнрота для ставки</b>
   <p class="subtitle">При неудаче выбранный Брейнрот будет потерян.</p>
-
   <label class="subtitle">Твой Брейнрот</label>
   <select id="upgradeSource" onchange="updateUpgradePreview()"></select>
-
   <label class="subtitle">Желаемый Брейнрот</label>
   <select id="upgradeTarget" onchange="updateUpgradePreview()"></select>
-
   <div class="upgrade-arena">
    <div class="upgrade-visuals">
-    <div>
-     <div id="sourceEmoji" class="upgrade-visual">🎒</div>
-     <div id="sourceName" class="small">Твой Брейнрот</div>
-    </div>
+    <div><div id="sourceEmoji" class="upgrade-visual">🎒</div><div id="sourceName" class="small">Твой Брейнрот</div></div>
     <div>➜</div>
-    <div>
-     <div id="targetEmoji" class="upgrade-visual">❔</div>
-     <div id="targetName" class="small">Желаемый Брейнрот</div>
-    </div>
+    <div><div id="targetEmoji" class="upgrade-visual">❔</div><div id="targetName" class="small">Желаемый Брейнрот</div></div>
    </div>
-
    <div class="small">Шанс успеха</div>
    <div class="chance" id="upgradeChance">—</div>
-
    <button class="full" id="upgradeSpin" onclick="spinUpgrade()">⚡ Крутить апгрейд</button>
    <p id="upgradeMessage" class="subtitle"></p>
   </div>
  </div>
 </section>
 
-<!-- ПРОФИЛЬ -->
 <section id="profile" class="section">
  <h2>👤 Профиль</h2>
-
  <div class="box" style="text-align:center">
   <div id="avatar" style="font-size:55px">👤</div>
   <h2 id="playerName">Игрок</h2>
   <div class="subtitle" id="playerUsername"></div>
  </div>
-
  <div class="box">
-  <div class="row"><span>🪙 Баланс</span><b id="profileCoins">0</b></div>
-  <hr>
-  <div class="row"><span>💎 Токены</span><b id="profileTokens">0</b></div>
-  <hr>
-  <div class="row"><span>🎒 Брейнроты</span><b id="profileCount">0</b></div>
-  <hr>
+  <div class="row"><span>🪙 Баланс</span><b id="profileCoins">0</b></div><hr>
+  <div class="row"><span>💎 Токены</span><b id="profileTokens">0</b></div><hr>
+  <div class="row"><span>🎒 Брейнроты</span><b id="profileCount">0</b></div><hr>
   <div class="row"><span>⭐ Сумма уровней</span><b id="profileLevels">0</b></div>
  </div>
-
  <div class="box">
   <h3>💎 Ежедневная награда</h3>
   <p class="subtitle">Получай 5 токенов один раз в день.</p>
   <button class="full secondary" id="tokenTaskButton" onclick="claimTokenTask()">Забрать 5 токенов</button>
   <p class="subtitle" id="tokenTaskMessage"></p>
  </div>
-
  <div class="box">
   <h3>🎟️ Промокод</h3>
   <input id="promoInput" placeholder="Введи промокод">
   <button class="full" onclick="activatePromo()">Активировать</button>
   <p class="subtitle" id="promoMessage"></p>
  </div>
-
  <div id="ownerPanel" class="box owner hidden">
   <h3>👑 Панель владельца</h3>
   <p class="subtitle">Создание промокодов.</p>
@@ -354,41 +266,21 @@ body[data-quality="low"] .creature{box-shadow:none;background:#191323}
  </div>
 </section>
 
-<!-- ГРАФИКА -->
 <section id="graphics" class="section">
  <h2>🎨 Настройки графики</h2>
-
  <div class="box">
   <p class="subtitle">Выбери качество графики.</p>
-
-  <button class="quality-choice" onclick="setQuality('high')" data-quality="high">
-   <span>✨ Высокая</span><span id="check-high">○</span>
-  </button>
-
-  <button class="quality-choice" onclick="setQuality('medium')" data-quality="medium">
-   <span>⚡ Средняя</span><span id="check-medium">○</span>
-  </button>
-
-  <button class="quality-choice" onclick="setQuality('low')" data-quality="low">
-   <span>🔋 Низкая</span><span id="check-low">○</span>
-  </button>
-
+  <button class="quality-choice" onclick="setQuality('high')" data-quality="high"><span>✨ Высокая</span><span id="check-high">○</span></button>
+  <button class="quality-choice" onclick="setQuality('medium')" data-quality="medium"><span>⚡ Средняя</span><span id="check-medium">○</span></button>
+  <button class="quality-choice" onclick="setQuality('low')" data-quality="low"><span>🔋 Низкая</span><span id="check-low">○</span></button>
   <p id="qualityMessage" class="subtitle"></p>
  </div>
-
  <div class="box">
   <h3>🔊 Звук и эффекты</h3>
-  <label class="row">
-   <span>Звуковые эффекты</span>
-   <input id="soundToggle" type="checkbox" onchange="localStorage.setItem('brainpp_sound',this.checked?'1':'0')">
-  </label>
-  <label class="row">
-   <span>Анимации</span>
-   <input id="animationToggle" type="checkbox" onchange="localStorage.setItem('brainpp_animations',this.checked?'1':'0')">
-  </label>
+  <label class="row"><span>Звуковые эффекты</span><input id="soundToggle" type="checkbox" onchange="localStorage.setItem('brainpp_sound',this.checked?'1':'0')"></label>
+  <label class="row"><span>Анимации</span><input id="animationToggle" type="checkbox" onchange="localStorage.setItem('brainpp_animations',this.checked?'1':'0')"></label>
  </div>
 </section>
-
 </main>
 
 <nav>
@@ -398,7 +290,6 @@ body[data-quality="low"] .creature{box-shadow:none;background:#191323}
  <button onclick="goTab('profile',this)"><span>👤</span>Профиль</button>
 </nav>
 
-<!-- ПРЕДПРОСМОТР -->
 <div id="preview">
  <div class="modal-content">
   <h2 id="previewTitle">Кейс</h2>
@@ -410,7 +301,6 @@ body[data-quality="low"] .creature{box-shadow:none;background:#191323}
  </div>
 </div>
 
-<!-- РЕЗУЛЬТАТ -->
 <div id="modal">
  <div class="modal-content">
   <h2 id="modalTitle">Открытие кейса</h2>
@@ -433,44 +323,37 @@ const normalCase=[
  ['Лирили Ларила','🐘',150,'Эпический'],
  ['Капучино Ассасино','☕',200,'Легендарный']
 ];
-
 const dragonCase=[
  ['Дракон Брейнрот','🐉',350,'Редкий'],
  ['Огненный Дракон','🔥',450,'Эпический'],
  ['Золотой Дракон','🐲',600,'Легендарный'],
  ['Дракон-Император','👑🐉',1200,'Мифический']
 ];
-
 const secretCase=[
  ['Тайный Брейнрот','👑',900,'Секретный'],
  ['Теневой Король','🌑',1500,'Секретный'],
  ['Космический Брейнрот','🌌',2200,'Мифический']
 ];
-
 const garamuCase=[
  ['Гараму','🦍',500,'Редкий'],
  ['Гараму Альфа','🦍🔥',1200,'Эпический'],
  ['Король Гараму','👑🦍',2500,'Легендарный']
 ];
-
 const emperorCase=[
  ['Strawberry Elephant','🍓🐘',25000,'Секретный'],
  ['Клубничный Титан','🍓👑',8000,'Мифический'],
  ['Императорский Слон','🐘✨',12000,'Легендарный']
 ];
-
 const wizardCase=[
  ['W1zard','🧙',3000,'Редкий'],
  ['Магический Аватар','🧙‍♂️',5000,'Эпический'],
  ['Архимаг','🔮',9000,'Легендарный']
 ];
-
 const skeruCase=[
  ['skeru','⬛',6000,'Секретный'],
  ['Чёрный Аватар','🖤',8500,'Мифический'],
  ['Тёмный Властелин','🌑',12000,'Легендарный']
 ];
-
 const shadowCase=[
  ['Теневой Брейнрот','🌑',1800,'Редкий'],
  ['Призрак','👻',3500,'Эпический'],
@@ -478,45 +361,38 @@ const shadowCase=[
 ];
 
 const caseInfo={
- normal:{title:'Обычный кейс',price:100,currency:'coins',icon:'📦',desc:'Обычные и редкие Брейнроты.'},
- dragon:{title:'Драконий кейс',price:500,currency:'coins',icon:'🐉',desc:'Драконы и редкие существа.'},
- secret:{title:'Секретный кейс',price:500,currency:'coins',icon:'🔮',desc:'Тайные персонажи.'},
- free:{title:'Бесплатный кейс',price:0,currency:'coins',icon:'🎁',desc:'Бесплатно раз в 24 часа.'},
- garamu:{title:'Кейс Гараму',price:50,currency:'coins',icon:'🦍',desc:'Три версии Гараму!'},
- emperor:{title:'Кейс ИМПЕРАТОР',price:10000,currency:'tokens',icon:'🍓🐘',desc:'Возможен Strawberry Elephant!'},
- wizard:{title:'Кейс W1zard',price:2500,currency:'coins',icon:'🧙',desc:'Магические персонажи.'},
- skeru:{title:'Кейс skeru',price:5000,currency:'coins',icon:'⬛',desc:'Чёрные аватары.'},
- shadow:{title:'Теневой кейс',price:750,currency:'tokens',icon:'🌑',desc:'Существа из теневого мира.'}
+ normal:{title:'Обычный кейс',price:100,currency:'coins',icon:'📦',desc:'Обычные и редкие Брейнроты.',items:normalCase},
+ dragon:{title:'Драконий кейс',price:500,currency:'coins',icon:'🐉',desc:'Драконы и редкие существа.',items:dragonCase},
+ secret:{title:'Секретный кейс',price:500,currency:'coins',icon:'🔮',desc:'Тайные персонажи.',items:secretCase},
+ free:{title:'Бесплатный кейс',price:0,currency:'coins',icon:'🎁',desc:'Бесплатно раз в 24 часа.',items:normalCase},
+ garamu:{title:'Кейс Гараму',price:50,currency:'coins',icon:'🦍',desc:'Три версии Гараму!',items:garamuCase},
+ emperor:{title:'Кейс ИМПЕРАТОР',price:10000,currency:'tokens',icon:'🍓🐘',desc:'Возможен Strawberry Elephant!',items:emperorCase},
+ wizard:{title:'Кейс W1zard',price:2500,currency:'coins',icon:'🧙',desc:'Магические персонажи.',items:wizardCase},
+ skeru:{title:'Кейс skeru',price:5000,currency:'coins',icon:'⬛',desc:'Чёрные аватары.',items:skeruCase},
+ shadow:{title:'Теневой кейс',price:750,currency:'tokens',icon:'🌑',desc:'Существа из теневого мира.',items:shadowCase}
 };
 
-const allBrainrots=[
- ...new Map([
-  ...normalCase,...dragonCase,...secretCase,...garamuCase,
-  ...emperorCase,...wizardCase,...skeruCase,...shadowCase
- ].map(x=>[x[0],x])).values()
-];
+const allBrainrots=[...new Map(
+ Object.values(caseInfo).flatMap(c=>c.items).map(x=>[x[0],x])
+).values()];
 
 function readJSON(key,fallback){
  try{
-  const v=localStorage.getItem(key);
-  return v===null?fallback:JSON.parse(v);
+  const value=localStorage.getItem(key);
+  return value===null?fallback:JSON.parse(value);
  }catch(e){return fallback}
 }
 
 let coins=Math.max(0,Number(localStorage.getItem('brainpp_coins'))||0);
 let tokens=Math.max(0,Number(localStorage.getItem('brainpp_tokens'))||0);
-
-// Перенос коллекции из старой версии 3.0
 let inventory=readJSON('brainpp_inventory',null);
+
 if(!Array.isArray(inventory)){
  const old=readJSON('brainpp_collection',[]);
  inventory=Array.isArray(old)?old.map((x,i)=>({
-  id:Date.now()+i,
-  name:x.name||'Брейнрот',
-  emoji:x.emoji||'🧠',
-  value:Number(x.price)||50,
-  rarity:'Обычный',
-  level:Number(x.level)||1
+  id:Date.now()+i,name:x.name||'Брейнрот',
+  emoji:x.emoji||'🧠',value:Number(x.price)||50,
+  rarity:'Обычный',level:Number(x.level)||1
  })):[];
 
  localStorage.setItem('brainpp_inventory',JSON.stringify(inventory));
@@ -525,31 +401,46 @@ if(!Array.isArray(inventory)){
 let promos=readJSON('brainpp_promos',{});
 let usedPromos=readJSON('brainpp_used_promos',[]);
 let freeAt=Number(localStorage.getItem('brainpp_free_at')||0);
-let opening=false;
-let upgradeBusy=false;
-let selectedCase=null;
+let lastTokenDay=localStorage.getItem('brainpp_token_day')||'';
+let opening=false,upgradeBusy=false,selectedCase=null;
 
 const user=tg?.initDataUnsafe?.user||null;
 const isOwner=(user?.username||'').toLowerCase()===OWNER;
 
 function save(){
- localStorage.setItem('brainpp_coins',coins);
- localStorage.setItem('brainpp_tokens',tokens);
+ localStorage.setItem('brainpp_coins',String(coins));
+ localStorage.setItem('brainpp_tokens',String(tokens));
  localStorage.setItem('brainpp_inventory',JSON.stringify(inventory));
  localStorage.setItem('brainpp_promos',JSON.stringify(promos));
  localStorage.setItem('brainpp_used_promos',JSON.stringify(usedPromos));
- localStorage.setItem('brainpp_free_at',freeAt);
+ localStorage.setItem('brainpp_free_at',String(freeAt));
+ localStorage.setItem('brainpp_token_day',lastTokenDay);
+}
+
+function sound(freq=500){
+ if(localStorage.getItem('brainpp_sound')!=='1')return;
+ try{
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const oscillator=ctx.createOscillator(),gain=ctx.createGain();
+  oscillator.frequency.value=freq;
+  gain.gain.value=.06;
+  oscillator.connect(gain);gain.connect(ctx.destination);
+  oscillator.start();oscillator.stop(ctx.currentTime+.12);
+  oscillator.onended=()=>ctx.close();
+ }catch(e){}
 }
 
 function goTab(id,button){
  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
- document.getElementById(id).classList.add('active');
-
+ const section=document.getElementById(id);
+ if(section)section.classList.add('active');
  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
  if(button)button.classList.add('active');
-
+ else{
+  const index={home:0,collection:1,upgrade:2,profile:3}[id];
+  if(index!==undefined)document.querySelectorAll('nav button')[index].classList.add('active');
+ }
  toggleDrawer(false);
-
  if(id==='upgrade')renderUpgrade();
 }
 
@@ -557,7 +448,6 @@ function toggleDrawer(force){
  const d=document.getElementById('drawer');
  const shade=document.getElementById('drawerShade');
  const open=typeof force==='boolean'?force:!d.classList.contains('open');
-
  d.classList.toggle('open',open);
  shade.style.display=open?'block':'none';
 }
@@ -568,17 +458,14 @@ function randomItem(list){
 
 function update(){
  save();
-
- document.getElementById('coins').textContent=coins;
- document.getElementById('tokens').textContent=tokens;
- document.getElementById('profileCoins').textContent=coins;
- document.getElementById('profileTokens').textContent=tokens;
+ document.getElementById('coins').textContent=coins.toLocaleString('ru-RU');
+ document.getElementById('tokens').textContent=tokens.toLocaleString('ru-RU');
+ document.getElementById('profileCoins').textContent=coins.toLocaleString('ru-RU');
+ document.getElementById('profileTokens').textContent=tokens.toLocaleString('ru-RU');
  document.getElementById('creatureCount').textContent=inventory.length+' существ';
  document.getElementById('profileCount').textContent=inventory.length;
-
  document.getElementById('profileLevels').textContent=
-  inventory.reduce((s,x)=>s+(Number(x.level)||1),0);
-
+  inventory.reduce((sum,x)=>sum+Math.max(0,Number(x.level)||0),0);
  renderInventory();
  renderUpgrade();
  updateFree();
@@ -588,25 +475,7 @@ function update(){
 function previewCase(type){
  const info=caseInfo[type];
  if(!info)return;
-
  selectedCase=type;
-
  document.getElementById('previewTitle').textContent=info.title;
  document.getElementById('previewIcon').textContent=info.icon;
- document.getElementById('previewDescription').textContent=info.desc;
-
- document.getElementById('previewPrice').textContent=
-  info.price===0?'БЕСПЛАТНО':
-  (info.currency==='tokens'?'💎 ':'🪙 ')+info.price+
-  (info.currency==='tokens'?' токенов':' монет');
-
- const balance=info.currency==='tokens'?tokens:coins;
- const unavailable=balance<info.price||
-  (type==='free'&&Date.now()<freeAt);
-
- const button=document.getElementById('confirmOpen');
- button.disabled=unavailable;
- button.textContent=unavailable?
-  'НЕДОСТАТОЧНО СРЕДСТВ':'🎁 ОТКРЫТЬ КЕЙС';
-
- document.getElement
+ document.getElementById('previewDe
