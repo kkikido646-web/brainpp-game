@@ -4,14 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#090b12">
-<title>BRAINPP 4.0</title>
+<title>BRAINPP 6.0 — BIG UPDATE</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root{--bg:#090b12;--panel:#151b29;--text:#f5f6fb;--muted:#9aa5b8;--purple:#8b5cf6;--gold:#ffc857}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;min-height:100%;height:auto;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y}
-body{touch-action:pan-y}
-main,.section{touch-action:pan-y}
+html{width:100%;min-height:100%;height:auto;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+body{width:100%;min-height:100%;height:auto;margin:0;overflow-x:hidden;overflow-y:visible;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+main,.section,.grid{touch-action:pan-x pan-y}
+body{overscroll-behavior-y:auto}
 body{margin:0;background:radial-gradient(circle at top,#252044 0,#090b12 48%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh;padding-bottom:35px}
 button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation;pointer-events:auto;position:relative;z-index:1}
 button:disabled{pointer-events:none}
@@ -55,7 +56,25 @@ input,select{width:100%;background:#0e1320;border:1px solid #394158;border-radiu
 .modalArt{font-size:75px;margin:15px}.empty{text-align:center;color:var(--muted);padding:30px 10px}
 .notice{font-size:12px;color:var(--muted);text-align:center}
 body.low *{animation:none!important;transition:none!important}
-.case{transition:transform .18s,border-color .18s,box-shadow .18s}
+body.medium .caseArt:after{animation-duration:8s}
+body.ultra .case,body.ultra .card,body.ultra .balance{box-shadow:0 10px 35px #8b5cf633;border-color:#a78bfa55}
+body.noParticles .caseArt:after{display:none}
+.avatarSkin{width:54px;height:66px;position:relative;display:block;filter:drop-shadow(0 5px 8px #0008)}
+.avatarSkin:before{content:"";position:absolute;top:0;left:17px;width:20px;height:20px;border-radius:4px;background:var(--skin);box-shadow:inset 0 -4px #0002}
+.avatarSkin:after{content:"";position:absolute;top:22px;left:9px;width:36px;height:26px;border-radius:4px;background:var(--skin);box-shadow:-8px 2px 0 -2px var(--skin),8px 2px 0 -2px var(--skin),-5px 26px 0 -4px var(--skin),5px 26px 0 -4px var(--skin)}
+.avatarSkin.black{--skin:#10131c}.avatarSkin.white{--skin:#f4f6ff}
+.caseArt.skin{background:radial-gradient(circle,#7b6ad0,#25243f 68%,#171b2b)}
+.case{transition:transform .18s,border-color .18s,box-shadow .18s;position:relative;overflow:hidden;padding:10px;background:linear-gradient(160deg,#252b42 0%,#111725 72%);border:1px solid #ffffff26;box-shadow:0 7px 18px #0005}
+.caseHeader{display:flex;align-items:center;justify-content:space-between;margin:8px 2px 12px}.caseHeader .heading{font-size:23px;letter-spacing:1.5px;margin:8px 0}.caseHeaderMark{font-size:10px;font-weight:1000;letter-spacing:2px;color:#c4a5ff;border:1px solid #a78bfa66;border-radius:8px;padding:7px}
+.caseArt{height:118px;border-radius:12px;margin-bottom:10px;font-size:58px;background:radial-gradient(circle at 50% 35%,#8874df,#39335f 54%,#191e31);border:1px solid #ffffff25;text-shadow:0 5px 12px #0009}
+.case h3{font-size:14px;font-weight:1000;letter-spacing:.3px;margin:7px 0}.case p{min-height:26px;line-height:1.35}.case .btn{font-size:12px;padding:11px}
+.caseArt.skin{background:radial-gradient(circle at 50% 35%,#9b8bff,#433b78 54%,#191e31)}
+.case:nth-child(2) .caseArt{background:radial-gradient(circle,#5a8bcb,#233653 65%,#151d2c)}
+.case:nth-child(3) .caseArt{background:radial-gradient(circle,#9d70d6,#44305e 65%,#171b2b)}
+.case:nth-child(4) .caseArt{background:radial-gradient(circle,#65a87a,#254d3b 65%,#151d2a)}
+.case:nth-child(5) .caseArt{background:radial-gradient(circle,#d2a84e,#5d4521 65%,#211b16)}
+.case:nth-child(6) .caseArt{background:radial-gradient(circle,#b5c7e8,#52647e 65%,#20283a)}
+.case:nth-child(7) .caseArt{background:radial-gradient(circle,#5b5b70,#252638 65%,#10131c)}
 .case:active{transform:scale(.97)}
 .caseArt{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 35%,#7762b8,#25243f 68%,#171b2b)}
 .caseArt:after{content:"";position:absolute;inset:-50%;background:linear-gradient(110deg,transparent 40%,#ffffff22 50%,transparent 60%);transform:translateX(-70%);animation:shine 4s infinite}
@@ -65,13 +84,14 @@ body.low *{animation:none!important;transition:none!important}
 .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .upgradePro{margin-top:12px;padding:12px;border-radius:12px;background:linear-gradient(135deg,#302052,#172b42);border:1px solid #a78bfa55}
 hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
+@media (max-width:700px){html,body{overflow-x:hidden!important;overflow-y:auto!important}main{padding-bottom:28px}.section{min-height:1px}}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
 <header class="top">
 <button type="button" class="menu" data-action="menu">☰</button>
-<div class="logo">BRAINPP <small style="font-size:10px;color:#aaa">4.0</small></div>
+<div class="logo">BRAINPP <small style="font-size:10px;color:#aaa">6.0</small></div>
 <button type="button" class="profile" data-action="profile"><span class="avatar" id="avatar">B</span><span id="userName">Игрок</span></button>
 </header>
 
@@ -81,16 +101,8 @@ hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
 </div>
 
 <main>
-<section class="section active" id="home">
-<div class="hero"><h2>Добро пожаловать!</h2><p>Открывай кейсы, собирай редких Брейнротов и стань легендой BRAINPP.</p><button type="button" class="btn" data-tab="cases">Открыть кейсы →</button></div>
-<div class="heading">Быстрые действия</div>
-<div class="grid">
-<button type="button" class="tile" data-tab="cases">📦<br>Кейсы</button>
-<button type="button" class="tile" data-tab="inventory">🎒<br>Коллекция</button>
-<button type="button" class="tile" data-tab="upgrade">⚡<br>Апгрейд</button>
-<button type="button" class="tile" data-tab="daily">🎁<br>Награды</button>
-</div>
-<div class="heading">Статистика</div>
+<section class="section" id="home">
+<div class="heading">Моя статистика</div>
 <div class="card">
 <div class="row"><span class="muted">Открыто кейсов</span><b id="statOpened">0</b></div><hr>
 <div class="row"><span class="muted">Брейнротов</span><b id="statItems">0</b></div><hr>
@@ -98,8 +110,8 @@ hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
 </div>
 </section>
 
-<section class="section" id="cases">
-<div class="heading">📦 Магазин кейсов</div><p class="sub">Выбери кейс и испытай удачу.</p>
+<section class="section active" id="cases">
+<div class="caseHeader"><div><div class="heading">КЕЙСЫ</div><p class="sub">Выбери кейс и испытай удачу!</p></div><span class="caseHeaderMark">BRAINPP</span></div>
 <div class="grid" id="caseGrid"></div>
 </section>
 
@@ -113,7 +125,7 @@ hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
 <div class="heading">⚡ Апгрейд</div><p class="sub">При неудаче исходный Брейнрот сгорит.</p>
 <div class="card"><b>Выбери своего Брейнрота</b><select id="upgradeSource"></select><b>Выбери цель</b><select id="upgradeTarget"></select>
 <div style="text-align:center;margin:15px"><div class="muted">Шанс успеха</div><strong id="upgradeChance" style="font-size:36px;color:#c4a5ff">0%</strong></div>
-<div class="upgradePro"><b>⚡ ПРОФЕССИОНАЛЬНЫЙ АПГРЕЙД</b><p class="muted">Потрать 2 токена, чтобы увеличить шанс успеха на 20 процентных пунктов. Максимум — 95%.</p><button type="button" class="btn gold" data-action="upgradePro">АПГРЕЙД С БУСТОМ · 2 💎</button></div>
+<div class="upgradePro"><b>⚡ ПРОФЕССИОНАЛЬНЫЙ АПГРЕЙД</b><p class="muted">Потрать 2 токена, чтобы увеличить шанс успеха на 20 процентных пунктов. Максимум — 95%.</p><button type="button" class="btn gold" data-action="upgradePro">АПГРЕЙД С БУСТОМ · 2 💎</button><button type="button" class="btn" style="margin-top:8px;background:linear-gradient(135deg,#ec4899,#8b5cf6)" data-action="upgradeLegend">УЛЬТРА-АПГРЕЙД · 5 💎</button><p class="muted">Ультра-апгрейд добавляет +40% к шансу (максимум 99%).</p></div>
 <button type="button" class="btn" style="margin-top:10px" data-action="upgrade">ОБЫЧНЫЙ АПГРЕЙД</button></div>
 </section>
 
@@ -130,9 +142,10 @@ hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
 
 <section class="section" id="settings">
 <div class="heading">⚙️ Настройки</div><div class="card">
-<div class="setting"><span>Графика</span><select id="graphics"><option value="high">Высокая</option><option value="medium">Средняя</option><option value="low">Низкая</option></select></div>
+<div class="setting"><span>Графика</span><select id="graphics"><option value="ultra">Ультра</option><option value="high">Высокая</option><option value="medium">Средняя</option><option value="low">Низкая</option></select></div>
 <label class="setting">Звуки<input type="checkbox" id="soundToggle" checked></label>
 <label class="setting">Анимации<input type="checkbox" id="animToggle" checked></label>
+<label class="setting">Частицы и эффекты<input type="checkbox" id="particlesToggle" checked></label>
 </div>
 </section>
 
@@ -155,7 +168,7 @@ hr{border:0;border-top:1px solid #ffffff18;margin:12px 0}
 <button type="button" class="navBtn" data-tab="promo">🎟️ Промокоды</button>
 <button type="button" class="navBtn" data-tab="settings">⚙️ Настройки</button>
 <button type="button" class="navBtn" data-tab="profilePage">👤 Профиль</button>
-<p class="notice">BRAINPP 4.0 BIG UPDATE</p>
+<p class="notice">BRAINPP 6.0 · BIG UPDATE</p>
 </div></div>
 
 <div class="modalWrap" id="modal"><div class="modal">
@@ -178,18 +191,17 @@ const cases={
 normal:{name:'Обычный кейс',emoji:'📦',price:100,currency:'coins',desc:'Первый шаг к коллекции',items:[['Noobini Pizzanini','🍕','common',55,20],['Lirili Larila','🐘','common',25,30],['Trippi Troppi','🦀','rare',12,60],['Brr Brr Patapim','🌳','epic',6,120],['Cappuccino Assassino','☕','legendary',2,250]]},
 dragon:{name:'Драконий кейс',emoji:'🐉',price:500,currency:'coins',desc:'Мощные драконы',items:[['Dragonini','🐉','rare',45,100],['Drago Fantasma','🐲','epic',30,200],['Inferno Dragon','🔥','legendary',18,450],['Golden Dragon','🐉','mythic',7,1000]]},
 secret:{name:'Секретный кейс',emoji:'🔮',price:500,currency:'coins',desc:'Загадочные существа',items:[['Secretini','👁️','epic',45,250],['Shadow Beast','🌑','legendary',35,600],['Unknown One','🌀','mythic',20,1500]]},
-garamu:{name:'Кейс Гарама',emoji:'🦍',price:50,currency:'coins',desc:'Гарама, La Casa и La Supreme',items:[['Гарама','🦍','legendary',55,500],['La Casa','🏠','mythic',30,1200],['La Supreme','👑','mythic',15,3000]]},
-emperor:{name:'ИМПЕРАТОР',emoji:'👑',price:10000,currency:'coins',desc:'Редчайшие существа. Шанс на Strawberry Elephant',items:[['Император','👑','epic',50,1000],['Imperator Dragon','🐉','legendary',30,2500],['Golden Emperor','🌟','mythic',19,5000],['Strawberry Elephant','🍓🐘','mythic',1,50000]]},
-wizard:{name:'W1zard',emoji:'🧙',price:20,currency:'coins',desc:'Коллекция Roblox-аватаров',items:[['W1zard Classic','🧙','common',55,40],['W1zard Neon','💜','rare',30,100],['W1zard Shadow','🥷','epic',12,300],['W1zard Supreme','✨','legendary',3,1000]]},
-skeru:{name:'Кейс skeru',emoji:'🖤',price:125,currency:'coins',desc:'Чёрные Roblox-аватары',items:[['skeru Black','🖤','rare',55,100],['Dark skeru','🥷','epic',30,250],['skeru Pro','⚡','legendary',12,700],['skeru God','👑','mythic',3,2000]]},
+garamu:{name:'Кейс ГАРАМА',emoji:'🦍',price:50,currency:'coins',desc:'Гарама, La Casa и La Supreme',items:[['Гарама','🦍','legendary',55,500],['La Casa','🏠','mythic',30,1200],['La Supreme','👑','mythic',15,3000]]},
+emperor:{name:'Кейс ИМПЕРАТОР',emoji:'👑',price:10000,currency:'coins',desc:'Мяула, Strawberry Elephant, Скибиди и секретный персонаж',items:[['Мяула','🐱','epic',45,1800],['Скибиди','🚽','legendary',30,4000],['Imperator Dragon','🐉','mythic',20,12000],['Strawberry Elephant','🍓🐘','mythic',5,50000]]},
+wizard:{name:'Кейс W1ZARD',emoji:'🤍',price:29,currency:'coins',desc:'Полностью белый Roblox-скин и его версии',items:[['W1ZARD White','🤍','common',50,60],['W1ZARD Ice','❄️','rare',30,180],['W1ZARD Angel','😇','epic',15,500],['W1ZARD Supreme','✨','legendary',5,1500]]},
+skeru:{name:'Кейс SKERU',emoji:'🖤',price:175,currency:'coins',desc:'Чёрный Roblox-скин и его редкие версии',items:[['SKERU Black','🖤','common',50,120],['Dark SKERU','🥷','rare',30,300],['SKERU Pro','⚡','epic',15,800],['SKERU God','👑','mythic',5,2500]]},
 shadow:{name:'Теневой кейс',emoji:'🌑',price:750,currency:'tokens',desc:'Существа из тени',items:[['Shadow Noob','🌚','rare',50,150],['Dark Phantom','👻','epic',30,400],['Shadow Lord','🖤','legendary',15,900],['Void King','🌌','mythic',5,2500]]},
 free:{name:'Бесплатный кейс',emoji:'🎁',price:0,currency:'free',desc:'Бесплатно раз в 24 часа',items:[['Free Noob','🧢','common',60,15],['Lucky Cat','🐱','rare',25,50],['Gift Brainrot','🎁','epic',12,100],['Free Legend','🌟','legendary',3,300]]}
 };
-const defaults={coins:0,tokens:0,inventory:[],opened:0,lastDaily:0,lastFree:0,used:{},promos:{},sell:true,settings:{graphics:'high',sound:true,animations:true}};
+const defaults={coins:0,tokens:0,inventory:[],opened:0,lastDaily:0,lastFree:0,used:{},promos:{},sell:true,settings:{graphics:'ultra',sound:true,animations:true,particles:true}};
 function loadData(){
  let saved={};
  try{saved=JSON.parse(localStorage.getItem('brainpp_data')||'{}')||{};}catch(e){}
- // Перенос старой коллекции, если новый инвентарь ещё пуст.
  if(!Array.isArray(saved.inventory)||saved.inventory.length===0){
   try{const old=JSON.parse(localStorage.getItem('brainpp_collection')||'[]');if(Array.isArray(old)&&old.length)saved.inventory=old;}catch(e){}
  }
@@ -204,7 +216,7 @@ function loadData(){
 }
 let d=loadData();
 const tg=window.Telegram&&window.Telegram.WebApp;
-try{if(tg){tg.ready();tg.expand();if(typeof tg.disableVerticalSwipes==='function')tg.disableVerticalSwipes();}}catch(e){}
+try{if(tg){tg.ready();tg.expand();/* Не блокируем свайпы: прокрутка страницы должна работать в Telegram WebView. */}}catch(e){}
 const user=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
 const uname=user&&user.username?user.username.toLowerCase():'';
 const owner=uname===OWNER;
@@ -217,30 +229,4 @@ function tab(id){
  document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===id));
  document.querySelectorAll('.navBtn').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));
  $('drawer').classList.remove('show');
- if(id==='inventory')renderInventory();if(id==='upgrade')renderUpgrade();if(id==='profilePage')renderProfile();
-}
-function renderCases(){
- $('caseGrid').innerHTML=Object.entries(cases).map(([id,c])=>`<article class="case"><div class="caseArt">${c.emoji}</div><h3>${c.name}</h3><p>${c.desc}</p><p><b>${c.currency==='free'?'БЕСПЛАТНО':c.price.toLocaleString('ru-RU')+(c.currency==='tokens'?' 💎':' 🪙')}</b></p><button type="button" class="btn" data-preview="${id}">Посмотреть</button></article>`).join('');
-}
-function renderInventory(){
- $('inventoryCount').textContent=d.inventory.length+' предметов';$('sellStatus').textContent=d.sell?'ВКЛ':'ВЫКЛ';
- $('inventoryGrid').innerHTML=d.inventory.length?d.inventory.map((x,i)=>`<div class="item"><div class="emoji">${esc(x.emoji||'🧠')}</div><strong>${esc(x.name||'Брейнрот')}</strong><span class="tag ${esc(x.rarity||'common')}">${esc(x.rarity||'common')}</span><p class="muted">${Number(x.value)||20} 🪙</p>${d.sell?`<button type="button" class="btn red" data-sell="${i}">Продать</button>`:''}</div>`).join(''):'<div class="empty" style="grid-column:1/-1">🎒<br><br>Коллекция пока пуста. Открой первый кейс!</div>';
-}
-function allItems(){return Object.values(cases).flatMap(c=>c.items.map(a=>({name:a[0],emoji:a[1],rarity:a[2],chance:a[3],value:a[4]})));}
-function renderUpgrade(){
- const s=$('upgradeSource'),t=$('upgradeTarget');
- s.innerHTML=d.inventory.length?d.inventory.map((x,i)=>`<option value="${i}">${esc(x.emoji)} ${esc(x.name)}</option>`).join(''):'<option value="">Нет Брейнротов</option>';
- const unique=[...new Map(allItems().map(x=>[x.name,x])).values()];
- t.innerHTML=unique.map(x=>`<option value="${esc(x.name)}">${esc(x.emoji)} ${esc(x.name)} (${x.value} 🪙)</option>`).join('');chance();
-}
-function chance(){
- const x=d.inventory[Number($('upgradeSource').value)],y=allItems().find(z=>z.name===$('upgradeTarget').value);let n=0;
- if(x&&y&&x.name!==y.name)n=y.value>(x.value||20)?Math.min(75,Math.max(5,Math.floor((x.value||20)/y.value*75))):50;
- $('upgradeChance').textContent=n+'%';
-}
-function preview(id){
- const c=cases[id];if(!c)return;
- $('modalCaseName').textContent=c.name;$('modalArt').textContent=c.emoji;$('modalTitle').textContent='Содержимое кейса';
- $('modalInfo').innerHTML=c.items.map(x=>`<p style="display:flex;justify-content:space-between;gap:8px"><span>${x[1]} ${esc(x[0])}</span><span class="${x[2]}">${x[2]} · ${x[3]}%</span></p>`).join('');
- $('modalText').textContent=c.currency==='free'?'Бесплатно':`Цена: ${c.price.toLocaleString('ru-RU')} ${c.currency==='tokens'?'токенов':'монет'}`;
- $('modal').dataset.case
+ if(id==='inventory')renderInventory();if(id==='upgrade')renderUpgrade();if(id==='profilePage')rend
